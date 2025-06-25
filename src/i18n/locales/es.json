@@ -1,0 +1,108 @@
+{
+  "common": {
+    "loading": "Cargando...",
+    "error": "Error",
+    "success": "Éxito",
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "close": "Cerrar",
+    "back": "Atrás",
+    "next": "Siguiente",
+    "previous": "Anterior",
+    "submit": "Enviar",
+    "confirm": "Confirmar",
+    "yes": "Sí",
+    "no": "No"
+  },
+  "navbar": {
+    "home": "Inicio",
+    "myBooks": "Mis Libros",
+    "characters": "Personajes",
+    "gallery": "Galería",
+    "pricing": "Precios",
+    "howToWork": "Cómo Funciona",
+    "login": "Iniciar Sesión",
+    "signup": "Registrarse",
+    "logout": "Cerrar Sesión",
+    "profile": "Perfil",
+    "settings": "Configuración"
+  },
+  "auth": {
+    "signInToAccount": "Inicia sesión en tu cuenta",
+    "createAccount": "Crea tu cuenta",
+    "emailAddress": "Dirección de correo electrónico",
+    "password": "Contraseña",
+    "confirmPassword": "Confirmar Contraseña",
+    "signIn": "Iniciar sesión",
+    "signingIn": "Iniciando sesión...",
+    "signUp": "Registrarse",
+    "signingUp": "Registrándose...",
+    "signInWithGoogle": "Iniciar sesión con Google",
+    "signUpWithGoogle": "Registrarse con Google",
+    "alreadyHaveAccount": "¿Ya tienes una cuenta?",
+    "dontHaveAccount": "¿No tienes una cuenta?",
+    "forgotPassword": "¿Olvidaste tu contraseña?",
+    "backToLogin": "Volver al inicio de sesión",
+    "checkYourEmail": "Revisa tu correo electrónico",
+    "verificationEmailSent": "Hemos enviado un enlace de verificación a",
+    "clickVerificationLink": "Por favor revisa tu correo electrónico y haz clic en el enlace de verificación para completar tu registro.",
+    "authenticationFailed": "La autenticación falló. Por favor intenta de nuevo.",
+    "invalidEmailOrPassword": "Correo electrónico o contraseña inválidos",
+    "emailAlreadyExists": "El correo electrónico ya existe",
+    "passwordTooShort": "La contraseña debe tener al menos 6 caracteres",
+    "passwordsDoNotMatch": "Las contraseñas no coinciden",
+    "emailRequired": "El correo electrónico es requerido",
+    "passwordRequired": "La contraseña es requerida",
+    "invalidEmail": "Por favor ingresa una dirección de correo electrónico válida"
+  },
+  "dashboard": {
+    "welcomeTitle": "Bienvenido a PetTalesAI",
+    "welcomeMessage": "Comienza a crear historias mágicas con tus queridas mascotas.",
+    "createCharacters": "Crear Personajes",
+    "createCharactersDesc": "Agrega tus mascotas como personajes en tus historias.",
+    "generateStories": "Generar Historias",
+    "generateStoriesDesc": "Crea libros infantiles personalizados con IA.",
+    "viewBooks": "Ver Mis Libros",
+    "viewBooksDesc": "Navega y gestiona tus historias creadas.",
+    "getStarted": "Comenzar",
+    "createStory": "Crear Historia",
+    "viewBooks": "Ver Libros"
+  },
+  "home": {
+    "title": "PetTalesAI",
+    "subtitle": "Crea historias mágicas con tus queridas mascotas"
+  },
+  "pages": {
+    "myBooksPage": "Página de Mis Libros (Protegida)",
+    "charactersPage": "Página de Personajes (Protegida)"
+  },
+  "errors": {
+    "pageNotFound": "Página No Encontrada",
+    "somethingWentWrong": "Algo salió mal",
+    "tryAgain": "Intentar de nuevo",
+    "goHome": "Ir al Inicio"
+  },
+  "toast": {
+    "emailVerifiedSuccess": "¡Correo electrónico verificado exitosamente! Ya has iniciado sesión.",
+    "emailVerificationFailed": "La verificación del correo electrónico falló",
+    "noVerificationToken": "No se proporcionó token de verificación",
+    "loginSuccess": "Inicio de sesión exitoso",
+    "loginFailed": "Inicio de sesión falló",
+    "logoutSuccess": "Cierre de sesión exitoso",
+    "registrationSuccess": "Registro exitoso",
+    "registrationFailed": "Registro falló",
+    "sessionExpired": "Sesión expirada. Por favor inicia sesión de nuevo.",
+    "networkError": "Error de red. Por favor verifica tu conexión.",
+    "serverError": "Error del servidor. Por favor intenta de nuevo más tarde."
+  },
+  "validation": {
+    "required": "Este campo es requerido",
+    "invalidEmail": "Por favor ingresa una dirección de correo electrónico válida",
+    "passwordMinLength": "La contraseña debe tener al menos {{min}} caracteres",
+    "passwordsDoNotMatch": "Las contraseñas no coinciden",
+    "emailAlreadyExists": "Este correo electrónico ya está registrado",
+    "invalidCredentials": "Correo electrónico o contraseña inválidos"
+  }
+}
