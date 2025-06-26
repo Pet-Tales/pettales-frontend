@@ -27,7 +27,10 @@
     "signup": "Registrarse",
     "logout": "Cerrar Sesión",
     "profile": "Perfil",
-    "settings": "Configuración"
+    "settings": "Configuración",
+    "account": "Cuenta",
+    "knowledgeBase": "Base de Conocimientos",
+    "contactSupport": "Contactar Soporte"
   },
   "auth": {
     "signInToAccount": "Inicia sesión en tu cuenta",
@@ -39,10 +42,14 @@
     "signingIn": "Iniciando sesión...",
     "signUp": "Registrarse",
     "signingUp": "Registrándose...",
+    "creatingAccount": "Creando cuenta...",
     "signInWithGoogle": "Iniciar sesión con Google",
     "signUpWithGoogle": "Registrarse con Google",
     "alreadyHaveAccount": "¿Ya tienes una cuenta?",
     "dontHaveAccount": "¿No tienes una cuenta?",
+    "passwordMinChars": "Contraseña (mín. 6 caracteres)",
+    "orContinueWith": "O continúa con",
+    "google": "Google",
     "forgotPassword": "¿Olvidaste tu contraseña?",
     "backToLogin": "Volver al inicio de sesión",
     "checkYourEmail": "Revisa tu correo electrónico",
@@ -57,6 +64,19 @@
     "passwordRequired": "La contraseña es requerida",
     "invalidEmail": "Por favor ingresa una dirección de correo electrónico válida"
   },
+  "verifyEmail": {
+    "verifying": "Verificando tu correo electrónico...",
+    "verifyingMessage": "Por favor espera mientras verificamos tu dirección de correo electrónico.",
+    "welcomeTitle": "¡Bienvenido a PetTalesAI!",
+    "verifiedMessage": "Tu correo electrónico ha sido verificado y ahora has iniciado sesión.",
+    "redirectingMessage": "Redirigiendo al panel de control en {{count}} segundos...",
+    "goToDashboard": "Ir al Panel de Control Ahora",
+    "backToHome": "Volver al Inicio",
+    "verificationFailed": "Verificación fallida",
+    "verificationFailedMessage": "El enlace de verificación es inválido o ha expirado.",
+    "createNewAccount": "Crear nueva cuenta",
+    "backToLogin": "Volver al inicio de sesión"
+  },
   "dashboard": {
     "welcomeTitle": "Bienvenido a PetTalesAI",
     "welcomeMessage": "Comienza a crear historias mágicas con tus queridas mascotas.",
@@ -64,7 +84,7 @@
     "createCharactersDesc": "Agrega tus mascotas como personajes en tus historias.",
     "generateStories": "Generar Historias",
     "generateStoriesDesc": "Crea libros infantiles personalizados con IA.",
-    "viewBooks": "Ver Mis Libros",
+    "viewMyBooks": "Ver Mis Libros",
     "viewBooksDesc": "Navega y gestiona tus historias creadas.",
     "getStarted": "Comenzar",
     "createStory": "Crear Historia",
@@ -82,7 +102,52 @@
     "pageNotFound": "Página No Encontrada",
     "somethingWentWrong": "Algo salió mal",
     "tryAgain": "Intentar de nuevo",
-    "goHome": "Ir al Inicio"
+    "goHome": "Ir al Inicio",
+    "genericError": "Ocurrió un error. Por favor intenta de nuevo.",
+
+    "invalidCredentials": "Correo electrónico o contraseña incorrectos",
+    "userNotFound": "Usuario no encontrado",
+    "emailNotVerified": "Por favor verifica tu dirección de correo antes de iniciar sesión",
+    "accountSuspended": "Tu cuenta ha sido suspendida",
+    "accountDeleted": "Esta cuenta ha sido eliminada",
+
+    "emailAlreadyExists": "Ya existe una cuenta con este correo electrónico",
+    "invalidEmailFormat": "Por favor ingresa una dirección de correo válida",
+    "passwordTooShort": "La contraseña debe tener al menos 6 caracteres",
+    "passwordsDoNotMatch": "Las contraseñas no coinciden",
+
+    "emailRequired": "La dirección de correo electrónico es requerida",
+    "passwordRequired": "La contraseña es requerida",
+    "firstNameRequired": "El nombre es requerido",
+    "lastNameRequired": "El apellido es requerido",
+
+    "invalidToken": "Enlace inválido o expirado",
+    "tokenExpired": "Este enlace ha expirado. Por favor solicita uno nuevo.",
+    "sessionExpired": "Tu sesión ha expirado. Por favor inicia sesión de nuevo.",
+    "authenticationRequired": "Por favor inicia sesión para continuar",
+    "accessDenied": "Acceso denegado",
+    "unauthorized": "No estás autorizado para realizar esta acción",
+
+    "verificationTokenNotFound": "Enlace de verificación no encontrado o expirado",
+    "emailVerificationFailed": "La verificación del correo falló",
+    "emailAlreadyVerified": "La dirección de correo ya está verificada",
+
+    "internalServerError": "Error interno del servidor. Por favor intenta más tarde.",
+    "serverError": "Error del servidor. Por favor intenta más tarde.",
+    "serviceUnavailable": "Servicio temporalmente no disponible",
+    "networkError": "Error de red. Por favor verifica tu conexión.",
+    "requestTimeout": "Tiempo de espera agotado. Por favor intenta de nuevo.",
+
+    "tooManyRequests": "Demasiadas solicitudes. Por favor espera antes de intentar de nuevo.",
+    "rateLimitExceeded": "Límite de velocidad excedido. Por favor espera antes de intentar de nuevo.",
+
+    "invalidLanguage": "Selección de idioma inválida",
+    "languageNotSupported": "Idioma no soportado",
+
+    "badRequest": "Solicitud inválida",
+    "notFound": "Recurso no encontrado",
+    "forbidden": "Acceso prohibido",
+    "conflict": "Conflicto en la solicitud"
   },
   "toast": {
     "emailVerifiedSuccess": "¡Correo electrónico verificado exitosamente! Ya has iniciado sesión.",
@@ -95,7 +160,25 @@
     "registrationFailed": "Registro falló",
     "sessionExpired": "Sesión expirada. Por favor inicia sesión de nuevo.",
     "networkError": "Error de red. Por favor verifica tu conexión.",
-    "serverError": "Error del servidor. Por favor intenta de nuevo más tarde."
+    "serverError": "Error del servidor. Por favor intenta de nuevo más tarde.",
+    "languageUpdated": "Idioma actualizado exitosamente",
+    "languageUpdateFailed": "Error al actualizar el idioma"
+  },
+  "profile": {
+    "title": "Perfil",
+    "subtitle": "Gestiona la configuración y preferencias de tu cuenta",
+    "personalInfo": "Información Personal",
+    "settings": "Configuración",
+    "firstName": "Nombre",
+    "lastName": "Apellido",
+    "email": "Correo Electrónico",
+    "language": "Idioma",
+    "accountStats": "Estadísticas de la Cuenta",
+    "credits": "Créditos",
+    "emailVerified": "Correo Verificado",
+    "languageUpdated": "Idioma actualizado exitosamente",
+    "languageUpdateFailed": "Error al actualizar el idioma",
+    "updatingLanguage": "Actualizando idioma..."
   },
   "validation": {
     "required": "Este campo es requerido",
@@ -103,6 +186,8 @@
     "passwordMinLength": "La contraseña debe tener al menos {{min}} caracteres",
     "passwordsDoNotMatch": "Las contraseñas no coinciden",
     "emailAlreadyExists": "Este correo electrónico ya está registrado",
-    "invalidCredentials": "Correo electrónico o contraseña inválidos"
+    "invalidCredentials": "Correo electrónico o contraseña inválidos",
+    "emailRequired": "El correo electrónico es requerido",
+    "passwordRequired": "La contraseña es requerida"
   }
 }

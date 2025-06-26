@@ -2,9 +2,10 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { CiUser } from "react-icons/ci";
-import { logout } from "@/stores/reducers/auth";
+import { logout, setUser } from "@/stores/reducers/auth";
 import logger from "@/utils/logger";
-import { useTranslation } from "react-i18next";
+import { useValidatedTranslation } from "@/hooks/useValidatedTranslation";
+import LanguageUtils from "@/utils/languageUtils";
 
 import {
   Navbar,
@@ -72,7 +73,7 @@ const PTAINavBar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const currentUrl = useLocation().pathname;
-  const { t, i18n } = useTranslation();
+  const { t, i18n } = useValidatedTranslation();
   const {
     user,
     isAuthenticated,
@@ -103,8 +104,18 @@ const PTAINavBar = () => {
     }
   };
 
-  const handleLanguageChange = (languageCode) => {
-    i18n.changeLanguage(languageCode);
+  const handleLanguageChange = async (languageCode) => {
+    if (languageCode === i18n.language) return;
+
+    try {
+      await LanguageUtils.changeLanguage(
+        languageCode,
+        isAuthenticated,
+        (updatedUser) => dispatch(setUser(updatedUser))
+      );
+    } catch (error) {
+      logger.error("Error updating language in navbar:", error);
+    }
   };
 
   const getCurrentLanguage = () => {
@@ -212,7 +223,9 @@ const PTAINavBar = () => {
               <MenuList>
                 <div className="flex outline-0 cursor-pointer">
                   <hr className="my-2 border-blue-gray-50 w-1/3" />
-                  <p className=" w-1/3 text-center text-custom">Account</p>
+                  <p className=" w-1/3 text-center text-custom">
+                    {t("navbar.account")}
+                  </p>
                   <hr className="my-2  w-1/3 border-blue-gray-50" />
                 </div>
                 <MenuItem
@@ -262,7 +275,7 @@ const PTAINavBar = () => {
                   onClick={() => navigate("/help")}
                 >
                   <Typography variant="small" className="font-normal">
-                    Knowledge Base
+                    {t("navbar.knowledgeBase")}
                   </Typography>
                 </MenuItem>
                 <MenuItem
@@ -270,7 +283,7 @@ const PTAINavBar = () => {
                   onClick={() => navigate("/contact")}
                 >
                   <Typography variant="small" className="font-normal">
-                    Contact Support
+                    {t("navbar.contactSupport")}
                   </Typography>
                 </MenuItem>
                 <div className="flex outline-0 cursor-pointer">

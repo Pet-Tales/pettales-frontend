@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
-import { useTranslation } from "react-i18next";
+import { useValidatedTranslation } from "@/hooks/useValidatedTranslation";
+import { useErrorTranslation } from "@/utils/errorMapper";
 import {
   register,
   clearError,
@@ -10,7 +11,8 @@ import {
 import { API_BASE_URL } from "@/utils/constants";
 
 const Signup = () => {
-  const { t } = useTranslation();
+  const { t } = useValidatedTranslation();
+  const translateError = useErrorTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { isLoading, error, isAuthenticated, emailVerificationSent } =
@@ -23,6 +25,25 @@ const Signup = () => {
   });
 
   const [validationErrors, setValidationErrors] = useState({});
+
+  // Get translated error message
+  const getTranslatedError = () => {
+    if (!error) return null;
+
+    // Extract error message from different possible formats
+    let errorMessage = "";
+    if (error?.response?.data?.message) {
+      errorMessage = error.response.data.message;
+    } else if (error?.message) {
+      errorMessage = error.message;
+    } else if (typeof error === "string") {
+      errorMessage = error;
+    } else {
+      errorMessage = "Registration failed";
+    }
+
+    return translateError(errorMessage);
+  };
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -58,19 +79,19 @@ const Signup = () => {
     const errors = {};
 
     if (!formData.email.trim()) {
-      errors.email = "Email is required";
+      errors.email = t("validation.emailRequired");
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      errors.email = "Email is invalid";
+      errors.email = t("validation.invalidEmail");
     }
 
     if (!formData.password) {
-      errors.password = "Password is required";
+      errors.password = t("validation.passwordRequired");
     } else if (formData.password.length < 6) {
-      errors.password = "Password must be at least 6 characters";
+      errors.password = t("validation.passwordMinLength", { min: 6 });
     }
 
     if (formData.password !== formData.confirmPassword) {
-      errors.confirmPassword = "Passwords do not match";
+      errors.confirmPassword = t("validation.passwordsDoNotMatch");
     }
 
     setValidationErrors(errors);
@@ -84,8 +105,19 @@ const Signup = () => {
       return;
     }
 
-    const { confirmPassword, ...submitData } = formData;
-    await dispatch(register(submitData));
+    const { confirmPassword: _confirmPassword, ...submitData } = formData;
+    const result = await dispatch(register(submitData));
+
+    if (register.rejected.match(result)) {
+      // Handle registration error with localized message
+      const errorMessage =
+        result.payload?.response?.data?.message ||
+        result.payload?.message ||
+        "Registration failed";
+      const translatedError = translateError(errorMessage);
+      console.error("Registration error:", translatedError);
+      // The error will be displayed by the auth slice's error handling
+    }
   };
 
   const handleGoogleSignup = () => {
@@ -132,14 +164,14 @@ const Signup = () => {
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           {error && (
             <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-              {error}
+              {getTranslatedError() || t("auth.registrationFailed")}
             </div>
           )}
 
           <div className="space-y-4">
             <div>
               <label htmlFor="email" className="sr-only">
-                Email address
+                {t("auth.emailAddress")}
               </label>
               <input
                 id="email"
@@ -148,7 +180,7 @@ const Signup = () => {
                 autoComplete="email"
                 required
                 className="relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Email address"
+                placeholder={t("auth.emailAddress")}
                 value={formData.email}
                 onChange={handleChange}
               />
@@ -161,7 +193,7 @@ const Signup = () => {
 
             <div>
               <label htmlFor="password" className="sr-only">
-                Password
+                {t("auth.password")}
               </label>
               <input
                 id="password"
@@ -170,7 +202,7 @@ const Signup = () => {
                 autoComplete="new-password"
                 required
                 className="relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Password (min. 6 characters)"
+                placeholder={t("auth.passwordMinChars")}
                 value={formData.password}
                 onChange={handleChange}
               />
@@ -183,7 +215,7 @@ const Signup = () => {
 
             <div>
               <label htmlFor="confirmPassword" className="sr-only">
-                Confirm Password
+                {t("auth.confirmPassword")}
               </label>
               <input
                 id="confirmPassword"
@@ -192,7 +224,7 @@ const Signup = () => {
                 autoComplete="new-password"
                 required
                 className="relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Confirm password"
+                placeholder={t("auth.confirmPassword")}
                 value={formData.confirmPassword}
                 onChange={handleChange}
               />
@@ -210,7 +242,7 @@ const Signup = () => {
               disabled={isLoading}
               className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
             >
-              {isLoading ? "Creating account..." : "Create account"}
+              {isLoading ? t("auth.creatingAccount") : t("auth.createAccount")}
             </button>
           </div>
 
@@ -221,7 +253,7 @@ const Signup = () => {
               </div>
               <div className="relative flex justify-center text-sm">
                 <span className="px-2 bg-gray-50 text-gray-500">
-                  Or continue with
+                  {t("auth.orContinueWith")}
                 </span>
               </div>
             </div>
@@ -250,19 +282,19 @@ const Signup = () => {
                     d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
                   />
                 </svg>
-                <span className="ml-2">Google</span>
+                <span className="ml-2">{t("auth.google")}</span>
               </button>
             </div>
           </div>
 
           <div className="text-center">
             <span className="text-sm text-gray-600">
-              Already have an account?{" "}
+              {t("auth.alreadyHaveAccount")}{" "}
               <Link
                 to="/login"
                 className="font-medium text-indigo-600 hover:text-indigo-500"
               >
-                Sign in
+                {t("auth.signIn")}
               </Link>
             </span>
           </div>

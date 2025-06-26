@@ -7,14 +7,24 @@ import "react-toastify/dist/ReactToastify.css";
 
 import Routes from "./routes";
 import { store } from "@/stores/store";
-import { getCurrentUser, markAuthAttempted } from "@/stores/reducers/auth";
+import {
+  getCurrentUser,
+  markAuthAttempted,
+  setUser,
+} from "@/stores/reducers/auth";
+import LanguageUtils from "@/utils/languageUtils";
 import logger from "./utils/logger";
 
 function AppContent() {
   const dispatch = useDispatch();
   const pages = useRoutes(Routes);
-  const { hasAttemptedAuth, isAuthenticated, isValidatingSession } =
+  const { hasAttemptedAuth, isAuthenticated, isValidatingSession, user } =
     useSelector((state) => state.auth);
+
+  // Initialize language system on app startup
+  useEffect(() => {
+    LanguageUtils.initializeLanguageSystem();
+  }, []);
 
   useEffect(() => {
     // Only attempt to validate session if we haven't tried yet and not already validating
@@ -30,6 +40,17 @@ function AppContent() {
       }
     }
   }, [dispatch, hasAttemptedAuth, isAuthenticated, isValidatingSession]);
+
+  // Sync language preferences when user data is available
+  useEffect(() => {
+    if (user) {
+      LanguageUtils.syncLanguagePreferences(
+        user,
+        (updatedUser) => dispatch(setUser(updatedUser)),
+        isAuthenticated
+      );
+    }
+  }, [user, dispatch, isAuthenticated]);
 
   return (
     <>

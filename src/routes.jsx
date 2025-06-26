@@ -4,7 +4,9 @@ import Home from "@/pages/Home";
 import Dashboard from "@/pages/Dashboard";
 import MyBooks from "@/pages/MyBooks";
 import Characters from "@/pages/Characters";
+import Profile from "@/pages/Profile";
 import { Login, Signup, VerifyEmail } from "@/pages/Auth";
+import ErrorTranslationDemo from "@/pages/ErrorTranslationDemo";
 
 const Routes = [
   {
@@ -38,6 +40,14 @@ const Routes = [
       {
         path: "/characters",
         element: <Characters />,
+      },
+      {
+        path: "/profile",
+        element: <Profile />,
+      },
+      {
+        path: "/error-demo",
+        element: <ErrorTranslationDemo />,
       },
       {
         path: "*", // go to 404 error page when cannot find route

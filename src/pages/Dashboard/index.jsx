@@ -46,7 +46,7 @@ const Dashboard = () => {
 
               <div className="bg-white p-6 rounded-lg shadow-md">
                 <h3 className="text-xl font-semibold mb-4">
-                  {t("dashboard.viewBooks")}
+                  {t("dashboard.viewMyBooks")}
                 </h3>
                 <p className="text-gray-600 mb-4">
                   {t("dashboard.viewBooksDesc")}

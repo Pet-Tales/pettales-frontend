@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, Link, useSearchParams } from "react-router-dom";
-import { useTranslation } from "react-i18next";
+import { useValidatedTranslation } from "@/hooks/useValidatedTranslation";
+import { useErrorTranslation } from "@/utils/errorMapper";
 import { login, clearError } from "@/stores/reducers/auth";
 import { API_BASE_URL } from "@/utils/constants";
 
 const Login = () => {
-  const { t } = useTranslation();
+  const { t } = useValidatedTranslation();
+  const translateError = useErrorTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -20,6 +22,25 @@ const Login = () => {
   });
 
   const [showError, setShowError] = useState(false);
+
+  // Get translated error message
+  const getTranslatedError = () => {
+    if (!error) return null;
+
+    // Extract error message from different possible formats
+    let errorMessage = "";
+    if (error?.response?.data?.message) {
+      errorMessage = error.response.data.message;
+    } else if (error?.message) {
+      errorMessage = error.message;
+    } else if (typeof error === "string") {
+      errorMessage = error;
+    } else {
+      errorMessage = "Login failed";
+    }
+
+    return translateError(errorMessage);
+  };
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -56,6 +77,15 @@ const Login = () => {
     const result = await dispatch(login(formData));
     if (login.fulfilled.match(result)) {
       navigate("/");
+    } else if (login.rejected.match(result)) {
+      // Handle login error with localized message
+      const errorMessage =
+        result.payload?.response?.data?.message ||
+        result.payload?.message ||
+        "Login failed";
+      const translatedError = translateError(errorMessage);
+      console.error("Login error:", translatedError);
+      // The error will be displayed by the auth slice's error handling
     }
   };
 
@@ -74,7 +104,7 @@ const Login = () => {
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           {(error || showError) && (
             <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-              {error || t("auth.authenticationFailed")}
+              {getTranslatedError() || t("auth.authenticationFailed")}
             </div>
           )}
 
@@ -130,7 +160,7 @@ const Login = () => {
               </div>
               <div className="relative flex justify-center text-sm">
                 <span className="px-2 bg-gray-50 text-gray-500">
-                  Or continue with
+                  {t("auth.orContinueWith")}
                 </span>
               </div>
             </div>
@@ -159,7 +189,7 @@ const Login = () => {
                     d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
                   />
                 </svg>
-                <span className="ml-2">Google</span>
+                <span className="ml-2">{t("auth.google")}</span>
               </button>
             </div>
           </div>

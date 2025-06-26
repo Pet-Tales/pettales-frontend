@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { API_BASE_URL } from "@/utils/constants";
 import axios from "axios";
 import logger from "@/utils/logger";
+import { processApiError } from "@/utils/errorMapper";
 
 // Configure axios defaults
 axios.defaults.withCredentials = true;
@@ -94,9 +95,18 @@ export const register = createAsyncThunk(
   "auth/register",
   async (userData, { rejectWithValue }) => {
     try {
+      // Import i18n to get current language
+      const i18n = (await import("@/i18n")).default;
+
+      // Include current language in registration data
+      const registrationData = {
+        ...userData,
+        preferred_language: i18n.language || "en",
+      };
+
       const response = await axios.post(
         `${API_BASE_URL}/api/auth/register`,
-        userData
+        registrationData
       );
       return response.data;
     } catch (error) {

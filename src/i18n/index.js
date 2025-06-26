@@ -1,18 +1,18 @@
-import i18n from 'i18next';
-import { initReactI18next } from 'react-i18next';
-import LanguageDetector from 'i18next-browser-languagedetector';
+import i18n from "i18next";
+import { initReactI18next } from "react-i18next";
+import LanguageDetector from "i18next-browser-languagedetector";
 
 // Import translation files
-import enTranslations from './locales/en.json';
-import esTranslations from './locales/es.json';
+import enTranslations from "./locales/en.json";
+import esTranslations from "./locales/es.json";
 
 const resources = {
   en: {
-    translation: enTranslations
+    translation: enTranslations,
   },
   es: {
-    translation: esTranslations
-  }
+    translation: esTranslations,
+  },
 };
 
 i18n
@@ -23,28 +23,28 @@ i18n
   // Initialize i18next
   .init({
     resources,
-    fallbackLng: 'en',
+    fallbackLng: "en",
     debug: false,
 
     // Language detection options
     detection: {
-      // Order of language detection methods
-      order: ['localStorage', 'navigator', 'htmlTag'],
-      
+      // Order of language detection methods - localStorage has higher priority than browser
+      order: ["localStorage", "navigator", "htmlTag"],
+
       // Cache user language in localStorage
-      caches: ['localStorage'],
-      
+      caches: ["localStorage"],
+
       // localStorage key name
-      lookupLocalStorage: 'i18nextLng',
-      
+      lookupLocalStorage: "i18nextLng",
+
       // Don't lookup from subdomain
       lookupFromSubdomainIndex: 0,
-      
+
       // Don't lookup from path
       lookupFromPathIndex: 0,
-      
+
       // Check all fallback languages
-      checkWhitelist: true
+      checkWhitelist: true,
     },
 
     interpolation: {
@@ -52,19 +52,19 @@ i18n
     },
 
     // Supported languages
-    supportedLngs: ['en', 'es'],
-    
+    supportedLngs: ["en", "es"],
+
     // Don't load missing keys
     saveMissing: false,
-    
+
     // Namespace configuration
-    defaultNS: 'translation',
-    ns: ['translation'],
-    
+    defaultNS: "translation",
+    ns: ["translation"],
+
     // React specific options
     react: {
-      useSuspense: false
-    }
+      useSuspense: false,
+    },
   });
 
 export default i18n;
