@@ -6,6 +6,7 @@ import { useErrorTranslation } from "@/utils/errorMapper";
 import { toast } from "react-toastify";
 import { verifyEmail, clearError } from "@/stores/reducers/auth";
 import LanguageUtils from "@/utils/languageUtils";
+import logger from "@/utils/logger";
 
 const VerifyEmail = () => {
   const { t } = useValidatedTranslation();
@@ -27,7 +28,7 @@ const VerifyEmail = () => {
       import("@/i18n").then((i18nModule) => {
         const i18n = i18nModule.default;
         i18n.changeLanguage(storedLanguage).catch((error) => {
-          console.error("Failed to initialize stored language:", error);
+          logger.error("Failed to initialize stored language:", error);
         });
       });
     }
@@ -99,7 +100,7 @@ const VerifyEmail = () => {
             });
           }
         })
-        .catch((_err) => {
+        .catch(() => {
           setVerificationStatus("error");
           toast.error(t("toast.emailVerificationFailed"), {
             position: "top-right",

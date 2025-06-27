@@ -2,7 +2,6 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { API_BASE_URL } from "@/utils/constants";
 import axios from "axios";
 import logger from "@/utils/logger";
-import { processApiError } from "@/utils/errorMapper";
 
 // Configure axios defaults
 axios.defaults.withCredentials = true;
@@ -191,6 +190,99 @@ export const resendEmailVerification = createAsyncThunk(
   }
 );
 
+// Forgot password async thunk
+export const forgotPassword = createAsyncThunk(
+  "auth/forgotPassword",
+  async (email, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        `${API_BASE_URL}/api/auth/forgot-password`,
+        { email }
+      );
+      return response.data;
+    } catch (error) {
+      logger.error("Forgot password error:", error);
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to send reset email"
+      );
+    }
+  }
+);
+
+// Reset password async thunk
+export const resetPassword = createAsyncThunk(
+  "auth/resetPassword",
+  async ({ token, password }, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        `${API_BASE_URL}/api/auth/reset-password`,
+        { token, password }
+      );
+      return response.data;
+    } catch (error) {
+      logger.error("Reset password error:", error);
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to reset password"
+      );
+    }
+  }
+);
+
+// Request password change async thunk (sends reset email)
+export const requestPasswordChange = createAsyncThunk(
+  "auth/requestPasswordChange",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        `${API_BASE_URL}/api/user/request-password-change`
+      );
+      return response.data;
+    } catch (error) {
+      logger.error("Request password change error:", error);
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to send password reset email"
+      );
+    }
+  }
+);
+
+// Update profile async thunk
+export const updateProfile = createAsyncThunk(
+  "auth/updateProfile",
+  async (profileData, { rejectWithValue }) => {
+    try {
+      const response = await axios.put(
+        `${API_BASE_URL}/api/user/profile`,
+        profileData
+      );
+      return response.data;
+    } catch (error) {
+      logger.error("Update profile error:", error);
+      return rejectWithValue(
+        error.response?.data?.message || "Failed to update profile"
+      );
+    }
+  }
+);
+
+// Verify email change async thunk
+export const verifyEmailChange = createAsyncThunk(
+  "auth/verifyEmailChange",
+  async (token, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(
+        `${API_BASE_URL}/api/user/verify-email-change?token=${token}`
+      );
+      return response.data;
+    } catch (error) {
+      logger.error("Verify email change error:", error);
+      return rejectWithValue(
+        error.response?.data?.message || "Email change verification failed"
+      );
+    }
+  }
+);
+
 // Auth slice
 const authSlice = createSlice({
   name: "auth",
@@ -228,7 +320,7 @@ const authSlice = createSlice({
         state.isLoading = true;
         state.error = null;
       })
-      .addCase(register.fulfilled, (state, action) => {
+      .addCase(register.fulfilled, (state) => {
         state.isLoading = false;
         state.emailVerificationSent = true;
         state.error = null;
@@ -294,6 +386,20 @@ const authSlice = createSlice({
         // Don't clear auth state here - let the axios interceptor handle 401s
         // For other errors (network issues), keep the user logged in
       })
+      // Resend email verification
+      .addCase(resendEmailVerification.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(resendEmailVerification.fulfilled, (state) => {
+        state.isLoading = false;
+        state.emailVerificationSent = true;
+        state.error = null;
+      })
+      .addCase(resendEmailVerification.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
       // Verify email
       .addCase(verifyEmail.pending, (state) => {
         state.isLoading = true;
@@ -314,17 +420,74 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.error = action.payload;
       })
-      // Resend email verification
-      .addCase(resendEmailVerification.pending, (state) => {
+      // Forgot password
+      .addCase(forgotPassword.pending, (state) => {
         state.isLoading = true;
         state.error = null;
       })
-      .addCase(resendEmailVerification.fulfilled, (state) => {
+      .addCase(forgotPassword.fulfilled, (state) => {
         state.isLoading = false;
-        state.emailVerificationSent = true;
         state.error = null;
       })
-      .addCase(resendEmailVerification.rejected, (state, action) => {
+      .addCase(forgotPassword.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+      // Reset password
+      .addCase(resetPassword.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(resetPassword.fulfilled, (state) => {
+        state.isLoading = false;
+        state.error = null;
+      })
+      .addCase(resetPassword.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+      // Request password change
+      .addCase(requestPasswordChange.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(requestPasswordChange.fulfilled, (state) => {
+        state.isLoading = false;
+        state.error = null;
+      })
+      .addCase(requestPasswordChange.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+      // Update profile
+      .addCase(updateProfile.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(updateProfile.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.user = action.payload.data.user;
+        state.error = null;
+        // Store updated user in localStorage
+        setStoredUser(action.payload.data.user);
+      })
+      .addCase(updateProfile.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+      // Verify email change
+      .addCase(verifyEmailChange.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(verifyEmailChange.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.user = action.payload.data.user;
+        state.error = null;
+        // Store updated user in localStorage
+        setStoredUser(action.payload.data.user);
+      })
+      .addCase(verifyEmailChange.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       });

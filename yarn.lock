@@ -2816,36 +2816,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"my-project@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "my-project@workspace:."
-  dependencies:
-    "@eslint/js": "npm:^9.25.0"
-    "@material-tailwind/react": "npm:^2.1.10"
-    "@reduxjs/toolkit": "npm:^2.8.2"
-    "@tailwindcss/vite": "npm:^4.1.10"
-    "@types/react": "npm:^19.1.2"
-    "@types/react-dom": "npm:^19.1.2"
-    "@vitejs/plugin-react": "npm:^4.4.1"
-    axios: "npm:^1.10.0"
-    eslint: "npm:^9.25.0"
-    eslint-plugin-react-hooks: "npm:^5.2.0"
-    eslint-plugin-react-refresh: "npm:^0.4.19"
-    globals: "npm:^16.0.0"
-    i18next: "npm:^25.2.1"
-    i18next-browser-languagedetector: "npm:^8.2.0"
-    react: "npm:^19.1.0"
-    react-dom: "npm:^19.1.0"
-    react-i18next: "npm:^15.5.3"
-    react-icons: "npm:^5.5.0"
-    react-redux: "npm:^9.2.0"
-    react-router-dom: "npm:^7.6.2"
-    react-toastify: "npm:^11.0.5"
-    tailwindcss: "npm:^4.1.10"
-    vite: "npm:^6.3.5"
-  languageName: unknown
-  linkType: soft
-
 "nanoid@npm:^3.3.11":
   version: 3.3.11
   resolution: "nanoid@npm:3.3.11"
@@ -2992,6 +2962,36 @@ __metadata:
   checksum: 10c0/32a13711a2a505616ae1cc1b5076801e453e7aae6ac40ab55b388bb91b9d0547a52f5aaceff710ea400205f18691120d4431e520afbe4266b836fadede15872d
   languageName: node
   linkType: hard
+
+"pettales-frontend@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "pettales-frontend@workspace:."
+  dependencies:
+    "@eslint/js": "npm:^9.25.0"
+    "@material-tailwind/react": "npm:^2.1.10"
+    "@reduxjs/toolkit": "npm:^2.8.2"
+    "@tailwindcss/vite": "npm:^4.1.10"
+    "@types/react": "npm:^19.1.2"
+    "@types/react-dom": "npm:^19.1.2"
+    "@vitejs/plugin-react": "npm:^4.4.1"
+    axios: "npm:^1.10.0"
+    eslint: "npm:^9.25.0"
+    eslint-plugin-react-hooks: "npm:^5.2.0"
+    eslint-plugin-react-refresh: "npm:^0.4.19"
+    globals: "npm:^16.0.0"
+    i18next: "npm:^25.2.1"
+    i18next-browser-languagedetector: "npm:^8.2.0"
+    react: "npm:^19.1.0"
+    react-dom: "npm:^19.1.0"
+    react-i18next: "npm:^15.5.3"
+    react-icons: "npm:^5.5.0"
+    react-redux: "npm:^9.2.0"
+    react-router-dom: "npm:^7.6.2"
+    react-toastify: "npm:^11.0.5"
+    tailwindcss: "npm:^4.1.10"
+    vite: "npm:^6.3.5"
+  languageName: unknown
+  linkType: soft
 
 "picocolors@npm:^1.1.1":
   version: 1.1.1

@@ -29,17 +29,11 @@ function AppContent() {
   useEffect(() => {
     // Only attempt to validate session if we haven't tried yet and not already validating
     if (!hasAttemptedAuth && !isValidatingSession) {
-      // If we have localStorage data, validate the session with server
-      if (isAuthenticated) {
-        logger.info("App: Validating session with server");
-        dispatch(getCurrentUser());
-      } else {
-        // No localStorage data, just mark as attempted without API call
-        logger.info("App: No localStorage data, marking auth as attempted");
-        dispatch(markAuthAttempted());
-      }
+      // Always try to validate session with server (in case there's a session cookie from OAuth)
+      logger.info("App: Validating session with server");
+      dispatch(getCurrentUser());
     }
-  }, [dispatch, hasAttemptedAuth, isAuthenticated, isValidatingSession]);
+  }, [dispatch, hasAttemptedAuth, isValidatingSession]);
 
   // Sync language preferences when user data is available
   useEffect(() => {

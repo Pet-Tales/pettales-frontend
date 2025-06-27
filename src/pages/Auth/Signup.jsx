@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
+import { toast } from "react-toastify";
 import { useValidatedTranslation } from "@/hooks/useValidatedTranslation";
 import { useErrorTranslation } from "@/utils/errorMapper";
 import {
   register,
   clearError,
   clearEmailVerificationSent,
+  resendEmailVerification,
 } from "@/stores/reducers/auth";
 import { API_BASE_URL } from "@/utils/constants";
 
@@ -109,19 +111,30 @@ const Signup = () => {
     const result = await dispatch(register(submitData));
 
     if (register.rejected.match(result)) {
-      // Handle registration error with localized message
-      const errorMessage =
-        result.payload?.response?.data?.message ||
-        result.payload?.message ||
-        "Registration failed";
-      const translatedError = translateError(errorMessage);
-      console.error("Registration error:", translatedError);
       // The error will be displayed by the auth slice's error handling
     }
   };
 
   const handleGoogleSignup = () => {
     window.location.href = `${API_BASE_URL}/api/auth/google`;
+  };
+
+  const handleResendVerification = async (email) => {
+    try {
+      const result = await dispatch(resendEmailVerification(email));
+      if (resendEmailVerification.fulfilled.match(result)) {
+        toast.success(t("toast.verificationEmailResent"), {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+      }
+    } catch (error) {
+      // Error will be handled by Redux state
+    }
   };
 
   if (emailVerificationSent) {
@@ -139,13 +152,21 @@ const Signup = () => {
             <p className="mt-4 text-sm text-gray-600">
               {t("auth.clickVerificationLink")}
             </p>
-            <div className="mt-6">
+            <div className="mt-6 space-x-4">
               <Link
                 to="/login"
                 className="font-medium text-indigo-600 hover:text-indigo-500"
               >
                 {t("auth.backToLogin")}
               </Link>
+              <span className="text-gray-400">|</span>
+              <button
+                onClick={() => handleResendVerification(formData.email)}
+                className="font-medium text-indigo-600 hover:text-indigo-500 cursor-pointer"
+                disabled={isLoading}
+              >
+                {t("auth.resendVerification")}
+              </button>
             </div>
           </div>
         </div>
@@ -164,7 +185,23 @@ const Signup = () => {
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           {error && (
             <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-              {getTranslatedError() || t("auth.registrationFailed")}
+              {/* Check if this is an unverified email error */}
+              {error.includes("REG_005") ||
+              getTranslatedError() === t("errors.emailExistsUnverified") ? (
+                <div>
+                  {t("errors.emailExistsUnverified")}{" "}
+                  <button
+                    type="button"
+                    onClick={() => handleResendVerification(formData.email)}
+                    className="font-medium underline hover:no-underline cursor-pointer"
+                    disabled={isLoading}
+                  >
+                    {t("auth.resendVerification")}
+                  </button>
+                </div>
+              ) : (
+                getTranslatedError() || t("auth.registrationFailed")
+              )}
             </div>
           )}
 

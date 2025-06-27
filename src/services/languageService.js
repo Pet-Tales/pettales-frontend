@@ -1,7 +1,8 @@
-import axios from "axios";
-import { API_BASE_URL } from "@/utils/constants";
+import http from "@/utils/http";
+import logger from "@/utils/logger";
+import { DEBUG_MODE } from "@/utils/constants";
 
-const API_URL = `${API_BASE_URL}/api/users`;
+const _API = "/api/user";
 
 /**
  * Update user's language preference
@@ -9,14 +10,38 @@ const API_URL = `${API_BASE_URL}/api/users`;
  * @returns {Promise} API response
  */
 export const updateLanguagePreference = async (language) => {
-  try {
-    const response = await axios.put(`${API_URL}/language-preference`, {
-      language,
-    });
-    return response.data;
-  } catch (error) {
-    throw error.response?.data || error;
-  }
+  return new Promise((resolve, reject) => {
+    const url = `${_API}/language-preference`;
+
+    http
+      .put(url, { language })
+      .then((response) => {
+        if (response.status === 200) {
+          logger.api("PUT", url, response.status, 0, response.data);
+          resolve({
+            status: response.status,
+            data: response.data,
+          });
+        } else {
+          logger.api("PUT", url, response.status, 0, response.data);
+          reject({
+            status: response.status,
+            data: response.data,
+          });
+        }
+      })
+      .catch((error) => {
+        logger.api(
+          "PUT",
+          url,
+          error.response?.status || 0,
+          0,
+          error.response?.data
+        );
+        if (!DEBUG_MODE) logger.clear();
+        reject(error.response);
+      });
+  });
 };
 
 /**
@@ -24,12 +49,38 @@ export const updateLanguagePreference = async (language) => {
  * @returns {Promise} API response
  */
 export const getUserProfile = async () => {
-  try {
-    const response = await axios.get(`${API_URL}/profile`);
-    return response.data;
-  } catch (error) {
-    throw error.response?.data || error;
-  }
+  return new Promise((resolve, reject) => {
+    const url = `${_API}/profile`;
+
+    http
+      .get(url)
+      .then((response) => {
+        if (response.status === 200) {
+          logger.api("GET", url, response.status, 0, response.data);
+          resolve({
+            status: response.status,
+            data: response.data,
+          });
+        } else {
+          logger.api("GET", url, response.status, 0, response.data);
+          reject({
+            status: response.status,
+            data: response.data,
+          });
+        }
+      })
+      .catch((error) => {
+        logger.api(
+          "GET",
+          url,
+          error.response?.status || 0,
+          0,
+          error.response?.data
+        );
+        if (!DEBUG_MODE) logger.clear();
+        reject(error.response);
+      });
+  });
 };
 
 const LanguageService = {

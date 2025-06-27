@@ -1,14 +1,16 @@
 import { useSelector } from "react-redux";
-import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
+import { useValidatedTranslation } from "@/hooks/useValidatedTranslation";
 import ProtectedRoute from "@/components/ProtectedRoute";
 
 const Dashboard = () => {
-  const { t } = useTranslation();
+  const { t } = useValidatedTranslation();
+  const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="min-h-fit py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="text-center">
             <h1 className="text-4xl font-bold text-gray-900 mb-8">
@@ -27,7 +29,10 @@ const Dashboard = () => {
                 <p className="text-gray-600 mb-4">
                   {t("dashboard.createCharactersDesc")}
                 </p>
-                <button className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">
+                <button
+                  className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700"
+                  onClick={() => navigate("/characters/create")}
+                >
                   {t("dashboard.getStarted")}
                 </button>
               </div>

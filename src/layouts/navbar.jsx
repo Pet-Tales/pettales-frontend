@@ -236,17 +236,9 @@ const PTAINavBar = () => {
                     {t("navbar.profile")}
                   </Typography>
                 </MenuItem>
-                <MenuItem
-                  className="flex gap-2"
-                  onClick={() => navigate("/settings")}
-                >
-                  <Typography variant="small" className="font-normal">
-                    {t("navbar.settings")}
-                  </Typography>
-                </MenuItem>
                 <div className="flex outline-0 cursor-pointer">
                   <hr className="my-2 border-blue-gray-50 w-1/3" />
-                  <p className=" w-1/3 text-center">Billing</p>
+                  <p className=" w-1/3 text-center">{t("navbar.credits")}</p>
                   <hr className="my-2  w-1/3 border-blue-gray-50" />
                 </div>
                 <MenuItem
@@ -254,7 +246,7 @@ const PTAINavBar = () => {
                   onClick={() => navigate("/billing")}
                 >
                   <Typography variant="small" className="font-normal">
-                    Payment Methods
+                    {t("navbar.buyMore")}
                   </Typography>
                 </MenuItem>
                 <MenuItem
@@ -262,12 +254,12 @@ const PTAINavBar = () => {
                   onClick={() => navigate("/transactions")}
                 >
                   <Typography variant="small" className="font-normal">
-                    Transaction History
+                    {t("navbar.histories")}
                   </Typography>
                 </MenuItem>
                 <div className="flex outline-0 cursor-pointer">
                   <hr className="my-2 border-blue-gray-50 w-1/3" />
-                  <p className=" w-1/3 text-center">Support</p>
+                  <p className=" w-1/3 text-center">{t("navbar.support")}</p>
                   <hr className="my-2  w-1/3 border-blue-gray-50" />
                 </div>
                 <MenuItem
@@ -275,7 +267,7 @@ const PTAINavBar = () => {
                   onClick={() => navigate("/help")}
                 >
                   <Typography variant="small" className="font-normal">
-                    {t("navbar.knowledgeBase")}
+                    {t("navbar.faq")}
                   </Typography>
                 </MenuItem>
                 <MenuItem

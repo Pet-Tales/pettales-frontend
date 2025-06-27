@@ -9,7 +9,9 @@ import { setIsConnectedServer } from "@/stores/reducers/health";
 const Home = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const { isConnectedServer } = useSelector((state) => state.health);
+  const { isConnectedServer: _isConnectedServer } = useSelector(
+    (state) => state.health
+  );
 
   const [serverContent, setServerContent] = useState("");
 
@@ -24,7 +26,7 @@ const Home = () => {
     checkServer();
   }, []);
   return (
-    <p className="h-[100vh]">
+    <p className="">
       {t("home.title")} - "{serverContent}"
     </p>
   );

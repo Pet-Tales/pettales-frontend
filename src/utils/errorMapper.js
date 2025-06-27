@@ -59,6 +59,26 @@ const ERROR_MESSAGE_MAP = {
   "Invalid language": "errors.invalidLanguage",
   "Language not supported": "errors.languageNotSupported",
 
+  // Character errors
+  "Character name must be at least 2 characters long":
+    "characters.errors.nameMinLength",
+  "Character name is required": "characters.errors.nameRequired",
+  "Age is required for human characters": "characters.errors.ageRequired",
+  "Age must be a positive number": "characters.errors.ageInvalid",
+  "Gender is required for human characters": "characters.errors.genderRequired",
+  "Character not found": "characters.characterNotFound",
+  "Character is used in books and cannot be deleted":
+    "characters.characterUsedInBooks",
+  "Failed to create character": "errors.genericError",
+  "Failed to update character": "errors.genericError",
+  "Failed to delete character": "errors.genericError",
+  "Failed to upload character image": "errors.genericError",
+  "Invalid file type. Only JPG and PNG files are allowed.":
+    "profile.invalidFileType",
+  "File size too large. Maximum size is 5MB.": "profile.fileTooLarge",
+  "Reference images are only allowed for pet characters":
+    "characters.errors.imageOnlyForPets",
+
   // Generic errors
   "Bad request": "errors.badRequest",
   "Not found": "errors.notFound",
@@ -74,11 +94,14 @@ const ERROR_CODE_MAP = {
   AUTH_004: "errors.accountSuspended",
   AUTH_005: "errors.sessionExpired",
   AUTH_006: "errors.authenticationRequired",
+  AUTH_010: "errors.invalidResetToken",
+  AUTH_011: "errors.tooManyResetRequests",
 
   REG_001: "errors.emailAlreadyExists",
   REG_002: "errors.invalidEmailFormat",
   REG_003: "errors.passwordTooShort",
   REG_004: "errors.passwordsDoNotMatch",
+  REG_005: "errors.emailExistsUnverified",
 
   VAL_001: "errors.emailRequired",
   VAL_002: "errors.passwordRequired",

@@ -1,9 +1,14 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, Link, useSearchParams } from "react-router-dom";
+import { toast } from "react-toastify";
 import { useValidatedTranslation } from "@/hooks/useValidatedTranslation";
 import { useErrorTranslation } from "@/utils/errorMapper";
-import { login, clearError } from "@/stores/reducers/auth";
+import {
+  login,
+  clearError,
+  resendEmailVerification,
+} from "@/stores/reducers/auth";
 import { API_BASE_URL } from "@/utils/constants";
 
 const Login = () => {
@@ -78,19 +83,30 @@ const Login = () => {
     if (login.fulfilled.match(result)) {
       navigate("/");
     } else if (login.rejected.match(result)) {
-      // Handle login error with localized message
-      const errorMessage =
-        result.payload?.response?.data?.message ||
-        result.payload?.message ||
-        "Login failed";
-      const translatedError = translateError(errorMessage);
-      console.error("Login error:", translatedError);
       // The error will be displayed by the auth slice's error handling
     }
   };
 
   const handleGoogleLogin = () => {
     window.location.href = `${API_BASE_URL}/api/auth/google`;
+  };
+
+  const handleResendVerification = async (email) => {
+    try {
+      const result = await dispatch(resendEmailVerification(email));
+      if (resendEmailVerification.fulfilled.match(result)) {
+        toast.success(t("toast.verificationEmailResent"), {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+      }
+    } catch (error) {
+      // Error will be handled by Redux state
+    }
   };
 
   return (
@@ -104,7 +120,24 @@ const Login = () => {
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           {(error || showError) && (
             <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-              {getTranslatedError() || t("auth.authenticationFailed")}
+              {/* Check if this is an email not verified error */}
+              {error &&
+              (error.includes("AUTH_003") ||
+                getTranslatedError() === t("errors.emailNotVerified")) ? (
+                <div>
+                  {t("errors.emailNotVerified")}{" "}
+                  <button
+                    type="button"
+                    onClick={() => handleResendVerification(formData.email)}
+                    className="font-medium underline hover:no-underline cursor-pointer"
+                    disabled={isLoading}
+                  >
+                    {t("auth.resendVerification")}
+                  </button>
+                </div>
+              ) : (
+                getTranslatedError() || t("auth.authenticationFailed")
+              )}
             </div>
           )}
 
@@ -140,6 +173,17 @@ const Login = () => {
                 value={formData.password}
                 onChange={handleChange}
               />
+            </div>
+          </div>
+
+          <div className="flex items-center justify-between">
+            <div className="text-sm">
+              <Link
+                to="/forgot-password"
+                className="font-medium text-indigo-600 hover:text-indigo-500"
+              >
+                {t("auth.forgotPassword")}
+              </Link>
             </div>
           </div>
 
