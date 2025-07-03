@@ -32,7 +32,7 @@
     "characters": "Characters",
     "gallery": "Gallery",
     "pricing": "Pricing",
-    "howToWork": "How to Work",
+    "howItWork": "How it works",
     "login": "LogIn",
     "signup": "SignUp",
     "logout": "Logout",
@@ -190,6 +190,9 @@
       "ageRequired": "Age is required for human characters",
       "ageInvalid": "Please enter a valid age",
       "genderRequired": "Gender is required for human characters",
+      "ethnicityRequired": "Ethnicity is required for human characters",
+      "petTypeRequired": "Pet type is required for pet characters",
+      "breedRequired": "Breed is required for pet characters",
       "imageOnlyForPets": "Reference images are only allowed for pet characters"
     }
   },

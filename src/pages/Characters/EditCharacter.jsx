@@ -74,8 +74,8 @@ const EditCharacter = () => {
       );
 
       if (updateCharacter.fulfilled.match(updateResult)) {
-        // Step 2: Upload new image if provided (only for pets)
-        if (imageFile && characterData.character_type === "pet") {
+        // Step 2: Upload new image if provided (for both human and pet characters)
+        if (imageFile) {
           try {
             const uploadResult = await dispatch(
               uploadCharacterImage({

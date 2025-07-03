@@ -32,7 +32,7 @@
     "characters": "Personajes",
     "gallery": "Galería",
     "pricing": "Precios",
-    "howToWork": "Cómo Funciona",
+    "howItWork": "Cómo Funciona",
     "login": "Iniciar Sesión",
     "signup": "Registrarse",
     "logout": "Cerrar Sesión",
@@ -191,6 +191,9 @@
       "ageRequired": "La edad es requerida para personajes humanos",
       "ageInvalid": "Por favor ingresa una edad válida",
       "genderRequired": "El género es requerido para personajes humanos",
+      "ethnicityRequired": "La etnia es requerida para personajes humanos",
+      "petTypeRequired": "El tipo de mascota es requerido para personajes mascotas",
+      "breedRequired": "La raza es requerida para personajes mascotas",
       "imageOnlyForPets": "Las imágenes de referencia solo están permitidas para personajes mascotas"
     }
   },

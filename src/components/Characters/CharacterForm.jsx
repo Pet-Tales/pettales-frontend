@@ -89,11 +89,7 @@ const CharacterForm = ({
           }),
     }));
 
-    // Clear preview image if switching to human
-    if (type === "human") {
-      setPreviewImage(null);
-      setSelectedFile(null);
-    }
+    // Note: Reference images are now allowed for both human and pet characters
   };
 
   const validateForm = () => {
@@ -116,6 +112,18 @@ const CharacterForm = ({
 
       if (!formData.gender) {
         errors.gender = t("characters.errors.genderRequired");
+      }
+
+      if (!formData.ethnicity.trim()) {
+        errors.ethnicity = t("characters.errors.ethnicityRequired");
+      }
+    } else if (formData.characterType === "pet") {
+      if (!formData.petType.trim()) {
+        errors.petType = t("characters.errors.petTypeRequired");
+      }
+
+      if (!formData.breed.trim()) {
+        errors.breed = t("characters.errors.breedRequired");
       }
     }
 
@@ -145,9 +153,8 @@ const CharacterForm = ({
   };
 
   const handleImageClick = () => {
-    if (formData.characterType === "pet") {
-      fileInputRef.current?.click();
-    }
+    // Reference images are now allowed for both human and pet characters
+    fileInputRef.current?.click();
   };
 
   const handleRemoveImage = async () => {
@@ -263,7 +270,6 @@ const CharacterForm = ({
               </div>
             </div>
           </div>
-
           {/* Character Name */}
           <div>
             <Typography variant="small" className="text-gray-600 mb-1">
@@ -283,85 +289,82 @@ const CharacterForm = ({
               </Typography>
             )}
           </div>
+          {/* Reference Image (for both human and pet characters) */}
+          <div>
+            <Typography variant="small" className="text-gray-600 mb-3">
+              {t("characters.referenceImage")}
+            </Typography>
 
-          {/* Pet Reference Image */}
-          {formData.characterType === "pet" && (
-            <div>
-              <Typography variant="small" className="text-gray-600 mb-3">
-                {t("characters.referenceImage")}
-              </Typography>
+            {/* Hidden file input */}
+            <input
+              type="file"
+              ref={fileInputRef}
+              onChange={handleFileSelect}
+              accept="image/jpeg,image/jpg,image/png"
+              className="hidden"
+            />
 
-              {/* Hidden file input */}
-              <input
-                type="file"
-                ref={fileInputRef}
-                onChange={handleFileSelect}
-                accept="image/jpeg,image/jpg,image/png"
-                className="hidden"
-              />
+            <div className="flex items-center space-x-4">
+              {/* Image preview */}
+              <div
+                className="relative cursor-pointer"
+                onClick={handleImageClick}
+              >
+                {previewImage ? (
+                  <Avatar
+                    variant="rounded"
+                    alt="Preview"
+                    className="h-20 w-20"
+                    src={previewImage}
+                  />
+                ) : (
+                  <div className="h-20 w-20 rounded-lg bg-gray-200 flex items-center justify-center border-2 border-dashed border-gray-300 hover:border-indigo-400">
+                    <FaUpload className="h-6 w-6 text-gray-400" />
+                  </div>
+                )}
+              </div>
 
-              <div className="flex items-center space-x-4">
-                {/* Image preview */}
-                <div
-                  className="relative cursor-pointer"
+              {/* Upload/Remove buttons */}
+              <div className="flex flex-col space-y-2">
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="outlined"
                   onClick={handleImageClick}
+                  className="flex items-center space-x-2"
                 >
-                  {previewImage ? (
-                    <Avatar
-                      variant="rounded"
-                      alt="Preview"
-                      className="h-20 w-20"
-                      src={previewImage}
-                    />
-                  ) : (
-                    <div className="h-20 w-20 rounded-lg bg-gray-200 flex items-center justify-center border-2 border-dashed border-gray-300 hover:border-indigo-400">
-                      <FaUpload className="h-6 w-6 text-gray-400" />
-                    </div>
-                  )}
-                </div>
+                  <FaUpload className="h-3 w-3" />
+                  <span>
+                    {previewImage ? t("common.change") : t("common.upload")}
+                  </span>
+                </Button>
 
-                {/* Upload/Remove buttons */}
-                <div className="flex flex-col space-y-2">
+                {previewImage && (
                   <Button
                     type="button"
                     size="sm"
                     variant="outlined"
-                    onClick={handleImageClick}
+                    color="red"
+                    onClick={handleRemoveImage}
                     className="flex items-center space-x-2"
                   >
-                    <FaUpload className="h-3 w-3" />
-                    <span>
-                      {previewImage ? t("common.change") : t("common.upload")}
-                    </span>
+                    <FaTrash className="h-3 w-3" />
+                    <span>{t("common.remove")}</span>
                   </Button>
-
-                  {previewImage && (
-                    <Button
-                      type="button"
-                      size="sm"
-                      variant="outlined"
-                      color="red"
-                      onClick={handleRemoveImage}
-                      className="flex items-center space-x-2"
-                    >
-                      <FaTrash className="h-3 w-3" />
-                      <span>{t("common.remove")}</span>
-                    </Button>
-                  )}
-                </div>
+                )}
               </div>
-
-              {/* Upload progress */}
-              {isUploadingImage && (
-                <div className="mt-3">
-                  <Progress value={uploadProgress} className="h-2" />
-                  <Typography variant="small" className="text-gray-600 mt-1">
-                    {t("common.uploading")} {Math.round(uploadProgress)}%
-                  </Typography>
-                </div>
-              )}
             </div>
-          )}
+
+            {/* Upload progress */}
+            {isUploadingImage && (
+              <div className="mt-3">
+                <Progress value={uploadProgress} className="h-2" />
+                <Typography variant="small" className="text-gray-600 mt-1">
+                  {t("common.uploading")} {Math.round(uploadProgress)}%
+                </Typography>
+              </div>
+            )}
+          </div>
 
           {/* Type-specific fields */}
           {formData.characterType === "human" ? (
@@ -421,15 +424,21 @@ const CharacterForm = ({
               {/* Ethnicity */}
               <div>
                 <Typography variant="small" className="text-gray-600 mb-1">
-                  {t("characters.ethnicity")}
+                  {t("characters.ethnicity")} *
                 </Typography>
                 <Input
                   value={formData.ethnicity}
                   onChange={(e) =>
                     handleInputChange("ethnicity", e.target.value)
                   }
+                  error={!!formErrors.ethnicity}
                   placeholder={t("characters.ethnicityPlaceholder")}
                 />
+                {formErrors.ethnicity && (
+                  <Typography variant="small" className="text-red-500 mt-1">
+                    {formErrors.ethnicity}
+                  </Typography>
+                )}
               </div>
 
               {/* Hair Color */}
@@ -465,25 +474,37 @@ const CharacterForm = ({
               {/* Pet Type */}
               <div>
                 <Typography variant="small" className="text-gray-600 mb-1">
-                  {t("characters.petType")}
+                  {t("characters.petType")} *
                 </Typography>
                 <Input
                   value={formData.petType}
                   onChange={(e) => handleInputChange("petType", e.target.value)}
+                  error={!!formErrors.petType}
                   placeholder={t("characters.petTypePlaceholder")}
                 />
+                {formErrors.petType && (
+                  <Typography variant="small" className="text-red-500 mt-1">
+                    {formErrors.petType}
+                  </Typography>
+                )}
               </div>
 
               {/* Breed */}
               <div>
                 <Typography variant="small" className="text-gray-600 mb-1">
-                  {t("characters.breed")}
+                  {t("characters.breed")} *
                 </Typography>
                 <Input
                   value={formData.breed}
                   onChange={(e) => handleInputChange("breed", e.target.value)}
+                  error={!!formErrors.breed}
                   placeholder={t("characters.breedPlaceholder")}
                 />
+                {formErrors.breed && (
+                  <Typography variant="small" className="text-red-500 mt-1">
+                    {formErrors.breed}
+                  </Typography>
+                )}
               </div>
 
               {/* Fur */}
@@ -523,7 +544,6 @@ const CharacterForm = ({
               </div>
             </div>
           )}
-
           {/* Personality */}
           <div>
             <Typography variant="small" className="text-gray-600 mb-1">
@@ -536,7 +556,6 @@ const CharacterForm = ({
               rows={3}
             />
           </div>
-
           {/* Form Actions */}
           <div className="flex justify-end space-x-4 pt-4">
             <Button

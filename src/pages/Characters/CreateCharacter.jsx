@@ -34,8 +34,8 @@ const CreateCharacter = () => {
       if (createCharacter.fulfilled.match(createResult)) {
         const newCharacter = createResult.payload;
 
-        // Step 2: Upload image if provided (only for pets)
-        if (imageFile && characterData.character_type === "pet") {
+        // Step 2: Upload image if provided (for both human and pet characters)
+        if (imageFile) {
           try {
             const uploadResult = await dispatch(
               uploadCharacterImage({

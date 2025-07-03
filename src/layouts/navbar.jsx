@@ -49,7 +49,7 @@ const MENU_ITEMS = [
     subRoute: ["/pricing"],
   },
   {
-    labelKey: "navbar.howToWork",
+    labelKey: "navbar.howItWork",
     path: "/guide",
     isAuthRequired: false,
     subRoute: ["/guide"],

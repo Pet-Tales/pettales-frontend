@@ -157,10 +157,8 @@ const CharacterDetails = () => {
   };
 
   const getCharacterImage = () => {
-    if (
-      currentCharacter?.characterType === "pet" &&
-      currentCharacter?.referenceImageUrl
-    ) {
+    // Reference images are now supported for both human and pet characters
+    if (currentCharacter?.referenceImageUrl) {
       return currentCharacter.referenceImageUrl;
     }
     return null;
@@ -450,7 +448,11 @@ const CharacterDetails = () => {
                       />
                     ) : (
                       <div className="h-48 w-48 rounded-lg bg-gray-200 flex items-center justify-center mx-auto mb-4">
-                        <CiUser className="h-24 w-24 text-gray-600" />
+                        {currentCharacter?.characterType === "pet" ? (
+                          <FaDog className="h-24 w-24 text-gray-600" />
+                        ) : (
+                          <FaChild className="h-24 w-24 text-gray-600" />
+                        )}
                       </div>
                     )}
                   </div>
