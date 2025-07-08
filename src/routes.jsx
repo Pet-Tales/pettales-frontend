@@ -8,6 +8,9 @@ import Characters from "@/pages/Characters";
 import CreateCharacter from "@/pages/Characters/CreateCharacter";
 import EditCharacter from "@/pages/Characters/EditCharacter";
 import CharacterDetails from "@/pages/Characters/CharacterDetails";
+import CreateBook from "@/pages/Books/CreateBook";
+import BookDetail from "@/pages/Books/BookDetail";
+import Gallery from "@/pages/Gallery";
 import Profile from "@/pages/Profile";
 import {
   Login,
@@ -58,6 +61,18 @@ const Routes = [
       {
         path: "/my-books",
         element: <MyBooks />,
+      },
+      {
+        path: "/books/create",
+        element: <CreateBook />,
+      },
+      {
+        path: "/books/:id",
+        element: <BookDetail />,
+      },
+      {
+        path: "/gallery",
+        element: <Gallery />,
       },
       {
         path: "/characters",

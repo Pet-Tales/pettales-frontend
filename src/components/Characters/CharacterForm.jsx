@@ -313,7 +313,7 @@ const CharacterForm = ({
                 {previewImage ? (
                   <Avatar
                     variant="rounded"
-                    alt="Preview"
+                    alt={t("common.preview")}
                     className="h-20 w-20"
                     src={previewImage}
                   />

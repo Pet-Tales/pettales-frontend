@@ -68,7 +68,8 @@ const CreateCharacter = () => {
       } else {
         // Handle validation errors
         const errorMessage = translateError(
-          createResult.payload?.message || "Failed to create character"
+          createResult.payload?.message ||
+            t("characters.failedToCreateCharacter")
         );
         toast.error(errorMessage);
 
@@ -78,7 +79,7 @@ const CreateCharacter = () => {
     } catch (error) {
       logger.error("Character creation process error:", error);
       const errorMessage = translateError(
-        error?.message || "Failed to create character"
+        error?.message || t("characters.failedToCreateCharacter")
       );
       toast.error(errorMessage);
     } finally {

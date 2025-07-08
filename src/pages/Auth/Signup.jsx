@@ -41,7 +41,7 @@ const Signup = () => {
     } else if (typeof error === "string") {
       errorMessage = error;
     } else {
-      errorMessage = "Registration failed";
+      errorMessage = t("errors.registrationFailed");
     }
 
     return translateError(errorMessage);

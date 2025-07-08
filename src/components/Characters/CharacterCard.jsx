@@ -73,7 +73,7 @@ const CharacterCard = ({ character, onEdit, onDelete }) => {
           setShowForceDeleteDialog(true);
         } else {
           const errorMessage = translateError(
-            result.payload?.message || "Failed to delete character"
+            result.payload?.message || t("characters.failedToDeleteCharacter")
           );
           toast.error(errorMessage);
         }
@@ -81,7 +81,7 @@ const CharacterCard = ({ character, onEdit, onDelete }) => {
     } catch (error) {
       logger.error("Delete character error:", error);
       const errorMessage = translateError(
-        error?.message || "Failed to delete character"
+        error?.message || t("characters.failedToDeleteCharacter")
       );
       toast.error(errorMessage);
     } finally {
@@ -107,14 +107,14 @@ const CharacterCard = ({ character, onEdit, onDelete }) => {
         }
       } else {
         const errorMessage = translateError(
-          result.payload?.message || "Failed to delete character"
+          result.payload?.message || t("characters.failedToDeleteCharacter")
         );
         toast.error(errorMessage);
       }
     } catch (error) {
       logger.error("Force delete character error:", error);
       const errorMessage = translateError(
-        error?.message || "Failed to delete character"
+        error?.message || t("characters.failedToDeleteCharacter")
       );
       toast.error(errorMessage);
     } finally {

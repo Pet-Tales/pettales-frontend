@@ -15,13 +15,13 @@ const VerifyEmailChange = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  
+
   const [verificationStatus, setVerificationStatus] = useState("verifying"); // verifying, success, failed
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const token = searchParams.get("token");
-    
+
     if (!token) {
       setVerificationStatus("failed");
       setIsLoading(false);
@@ -31,11 +31,11 @@ const VerifyEmailChange = () => {
     const verifyToken = async () => {
       try {
         const result = await dispatch(verifyEmailChange(token));
-        
+
         if (verifyEmailChange.fulfilled.match(result)) {
           setVerificationStatus("success");
           toast.success(t("toast.emailChangeVerified"));
-          
+
           // Redirect to profile after 3 seconds
           setTimeout(() => {
             navigate("/profile");
@@ -43,7 +43,7 @@ const VerifyEmailChange = () => {
         } else {
           setVerificationStatus("failed");
           const errorMessage = translateError(
-            result.payload || "Email change verification failed"
+            result.payload || t("errors.emailChangeVerificationFailed")
           );
           toast.error(errorMessage);
         }
@@ -105,14 +105,14 @@ const VerifyEmailChange = () => {
                   {t("profile.emailChangeVerified")}
                 </Typography>
                 <Typography className="text-gray-600 mb-6">
-                  Your email address has been successfully updated.
+                  {t("profile.emailUpdatedSuccessfully")}
                 </Typography>
                 <div className="space-y-3">
                   <Button
                     className="w-full bg-custom-light-yellow hover:bg-custom-light-yellow/90"
                     onClick={handleGoToProfile}
                   >
-                    Go to Profile
+                    {t("profile.goToProfile")}
                   </Button>
                   <Button
                     variant="outlined"
@@ -146,14 +146,14 @@ const VerifyEmailChange = () => {
                   {t("profile.emailChangeVerificationFailed")}
                 </Typography>
                 <Typography className="text-gray-600 mb-6">
-                  The email change verification link is invalid or has expired.
+                  {t("profile.emailChangeVerificationInvalid")}
                 </Typography>
                 <div className="space-y-3">
                   <Button
                     className="w-full bg-custom-light-yellow hover:bg-custom-light-yellow/90"
                     onClick={handleGoToProfile}
                   >
-                    Go to Profile
+                    {t("profile.goToProfile")}
                   </Button>
                   <Button
                     variant="outlined"

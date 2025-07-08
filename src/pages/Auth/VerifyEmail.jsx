@@ -47,7 +47,7 @@ const VerifyEmail = () => {
     } else if (typeof error === "string") {
       errorMessage = error;
     } else {
-      errorMessage = "Email verification failed";
+      errorMessage = t("errors.emailVerificationFailed");
     }
 
     return translateError(errorMessage);

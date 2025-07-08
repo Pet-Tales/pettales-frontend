@@ -33,7 +33,8 @@ const EditCharacter = () => {
       dispatch(fetchCharacterById(id)).then((result) => {
         if (fetchCharacterById.rejected.match(result)) {
           const status = result.payload?.status;
-          const errorMessage = result.payload?.message || "Character not found";
+          const errorMessage =
+            result.payload?.message || t("characters.characterNotFound");
 
           // Redirect to appropriate error page based on status
           if (status === 404) {
@@ -108,7 +109,8 @@ const EditCharacter = () => {
       } else {
         // Handle validation errors
         const errorMessage = translateError(
-          updateResult.payload?.message || "Failed to update character"
+          updateResult.payload?.message ||
+            t("characters.failedToUpdateCharacter")
         );
         toast.error(errorMessage);
 
@@ -118,7 +120,7 @@ const EditCharacter = () => {
     } catch (error) {
       logger.error("Character update process error:", error);
       const errorMessage = translateError(
-        error?.message || "Failed to update character"
+        error?.message || t("characters.failedToUpdateCharacter")
       );
       toast.error(errorMessage);
     } finally {

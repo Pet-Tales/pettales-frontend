@@ -56,15 +56,15 @@ const MENU_ITEMS = [
   },
 ];
 
-const LANGUAGES = [
+const getLanguages = (t) => [
   {
     code: "en",
-    name: "English",
+    name: t("languages.english"),
     flag: "🇺🇸",
   },
   {
     code: "es",
-    name: "Español",
+    name: t("languages.spanish"),
     flag: "🇪🇸",
   },
 ];
@@ -119,8 +119,9 @@ const PTAINavBar = () => {
   };
 
   const getCurrentLanguage = () => {
+    const languages = getLanguages(t);
     return (
-      LANGUAGES.find((lang) => lang.code === i18n.language) || LANGUAGES[0]
+      languages.find((lang) => lang.code === i18n.language) || languages[0]
     );
   };
 
@@ -169,7 +170,7 @@ const PTAINavBar = () => {
               </div>
             </MenuHandler>
             <MenuList>
-              {LANGUAGES.map((language) => (
+              {getLanguages(t).map((language) => (
                 <MenuItem
                   key={language.code}
                   className="flex gap-2 items-center"
@@ -206,7 +207,7 @@ const PTAINavBar = () => {
                   {user?.profileImageUrl ? (
                     <Avatar
                       variant="circular"
-                      alt={user?.firstName || "User"}
+                      alt={user?.firstName || t("navbar.user")}
                       className="cursor-pointer h-[40px] w-[40px]"
                       src={user.profileImageUrl}
                     />
@@ -216,7 +217,9 @@ const PTAINavBar = () => {
                     </div>
                   )}
                   <span className="text-sm font-medium">
-                    {user?.firstName || user?.email?.split("@")[0] || "User"}
+                    {user?.firstName ||
+                      user?.email?.split("@")[0] ||
+                      t("navbar.user")}
                   </span>
                 </div>
               </MenuHandler>

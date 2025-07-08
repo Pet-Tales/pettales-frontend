@@ -41,7 +41,7 @@ const Login = () => {
     } else if (typeof error === "string") {
       errorMessage = error;
     } else {
-      errorMessage = "Login failed";
+      errorMessage = t("errors.loginFailed");
     }
 
     return translateError(errorMessage);

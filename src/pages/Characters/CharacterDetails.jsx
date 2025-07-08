@@ -48,7 +48,8 @@ const CharacterDetails = () => {
       dispatch(fetchCharacterById(id)).then((result) => {
         if (fetchCharacterById.rejected.match(result)) {
           const status = result.payload?.status;
-          const errorMessage = result.payload?.message || "Character not found";
+          const errorMessage =
+            result.payload?.message || t("characters.characterNotFound");
 
           // Redirect to appropriate error page based on status
           if (status === 404) {
@@ -102,7 +103,7 @@ const CharacterDetails = () => {
           setShowForceDeleteDialog(true);
         } else {
           const errorMessage = translateError(
-            result.payload?.message || "Failed to delete character"
+            result.payload?.message || t("characters.failedToDeleteCharacter")
           );
           toast.error(errorMessage);
         }
@@ -110,7 +111,7 @@ const CharacterDetails = () => {
     } catch (error) {
       logger.error("Delete character error:", error);
       const errorMessage = translateError(
-        error?.message || "Failed to delete character"
+        error?.message || t("characters.failedToDeleteCharacter")
       );
       toast.error(errorMessage);
     }
@@ -130,14 +131,14 @@ const CharacterDetails = () => {
         navigate("/characters");
       } else {
         const errorMessage = translateError(
-          result.payload?.message || "Failed to delete character"
+          result.payload?.message || t("characters.failedToDeleteCharacter")
         );
         toast.error(errorMessage);
       }
     } catch (error) {
       logger.error("Force delete character error:", error);
       const errorMessage = translateError(
-        error?.message || "Failed to delete character"
+        error?.message || t("characters.failedToDeleteCharacter")
       );
       toast.error(errorMessage);
     }

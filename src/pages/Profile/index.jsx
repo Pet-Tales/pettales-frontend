@@ -27,15 +27,15 @@ import {
 import AvatarService from "@/services/avatar";
 import logger from "@/utils/logger";
 
-const LANGUAGES = [
+const getLanguages = (t) => [
   {
     code: "en",
-    name: "English",
+    name: t("languages.english"),
     flag: "🇺🇸",
   },
   {
     code: "es",
-    name: "Español",
+    name: t("languages.spanish"),
     flag: "🇪🇸",
   },
 ];
@@ -112,7 +112,7 @@ const Profile = () => {
       toast.success(t("profile.passwordResetEmailSent"));
     } else {
       const errorMessage = translateError(
-        error || "Failed to send password reset email"
+        error || t("profile.failedToSendPasswordReset")
       );
       toast.error(errorMessage);
     }
@@ -189,14 +189,14 @@ const Profile = () => {
         setFormErrors({});
       } else {
         const errorMessage = translateError(
-          result.payload || "Failed to update profile"
+          result.payload || t("profile.failedToUpdateProfile")
         );
         toast.error(errorMessage);
       }
     } catch (error) {
       logger.error("Profile update error:", error);
       const errorMessage = translateError(
-        error?.message || "Failed to update profile"
+        error?.message || t("profile.failedToUpdateProfile")
       );
       toast.error(errorMessage);
     } finally {
@@ -248,12 +248,12 @@ const Profile = () => {
         toast.success(t("toast.avatarUpdated"));
         setPreviewAvatar(null);
       } else {
-        throw new Error(result.data.message || "Upload failed");
+        throw new Error(result.data.message || t("profile.uploadFailed"));
       }
     } catch (error) {
       logger.error("Avatar upload error:", error);
       const errorMessage = translateError(
-        error?.message || "Failed to upload avatar"
+        error?.message || t("profile.failedToUploadAvatar")
       );
       toast.error(errorMessage);
       setPreviewAvatar(null);
@@ -322,7 +322,7 @@ const Profile = () => {
                         {previewAvatar ? (
                           <Avatar
                             variant="circular"
-                            alt="Preview"
+                            alt={t("common.preview")}
                             className="h-20 w-20 mr-4"
                             src={previewAvatar}
                           />
@@ -534,7 +534,7 @@ const Profile = () => {
                       disabled={isUpdatingLanguage}
                       className="!border-gray-300"
                     >
-                      {LANGUAGES.map((language) => (
+                      {getLanguages(t).map((language) => (
                         <Option key={language.code} value={language.code}>
                           <div className="flex items-center gap-2">
                             <span className="text-lg">{language.flag}</span>
