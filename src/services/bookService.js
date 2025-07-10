@@ -392,6 +392,90 @@ const updateBookCover = (bookId, coverData) => {
   return updateBook(bookId, coverData);
 };
 
+/**
+ * Regenerate PDF for a book
+ * @param {string} bookId - Book's ID
+ * @returns {Promise} - Promise resolving to new PDF URL
+ */
+const regeneratePDF = (bookId) => {
+  return new Promise((resolve, reject) => {
+    const url = `${_API}/${bookId}/regenerate-pdf`;
+
+    http
+      .post(url)
+      .then((response) => {
+        if (response.status === 200) {
+          logger.api("POST", url, response.status, 0, response.data);
+          resolve({
+            status: response.status,
+            data: response.data,
+          });
+        } else {
+          logger.api("POST", url, response.status, 0, response.data);
+          reject({
+            status: response.status,
+            data: response.data,
+          });
+        }
+      })
+      .catch((error) => {
+        logger.api(
+          "POST",
+          url,
+          error.response?.status || 0,
+          0,
+          error.response?.data
+        );
+        reject({
+          status: error.response?.status || 0,
+          data: error.response?.data,
+        });
+      });
+  });
+};
+
+/**
+ * Check if book content has changed (for PDF regeneration button state)
+ * @param {string} bookId - Book's ID
+ * @returns {Promise} - Promise resolving to change status
+ */
+const checkPDFStatus = (bookId) => {
+  return new Promise((resolve, reject) => {
+    const url = `${_API}/${bookId}/pdf-status`;
+
+    http
+      .get(url)
+      .then((response) => {
+        if (response.status === 200) {
+          logger.api("GET", url, response.status, 0, response.data);
+          resolve({
+            status: response.status,
+            data: response.data,
+          });
+        } else {
+          logger.api("GET", url, response.status, 0, response.data);
+          reject({
+            status: response.status,
+            data: response.data,
+          });
+        }
+      })
+      .catch((error) => {
+        logger.api(
+          "GET",
+          url,
+          error.response?.status || 0,
+          0,
+          error.response?.data
+        );
+        reject({
+          status: error.response?.status || 0,
+          data: error.response?.data,
+        });
+      });
+  });
+};
+
 const BookService = {
   getUserBooks,
   getBookById,
@@ -403,6 +487,8 @@ const BookService = {
   retryBookGeneration,
   getBookPages,
   updatePage,
+  regeneratePDF,
+  checkPDFStatus,
 };
 
 export default BookService;

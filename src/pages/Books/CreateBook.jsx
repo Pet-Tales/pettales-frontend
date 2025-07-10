@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import { useValidatedTranslation } from "@/hooks/useValidatedTranslation";
 import {
   Card,
@@ -14,18 +14,21 @@ import {
   Checkbox,
 } from "@material-tailwind/react";
 import { FaArrowLeft, FaBook } from "react-icons/fa";
-import ProtectedRoute from "@/components/ProtectedRoute";
+
 import { createBook } from "@/stores/reducers/books";
 import { fetchCharacters } from "@/stores/reducers/characters";
 import { useErrorTranslation } from "@/utils/errorMapper";
 import { toast } from "react-toastify";
 import logger from "@/utils/logger";
+import GalleryService from "@/services/galleryService";
+import { smartNavigateBack, getFallbackPath } from "@/utils/navigationUtils";
 
 const CreateBook = () => {
   const { t } = useValidatedTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
+  const [searchParams] = useSearchParams();
   const translateError = useErrorTranslation();
 
   const { isCreating } = useSelector((state) => state.books);
@@ -34,7 +37,14 @@ const CreateBook = () => {
   );
 
   // Get template data from location state (if coming from gallery)
-  const templateData = location.state?.template;
+  const templateDataFromState = location.state?.template;
+
+  // State for template data loaded from URL parameter
+  const [templateData, setTemplateData] = useState(templateDataFromState);
+  const [isLoadingTemplate, setIsLoadingTemplate] = useState(false);
+
+  // Ref to track which template IDs we've already loaded to prevent infinite loops
+  const loadedTemplateIds = useRef(new Set());
 
   const [formData, setFormData] = useState({
     title: "",
@@ -54,19 +64,72 @@ const CreateBook = () => {
     dispatch(fetchCharacters({ page: 1, limit: 50, reset: true }));
   }, [dispatch]);
 
+  // Load template data from URL parameter if present
+  useEffect(() => {
+    const templateId = searchParams.get("template");
+    if (
+      templateId &&
+      !templateDataFromState &&
+      !templateData &&
+      !isLoadingTemplate &&
+      !loadedTemplateIds.current.has(templateId)
+    ) {
+      // Mark this template ID as being loaded
+      loadedTemplateIds.current.add(templateId);
+      setIsLoadingTemplate(true);
+
+      GalleryService.getBookTemplate(templateId)
+        .then((response) => {
+          const loadedTemplate = response.data.data.template;
+          setTemplateData(loadedTemplate);
+          toast.success(t("gallery.templateLoaded"));
+        })
+        .catch((error) => {
+          logger.error("Load template error:", error);
+          const errorMessage = translateError(error?.data?.message || error);
+          toast.error(errorMessage);
+          // Remove from loaded set on error so it can be retried
+          loadedTemplateIds.current.delete(templateId);
+        })
+        .finally(() => {
+          setIsLoadingTemplate(false);
+        });
+    }
+  }, [searchParams, templateDataFromState, templateData, isLoadingTemplate]);
+
+  // Helper function to convert language names to codes
+  const getLanguageCode = (language) => {
+    if (!language) return "en";
+
+    // If it's already a code, return it
+    if (language === "en" || language === "es") return language;
+
+    // Convert language names to codes
+    const languageMap = {
+      English: "en",
+      Spanish: "es",
+      Español: "es",
+    };
+
+    return languageMap[language] || "en";
+  };
+
   // Pre-fill form with template data if available
   useEffect(() => {
     if (templateData) {
-      setFormData({
+      const languageCode = getLanguageCode(templateData.language);
+
+      const newFormData = {
         title: templateData.title || "",
         description: templateData.description || "",
         dedication: templateData.dedication || "",
         moral: templateData.moral || "",
-        language: templateData.language || "en",
+        language: languageCode,
         pageCount: templateData.pageCount || 12,
         illustrationStyle: templateData.illustrationStyle || "disney",
         characterIds: [], // Characters need to be selected manually
-      });
+      };
+      setFormData(newFormData);
     }
   }, [templateData]);
 
@@ -186,33 +249,46 @@ const CreateBook = () => {
   };
 
   return (
-    <ProtectedRoute>
-      <div className="min-h-fit py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto">
-          {/* Header */}
-          <div className="flex items-center gap-4 mb-8">
-            <Button
-              variant="text"
-              className="flex items-center gap-2"
-              onClick={() => navigate("/my-books")}
-            >
-              <FaArrowLeft className="h-4 w-4" />
-              {t("common.back")}
-            </Button>
-            <div>
-              <Typography variant="h2" className="text-gray-900">
-                {t("books.createBook")}
+    <div className="min-h-fit py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto">
+        {/* Header */}
+        <div className="flex items-center gap-4 mb-8">
+          <Button
+            variant="text"
+            className="flex items-center gap-2"
+            onClick={() => {
+              const fallbackPath = getFallbackPath(
+                true,
+                window.location.pathname
+              ); // Always authenticated on this page
+              smartNavigateBack(navigate, fallbackPath, true);
+            }}
+          >
+            <FaArrowLeft className="h-4 w-4" />
+            {t("common.back")}
+          </Button>
+          <div>
+            <Typography variant="h2" className="text-gray-900">
+              {t("books.createBook")}
+            </Typography>
+            {templateData && (
+              <Typography variant="small" className="text-gray-600">
+                {t("books.basedOnTemplate", {
+                  title: templateData.original_book?.title,
+                })}
               </Typography>
-              {templateData && (
-                <Typography variant="small" className="text-gray-600">
-                  {t("books.basedOnTemplate", {
-                    title: templateData.original_book?.title,
-                  })}
-                </Typography>
-              )}
-            </div>
+            )}
           </div>
+        </div>
 
+        {/* Show loading state when loading template from URL */}
+        {isLoadingTemplate && (
+          <div className="flex justify-center items-center py-12">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+          </div>
+        )}
+
+        {!isLoadingTemplate && (
           <form onSubmit={handleSubmit}>
             <Card>
               <CardBody className="space-y-6">
@@ -451,9 +527,9 @@ const CreateBook = () => {
               </CardBody>
             </Card>
           </form>
-        </div>
+        )}
       </div>
-    </ProtectedRoute>
+    </div>
   );
 };
 

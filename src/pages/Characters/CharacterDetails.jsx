@@ -18,7 +18,7 @@ import {
 } from "@material-tailwind/react";
 import { CiUser } from "react-icons/ci";
 import { FaEdit, FaTrash, FaDog, FaChild, FaArrowLeft } from "react-icons/fa";
-import ProtectedRoute from "@/components/ProtectedRoute";
+
 import {
   fetchCharacterById,
   deleteCharacter,
@@ -158,7 +158,7 @@ const CharacterDetails = () => {
   };
 
   const getCharacterImage = () => {
-    // Reference images are now supported for both human and pet characters
+    // Reference images are supported for all character types
     if (currentCharacter?.referenceImageUrl) {
       return currentCharacter.referenceImageUrl;
     }
@@ -322,215 +322,205 @@ const CharacterDetails = () => {
   // Show loading state
   if (isLoading) {
     return (
-      <ProtectedRoute>
-        <div className="min-h-fit py-12 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-4xl mx-auto">
-            <div className="flex justify-center items-center py-12">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
-            </div>
+      <div className="min-h-fit py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto">
+          <div className="flex justify-center items-center py-12">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
           </div>
         </div>
-      </ProtectedRoute>
+      </div>
     );
   }
 
   // Show not found state (only when explicitly set, not when currentCharacter is null during loading)
   if (characterNotFound) {
     return (
-      <ProtectedRoute>
-        <div className="min-h-fit py-12 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center py-12">
-              <Typography variant="h4" className="text-gray-900 mb-4">
-                {t("characters.characterNotFound")}
-              </Typography>
-              <Typography className="text-gray-600 mb-6">
-                {t("characters.characterNotFoundDescription")}
-              </Typography>
-              <Button
-                variant="gradient"
-                onClick={() => navigate("/characters")}
-                className="flex items-center space-x-2"
-              >
-                <FaArrowLeft className="h-4 w-4" />
-                <span>{t("characters.backToCharacters")}</span>
-              </Button>
-            </div>
+      <div className="min-h-fit py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center py-12">
+            <Typography variant="h4" className="text-gray-900 mb-4">
+              {t("characters.characterNotFound")}
+            </Typography>
+            <Typography className="text-gray-600 mb-6">
+              {t("characters.characterNotFoundDescription")}
+            </Typography>
+            <Button
+              variant="gradient"
+              onClick={() => navigate("/characters")}
+              className="flex items-center space-x-2"
+            >
+              <FaArrowLeft className="h-4 w-4" />
+              <span>{t("characters.backToCharacters")}</span>
+            </Button>
           </div>
         </div>
-      </ProtectedRoute>
+      </div>
     );
   }
 
   // Show loading state if we don't have character data yet (and not in error state)
   if (!currentCharacter && !characterNotFound) {
     return (
-      <ProtectedRoute>
-        <div className="min-h-fit py-12 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-4xl mx-auto">
-            <div className="flex justify-center items-center py-12">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
-            </div>
+      <div className="min-h-fit py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto">
+          <div className="flex justify-center items-center py-12">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
           </div>
         </div>
-      </ProtectedRoute>
+      </div>
     );
   }
 
   return (
-    <ProtectedRoute>
-      <div className="min-h-fit py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto">
-          {/* Back Button */}
-          <div className="mb-6">
-            <Button
-              variant="text"
-              onClick={() => navigate("/characters")}
-              className="flex items-center space-x-2 text-gray-600 hover:text-gray-900"
-            >
-              <FaArrowLeft className="h-4 w-4" />
-              <span>{t("characters.backToCharacters")}</span>
-            </Button>
-          </div>
-
-          <Card className="w-full">
-            <CardHeader className="bg-custom-light-yellow text-white p-6">
-              <div className="flex justify-between items-start">
-                <div className="flex items-center space-x-3">
-                  {getCharacterIcon()}
-                  <div className="flex gap-4">
-                    <Typography variant="h4" className="text-white">
-                      {currentCharacter.characterName}
-                    </Typography>
-                    <Chip
-                      value={getCharacterTypeLabel()}
-                      className="bg-white/20 text-white border-white/30"
-                      variant="outlined"
-                    />
-                  </div>
-                </div>
-
-                <div className="flex gap-4">
-                  <Button
-                    size="sm"
-                    variant="outlined"
-                    className="border-white text-white hover:bg-white hover:text-custom-light-yellow flex gap-0.5"
-                    onClick={handleEdit}
-                  >
-                    <FaEdit className="h-4 w-4 mr-2" />
-                    {t("common.edit")}
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant="outlined"
-                    color="red"
-                    className="border-red-300 text-red-300 hover:bg-red-500 hover:text-white flex gap-0.5"
-                    onClick={handleDelete}
-                    disabled={isDeleting}
-                  >
-                    <FaTrash className="h-4 w-4 mr-2" />
-                    {isDeleting ? t("common.deleting") : t("common.delete")}
-                  </Button>
-                </div>
-              </div>
-            </CardHeader>
-
-            <CardBody className="p-6">
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                {/* Character Image */}
-                <div className="lg:col-span-1">
-                  <div className="text-center">
-                    {getCharacterImage() ? (
-                      <Avatar
-                        variant="rounded"
-                        alt={currentCharacter.characterName}
-                        className="h-48 w-48 mx-auto mb-4"
-                        src={getCharacterImage()}
-                      />
-                    ) : (
-                      <div className="h-48 w-48 rounded-lg bg-gray-200 flex items-center justify-center mx-auto mb-4">
-                        {currentCharacter?.characterType === "pet" ? (
-                          <FaDog className="h-24 w-24 text-gray-600" />
-                        ) : (
-                          <FaChild className="h-24 w-24 text-gray-600" />
-                        )}
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                {/* Character Information */}
-                <div className="lg:col-span-2">
-                  <div className="space-y-6">
-                    {/* Basic Info */}
-                    <div>
-                      <Typography variant="h6" className="text-gray-900 mb-4">
-                        {t("characters.basicInformation")}
-                      </Typography>
-                      {renderCharacterInfo()}
-                    </div>
-
-                    {/* Personality */}
-                    {currentCharacter.personality && (
-                      <div>
-                        <Typography variant="h6" className="text-gray-900 mb-4">
-                          {t("characters.personality")}
-                        </Typography>
-                        <Typography className="text-gray-700 leading-relaxed">
-                          {currentCharacter.personality}
-                        </Typography>
-                      </div>
-                    )}
-
-                    {/* Metadata */}
-                    <div>
-                      <Typography variant="h6" className="text-gray-900 mb-4">
-                        {t("characters.metadata")}
-                      </Typography>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                          <Typography
-                            variant="small"
-                            className="text-gray-600 font-semibold"
-                          >
-                            {t("characters.createdAt")}
-                          </Typography>
-                          <Typography className="text-gray-900">
-                            {new Date(
-                              currentCharacter.createdAt
-                            ).toLocaleDateString()}
-                          </Typography>
-                        </div>
-
-                        <div>
-                          <Typography
-                            variant="small"
-                            className="text-gray-600 font-semibold"
-                          >
-                            {t("characters.lastUpdated")}
-                          </Typography>
-                          <Typography className="text-gray-900">
-                            {new Date(
-                              currentCharacter.updatedAt
-                            ).toLocaleDateString()}
-                          </Typography>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </CardBody>
-          </Card>
+    <div className="min-h-fit py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto">
+        {/* Back Button */}
+        <div className="mb-6">
+          <Button
+            variant="text"
+            onClick={() => navigate("/characters")}
+            className="flex items-center space-x-2 text-gray-600 hover:text-gray-900"
+          >
+            <FaArrowLeft className="h-4 w-4" />
+            <span>{t("characters.backToCharacters")}</span>
+          </Button>
         </div>
-      </div>
 
-      {/* Delete Confirmation Dialog */}
-      <div className={showDeleteDialog ? "fixed inset-0 z-50" : "hidden"}>
+        <Card className="w-full">
+          <CardHeader className="bg-custom-light-yellow text-white p-6">
+            <div className="flex justify-between items-start">
+              <div className="flex items-center space-x-3">
+                {getCharacterIcon()}
+                <div className="flex gap-4">
+                  <Typography variant="h4" className="text-white">
+                    {currentCharacter.characterName}
+                  </Typography>
+                  <Chip
+                    value={getCharacterTypeLabel()}
+                    className="bg-white/20 text-white border-white/30"
+                    variant="outlined"
+                  />
+                </div>
+              </div>
+
+              <div className="flex gap-4">
+                <Button
+                  size="sm"
+                  variant="outlined"
+                  className="border-white text-white hover:bg-white hover:text-custom-light-yellow flex gap-0.5"
+                  onClick={handleEdit}
+                >
+                  <FaEdit className="h-4 w-4 mr-2" />
+                  {t("common.edit")}
+                </Button>
+                <Button
+                  size="sm"
+                  variant="outlined"
+                  color="red"
+                  className="border-red-300 text-red-300 hover:bg-red-500 hover:text-white flex gap-0.5"
+                  onClick={handleDelete}
+                  disabled={isDeleting}
+                >
+                  <FaTrash className="h-4 w-4 mr-2" />
+                  {isDeleting ? t("common.deleting") : t("common.delete")}
+                </Button>
+              </div>
+            </div>
+          </CardHeader>
+
+          <CardBody className="p-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              {/* Character Image */}
+              <div className="lg:col-span-1">
+                <div className="text-center">
+                  {getCharacterImage() ? (
+                    <Avatar
+                      variant="rounded"
+                      alt={currentCharacter.characterName}
+                      className="h-48 w-48 mx-auto mb-4"
+                      src={getCharacterImage()}
+                    />
+                  ) : (
+                    <div className="h-48 w-48 rounded-lg bg-gray-200 flex items-center justify-center mx-auto mb-4">
+                      {currentCharacter?.characterType === "pet" ? (
+                        <FaDog className="h-24 w-24 text-gray-600" />
+                      ) : (
+                        <FaChild className="h-24 w-24 text-gray-600" />
+                      )}
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Character Information */}
+              <div className="lg:col-span-2">
+                <div className="space-y-6">
+                  {/* Basic Info */}
+                  <div>
+                    <Typography variant="h6" className="text-gray-900 mb-4">
+                      {t("characters.basicInformation")}
+                    </Typography>
+                    {renderCharacterInfo()}
+                  </div>
+
+                  {/* Personality */}
+                  {currentCharacter.personality && (
+                    <div>
+                      <Typography variant="h6" className="text-gray-900 mb-4">
+                        {t("characters.personality")}
+                      </Typography>
+                      <Typography className="text-gray-700 leading-relaxed">
+                        {currentCharacter.personality}
+                      </Typography>
+                    </div>
+                  )}
+
+                  {/* Metadata */}
+                  <div>
+                    <Typography variant="h6" className="text-gray-900 mb-4">
+                      {t("characters.metadata")}
+                    </Typography>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <Typography
+                          variant="small"
+                          className="text-gray-600 font-semibold"
+                        >
+                          {t("characters.createdAt")}
+                        </Typography>
+                        <Typography className="text-gray-900">
+                          {new Date(
+                            currentCharacter.createdAt
+                          ).toLocaleDateString()}
+                        </Typography>
+                      </div>
+
+                      <div>
+                        <Typography
+                          variant="small"
+                          className="text-gray-600 font-semibold"
+                        >
+                          {t("characters.lastUpdated")}
+                        </Typography>
+                        <Typography className="text-gray-900">
+                          {new Date(
+                            currentCharacter.updatedAt
+                          ).toLocaleDateString()}
+                        </Typography>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </CardBody>
+        </Card>
+
+        {/* Delete Confirmation Dialog */}
         <Dialog
           open={showDeleteDialog}
           handler={() => setShowDeleteDialog(false)}
-          className="bg-white relative z-60"
+          className="bg-white"
         >
           <DialogHeader>{t("characters.deleteConfirmTitle")}</DialogHeader>
           <DialogBody>
@@ -560,14 +550,12 @@ const CharacterDetails = () => {
             </Button>
           </DialogFooter>
         </Dialog>
-      </div>
 
-      {/* Force Delete Dialog */}
-      <div className={showForceDeleteDialog ? "fixed inset-0 z-50 " : "hidden"}>
+        {/* Force Delete Dialog */}
         <Dialog
           open={showForceDeleteDialog}
           handler={() => setShowForceDeleteDialog(false)}
-          className="bg-white relative z-60"
+          className="bg-white"
         >
           <DialogHeader>{t("characters.forceDeleteTitle")}</DialogHeader>
           <DialogBody>
@@ -615,7 +603,7 @@ const CharacterDetails = () => {
           </DialogFooter>
         </Dialog>
       </div>
-    </ProtectedRoute>
+    </div>
   );
 };
 

@@ -1,2 +1,25 @@
 @import "tailwindcss";
 @config "../../tailwind.config.js";
+
+/* Custom aspect ratio classes for illustrations */
+.aspect-4-3 {
+  aspect-ratio: 4 / 3;
+}
+
+.aspect-4-3-container {
+  position: relative;
+  width: 100%;
+  max-width: 200px;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  justify-self: center;
+}
+
+.aspect-4-3-container img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

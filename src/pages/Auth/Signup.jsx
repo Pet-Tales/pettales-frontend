@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useValidatedTranslation } from "@/hooks/useValidatedTranslation";
 import { useErrorTranslation } from "@/utils/errorMapper";
@@ -11,12 +11,14 @@ import {
   resendEmailVerification,
 } from "@/stores/reducers/auth";
 import { API_BASE_URL } from "@/utils/constants";
+import { getAuthPageRedirect } from "@/utils/navigationUtils";
 
 const Signup = () => {
   const { t } = useValidatedTranslation();
   const translateError = useErrorTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { isLoading, error, isAuthenticated, emailVerificationSent } =
     useSelector((state) => state.auth);
 
@@ -49,9 +51,13 @@ const Signup = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate("/");
+      const redirectPath = getAuthPageRedirect(
+        window.location.pathname,
+        searchParams
+      );
+      navigate(redirectPath, { replace: true });
     }
-  }, [isAuthenticated, navigate]);
+  }, [isAuthenticated, navigate, searchParams]);
 
   useEffect(() => {
     // Clear error when component unmounts
@@ -116,7 +122,14 @@ const Signup = () => {
   };
 
   const handleGoogleSignup = () => {
-    window.location.href = `${API_BASE_URL}/api/auth/google`;
+    // Pass redirect parameter to Google OAuth
+    const redirectPath = searchParams.get("redirect");
+    const googleUrl = redirectPath
+      ? `${API_BASE_URL}/api/auth/google?redirect=${encodeURIComponent(
+          redirectPath
+        )}`
+      : `${API_BASE_URL}/api/auth/google`;
+    window.location.href = googleUrl;
   };
 
   const handleResendVerification = async (email) => {

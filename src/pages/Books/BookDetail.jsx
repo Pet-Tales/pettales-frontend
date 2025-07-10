@@ -7,26 +7,27 @@ import {
   Button,
   Card,
   CardBody,
-  Input,
-  Textarea,
   IconButton,
 } from "@material-tailwind/react";
 import {
   FaArrowLeft,
   FaEdit,
-  FaSave,
-  FaTimes,
   FaDownload,
   FaGlobe,
   FaLock,
   FaTrash,
   FaRedo,
+  FaChild,
+  FaDog,
+  FaSync,
+  FaCopy,
 } from "react-icons/fa";
 
 import BookStatusBadge from "@/components/Books/BookStatusBadge";
 import DeleteConfirmationModal from "@/components/Books/DeleteConfirmationModal";
 import PageEditor from "@/components/Books/PageEditor";
 import IllustrationSelector from "@/components/Books/IllustrationSelector";
+import IllustrationService from "@/services/illustrationService";
 import {
   fetchBookById,
   updateBook,
@@ -34,11 +35,13 @@ import {
   deleteBook,
   retryBookGeneration,
   clearCurrentBook,
+  setPdfNeedsRegeneration,
 } from "@/stores/reducers/books";
 import BookService from "@/services/bookService";
 import { useErrorTranslation } from "@/utils/errorMapper";
 import { toast } from "react-toastify";
 import logger from "@/utils/logger";
+import { smartNavigateBack, getFallbackPath } from "@/utils/navigationUtils";
 
 const BookDetail = () => {
   const { t } = useValidatedTranslation();
@@ -47,12 +50,9 @@ const BookDetail = () => {
   const { id } = useParams();
   const translateError = useErrorTranslation();
 
-  const { currentBook, isLoading, isUpdating } = useSelector(
-    (state) => state.books
-  );
+  const { currentBook, isLoading } = useSelector((state) => state.books);
   const { isAuthenticated } = useSelector((state) => state.auth);
 
-  const [isEditingMetadata, setIsEditingMetadata] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showPageEditor, setShowPageEditor] = useState(false);
   const [selectedPage, setSelectedPage] = useState(null);
@@ -61,13 +61,14 @@ const BookDetail = () => {
   const [showFrontCoverSelector, setShowFrontCoverSelector] = useState(false);
   const [showBackCoverSelector, setShowBackCoverSelector] = useState(false);
   const [isUpdatingCover, setIsUpdatingCover] = useState(false);
-  const [metadataForm, setMetadataForm] = useState({
-    title: "",
-    description: "",
-    dedication: "",
-    moral: "",
-    moral_of_back_cover: "",
-  });
+
+  // Regeneration states
+  const [isRegeneratingFrontCover, setIsRegeneratingFrontCover] =
+    useState(false);
+  const [isRegeneratingBackCover, setIsRegeneratingBackCover] = useState(false);
+
+  // PDF regeneration states
+  const [isRegeneratingPDF, setIsRegeneratingPDF] = useState(false);
 
   // Load book data
   useEffect(() => {
@@ -86,19 +87,6 @@ const BookDetail = () => {
     }
   }, [currentBook]);
 
-  // Update metadata form when book data changes
-  useEffect(() => {
-    if (currentBook) {
-      setMetadataForm({
-        title: currentBook.title || "",
-        description: currentBook.description || "",
-        dedication: currentBook.dedication || "",
-        moral: currentBook.moral || "",
-        moral_of_back_cover: currentBook.moralOfBackCover || "",
-      });
-    }
-  }, [currentBook]);
-
   const loadBookPages = async () => {
     try {
       setIsLoadingPages(true);
@@ -110,38 +98,6 @@ const BookDetail = () => {
       toast.error(errorMessage);
     } finally {
       setIsLoadingPages(false);
-    }
-  };
-
-  const handleMetadataEdit = () => {
-    setIsEditingMetadata(true);
-  };
-
-  const handleMetadataCancel = () => {
-    setIsEditingMetadata(false);
-    // Reset form to original values
-    if (currentBook) {
-      setMetadataForm({
-        title: currentBook.title || "",
-        description: currentBook.description || "",
-        dedication: currentBook.dedication || "",
-        moral: currentBook.moral || "",
-        moral_of_back_cover: currentBook.moralOfBackCover || "",
-      });
-    }
-  };
-
-  const handleMetadataSave = async () => {
-    try {
-      await dispatch(
-        updateBook({ bookId: id, updateData: metadataForm })
-      ).unwrap();
-      setIsEditingMetadata(false);
-      toast.success(t("books.updateSuccess"));
-    } catch (error) {
-      logger.error("Update book metadata error:", error);
-      const errorMessage = translateError(error?.message || error);
-      toast.error(errorMessage);
     }
   };
 
@@ -171,6 +127,11 @@ const BookDetail = () => {
     }
   };
 
+  const handleUseAsTemplate = () => {
+    // Navigate to book creation page with template parameter
+    navigate(`/books/create?template=${id}`);
+  };
+
   const handleRetry = async () => {
     try {
       await dispatch(retryBookGeneration(id)).unwrap();
@@ -190,12 +151,22 @@ const BookDetail = () => {
   const handlePageUpdateSuccess = () => {
     setShowPageEditor(false);
     setSelectedPage(null);
+
+    // Set PDF regeneration flag immediately since page content was edited
+    dispatch(setPdfNeedsRegeneration({ bookId: id, needsRegeneration: true }));
+
     loadBookPages(); // Reload pages to get updated data
   };
 
   const handleFrontCoverSelect = async (selectedUrl) => {
     try {
       setIsUpdatingCover(true);
+
+      // Set PDF regeneration flag immediately
+      dispatch(
+        setPdfNeedsRegeneration({ bookId: id, needsRegeneration: true })
+      );
+
       await dispatch(
         updateBook({
           bookId: id,
@@ -215,6 +186,12 @@ const BookDetail = () => {
   const handleBackCoverSelect = async (selectedUrl) => {
     try {
       setIsUpdatingCover(true);
+
+      // Set PDF regeneration flag immediately
+      dispatch(
+        setPdfNeedsRegeneration({ bookId: id, needsRegeneration: true })
+      );
+
       await dispatch(
         updateBook({
           bookId: id,
@@ -228,6 +205,96 @@ const BookDetail = () => {
       toast.error(errorMessage);
     } finally {
       setIsUpdatingCover(false);
+    }
+  };
+
+  // Regeneration functions
+  const handleRegenerateFrontCover = async () => {
+    try {
+      setIsRegeneratingFrontCover(true);
+
+      // Set PDF regeneration flag immediately
+      dispatch(
+        setPdfNeedsRegeneration({ bookId: id, needsRegeneration: true })
+      );
+
+      const response = await IllustrationService.regenerateFrontCover(id);
+      const newImageUrl = response.data?.newImageUrl;
+
+      if (newImageUrl) {
+        // Automatically set the new image as the main front cover
+        await dispatch(
+          updateBook({
+            bookId: id,
+            updateData: { front_cover_image_url: newImageUrl },
+          })
+        ).unwrap();
+      }
+
+      // Refresh book data to get updated alternatives
+      await dispatch(fetchBookById(id));
+
+      toast.success(t("books.regenerateSuccess"));
+    } catch (error) {
+      logger.error("Regenerate front cover error:", error);
+      const errorMessage = translateError(error?.message || error);
+      toast.error(errorMessage);
+    } finally {
+      setIsRegeneratingFrontCover(false);
+    }
+  };
+
+  const handleRegenerateBackCover = async () => {
+    try {
+      setIsRegeneratingBackCover(true);
+
+      // Set PDF regeneration flag immediately
+      dispatch(
+        setPdfNeedsRegeneration({ bookId: id, needsRegeneration: true })
+      );
+
+      const response = await IllustrationService.regenerateBackCover(id);
+      const newImageUrl = response.data?.newImageUrl;
+
+      if (newImageUrl) {
+        // Automatically set the new image as the main back cover
+        await dispatch(
+          updateBook({
+            bookId: id,
+            updateData: { back_cover_image_url: newImageUrl },
+          })
+        ).unwrap();
+      }
+
+      // Refresh book data to get updated alternatives
+      await dispatch(fetchBookById(id));
+
+      toast.success(t("books.regenerateSuccess"));
+    } catch (error) {
+      logger.error("Regenerate back cover error:", error);
+      const errorMessage = translateError(error?.message || error);
+      toast.error(errorMessage);
+    } finally {
+      setIsRegeneratingBackCover(false);
+    }
+  };
+
+  // PDF regeneration function
+  const handleRegeneratePDF = async () => {
+    try {
+      setIsRegeneratingPDF(true);
+      await BookService.regeneratePDF(id);
+
+      // Update the book's PDF URL and flag in the Redux store
+      await dispatch(fetchBookById(id));
+
+      toast.success(t("books.pdfRegenerateSuccess"));
+    } catch (error) {
+      logger.error("Regenerate PDF error:", error);
+      const errorMessage = translateError(error?.message || error);
+      toast.error(errorMessage);
+    } finally {
+      setIsRegeneratingPDF(false);
     }
   };
 
@@ -256,8 +323,6 @@ const BookDetail = () => {
   // Use the backend's isOwner field which handles ownership correctly
   const isOwner = isAuthenticated && currentBook && currentBook.isOwner;
 
-  const canEditMetadata =
-    currentBook && currentBook.generationStatus === "completed" && isOwner;
   const canEditPages =
     currentBook && currentBook.generationStatus === "completed" && isOwner;
   const canDownload =
@@ -269,20 +334,26 @@ const BookDetail = () => {
   const canRetry =
     currentBook && currentBook.generationStatus === "failed" && isOwner;
   const canDelete = isOwner;
+  const canUseAsTemplate =
+    currentBook && currentBook.generationStatus === "completed";
 
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <div className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div className="mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <Button
                 variant="text"
                 className="flex items-center gap-2"
-                onClick={() =>
-                  navigate(isAuthenticated ? "/my-books" : "/gallery")
-                }
+                onClick={() => {
+                  const fallbackPath = getFallbackPath(
+                    isAuthenticated,
+                    window.location.pathname
+                  );
+                  smartNavigateBack(navigate, fallbackPath, isAuthenticated);
+                }}
               >
                 <FaArrowLeft className="h-4 w-4" />
                 {t("common.back")}
@@ -311,6 +382,37 @@ const BookDetail = () => {
                 >
                   <FaDownload className="h-4 w-4" />
                   {t("books.download")}
+                </Button>
+              )}
+              {canUseAsTemplate && (
+                <Button
+                  variant="outlined"
+                  size="sm"
+                  className="flex items-center gap-2"
+                  onClick={handleUseAsTemplate}
+                >
+                  <FaCopy className="h-4 w-4" />
+                  {t("books.useAsTemplate")}
+                </Button>
+              )}
+              {canDownload && isOwner && (
+                <Button
+                  variant="outlined"
+                  size="sm"
+                  className="flex items-center gap-2"
+                  onClick={handleRegeneratePDF}
+                  disabled={
+                    !currentBook?.pdfNeedsRegeneration || isRegeneratingPDF
+                  }
+                >
+                  {isRegeneratingPDF ? (
+                    <FaSync className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <FaSync className="h-4 w-4" />
+                  )}
+                  {isRegeneratingPDF
+                    ? t("books.regeneratingPDF")
+                    : t("books.regeneratePDF")}
                 </Button>
               )}
               {canTogglePublic && (
@@ -363,7 +465,7 @@ const BookDetail = () => {
       </div>
 
       {/* Main Content - Split Layout */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className=" mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 h-full">
           {/* Left Side - Metadata */}
           <div className="space-y-6">
@@ -371,182 +473,79 @@ const BookDetail = () => {
               <CardBody>
                 <div className="flex items-center justify-between mb-4">
                   <Typography variant="h6">{t("books.bookDetails")}</Typography>
-                  {canEditMetadata && (
-                    <div className="flex items-center gap-2">
-                      {isEditingMetadata ? (
-                        <>
-                          <IconButton
-                            size="sm"
-                            variant="text"
-                            color="green"
-                            onClick={handleMetadataSave}
-                            disabled={isUpdating}
-                          >
-                            <FaSave className="h-4 w-4" />
-                          </IconButton>
-                          <IconButton
-                            size="sm"
-                            variant="text"
-                            color="red"
-                            onClick={handleMetadataCancel}
-                            disabled={isUpdating}
-                          >
-                            <FaTimes className="h-4 w-4" />
-                          </IconButton>
-                        </>
-                      ) : (
-                        <IconButton
-                          size="sm"
-                          variant="text"
-                          onClick={handleMetadataEdit}
-                        >
-                          <FaEdit className="h-4 w-4" />
-                        </IconButton>
-                      )}
-                    </div>
-                  )}
                 </div>
 
                 <div className="space-y-4">
-                  {isEditingMetadata ? (
-                    <>
-                      <Input
-                        label={t("books.title")}
-                        value={metadataForm.title}
-                        onChange={(e) =>
-                          setMetadataForm((prev) => ({
-                            ...prev,
-                            title: e.target.value,
-                          }))
-                        }
-                      />
-                      <Textarea
-                        label={t("books.description")}
-                        value={metadataForm.description}
-                        onChange={(e) =>
-                          setMetadataForm((prev) => ({
-                            ...prev,
-                            description: e.target.value,
-                          }))
-                        }
-                        rows={3}
-                      />
-                      <Textarea
-                        label={t("books.moral")}
-                        value={metadataForm.moral}
-                        onChange={(e) =>
-                          setMetadataForm((prev) => ({
-                            ...prev,
-                            moral: e.target.value,
-                          }))
-                        }
-                        rows={2}
-                      />
-                      <Textarea
-                        label={t("books.dedication")}
-                        value={metadataForm.dedication}
-                        onChange={(e) =>
-                          setMetadataForm((prev) => ({
-                            ...prev,
-                            dedication: e.target.value,
-                          }))
-                        }
-                        rows={2}
-                      />
-                      <Textarea
-                        label={t("books.backCoverMoral")}
-                        value={metadataForm.moral_of_back_cover}
-                        onChange={(e) =>
-                          setMetadataForm((prev) => ({
-                            ...prev,
-                            moral_of_back_cover: e.target.value,
-                          }))
-                        }
-                        rows={2}
-                      />
-                    </>
-                  ) : (
-                    <>
-                      <div>
-                        <Typography
-                          variant="small"
-                          className="text-gray-600 mb-1"
-                        >
-                          {t("books.description")}
-                        </Typography>
-                        <Typography>{currentBook.description}</Typography>
-                      </div>
-                      <div>
-                        <Typography
-                          variant="small"
-                          className="text-gray-600 mb-1"
-                        >
-                          {t("books.moral")}
-                        </Typography>
-                        <Typography>{currentBook.moral}</Typography>
-                      </div>
-                      {currentBook.dedication && (
-                        <div>
-                          <Typography
-                            variant="small"
-                            className="text-gray-600 mb-1"
-                          >
-                            {t("books.dedication")}
-                          </Typography>
-                          <Typography>{currentBook.dedication}</Typography>
-                        </div>
-                      )}
-                      {currentBook.moralOfBackCover && (
-                        <div>
-                          <Typography
-                            variant="small"
-                            className="text-gray-600 mb-1"
-                          >
-                            {t("books.backCoverMoral")}
-                          </Typography>
-                          <Typography>
-                            {currentBook.moralOfBackCover}
-                          </Typography>
-                        </div>
-                      )}
-                      <div className="grid grid-cols-2 gap-4 pt-4 border-t">
-                        <div>
-                          <Typography variant="small" className="text-gray-600">
-                            {t("books.language")}
-                          </Typography>
-                          <Typography variant="small" className="font-medium">
-                            {t(`languages.${currentBook.language}`)}
-                          </Typography>
-                        </div>
-                        <div>
-                          <Typography variant="small" className="text-gray-600">
-                            {t("books.pageCount")}
-                          </Typography>
-                          <Typography variant="small" className="font-medium">
-                            {currentBook.pageCount} {t("books.pages")}
-                          </Typography>
-                        </div>
-                        <div>
-                          <Typography variant="small" className="text-gray-600">
-                            {t("books.illustrationStyle")}
-                          </Typography>
-                          <Typography variant="small" className="font-medium">
-                            {t(`books.styles.${currentBook.illustrationStyle}`)}
-                          </Typography>
-                        </div>
-                        <div>
-                          <Typography variant="small" className="text-gray-600">
-                            {t("books.visibility")}
-                          </Typography>
-                          <Typography variant="small" className="font-medium">
-                            {currentBook.isPublic
-                              ? t("books.public")
-                              : t("books.private")}
-                          </Typography>
-                        </div>
-                      </div>
-                    </>
+                  <div>
+                    <Typography variant="small" className="text-gray-600 mb-1">
+                      {t("books.description")}
+                    </Typography>
+                    <Typography>{currentBook.description}</Typography>
+                  </div>
+                  <div>
+                    <Typography variant="small" className="text-gray-600 mb-1">
+                      {t("books.moral")}
+                    </Typography>
+                    <Typography>{currentBook.moral}</Typography>
+                  </div>
+                  {currentBook.dedication && (
+                    <div>
+                      <Typography
+                        variant="small"
+                        className="text-gray-600 mb-1"
+                      >
+                        {t("books.dedication")}
+                      </Typography>
+                      <Typography>{currentBook.dedication}</Typography>
+                    </div>
                   )}
+                  {currentBook.moralOfBackCover && (
+                    <div>
+                      <Typography
+                        variant="small"
+                        className="text-gray-600 mb-1"
+                      >
+                        {t("books.backCoverMoral")}
+                      </Typography>
+                      <Typography>{currentBook.moralOfBackCover}</Typography>
+                    </div>
+                  )}
+                  <div className="grid grid-cols-2 gap-4 pt-4 border-t">
+                    <div>
+                      <Typography variant="small" className="text-gray-600">
+                        {t("books.language")}
+                      </Typography>
+                      <Typography variant="small" className="font-medium">
+                        {t(`languages.${currentBook.language}`)}
+                      </Typography>
+                    </div>
+                    <div>
+                      <Typography variant="small" className="text-gray-600">
+                        {t("books.pageCount")}
+                      </Typography>
+                      <Typography variant="small" className="font-medium">
+                        {currentBook.pageCount} {t("books.pages")}
+                      </Typography>
+                    </div>
+                    <div>
+                      <Typography variant="small" className="text-gray-600">
+                        {t("books.illustrationStyle")}
+                      </Typography>
+                      <Typography variant="small" className="font-medium">
+                        {t(`books.styles.${currentBook.illustrationStyle}`)}
+                      </Typography>
+                    </div>
+                    <div>
+                      <Typography variant="small" className="text-gray-600">
+                        {t("books.visibility")}
+                      </Typography>
+                      <Typography variant="small" className="font-medium">
+                        {currentBook.isPublic
+                          ? t("books.public")
+                          : t("books.private")}
+                      </Typography>
+                    </div>
+                  </div>
                 </div>
               </CardBody>
             </Card>
@@ -561,31 +560,53 @@ const BookDetail = () => {
                       {t("books.characters")}
                     </Typography>
                     <div className="space-y-3">
-                      {currentBook.characterIds.map((character) => (
-                        <div
-                          key={character.id}
-                          className="flex items-center gap-3"
-                        >
-                          {character.referenceImageUrl && (
-                            <img
-                              src={character.referenceImageUrl}
-                              alt={character.characterName}
-                              className="w-12 h-12 object-cover rounded-full"
-                            />
-                          )}
-                          <div>
-                            <Typography variant="small" className="font-medium">
-                              {character.characterName}
-                            </Typography>
-                            <Typography
-                              variant="small"
-                              className="text-gray-600"
-                            >
-                              {t(`characters.${character.characterType}`)}
-                            </Typography>
+                      {[...currentBook.characterIds]
+                        .sort((a, b) => {
+                          // Sort by character type first (human before pet), then alphabetically by name
+                          if (a.characterType !== b.characterType) {
+                            return a.characterType === "human" ? -1 : 1;
+                          }
+                          return a.characterName.localeCompare(b.characterName);
+                        })
+                        .map((character) => (
+                          <div
+                            key={character.id}
+                            className="flex items-center gap-3"
+                          >
+                            {/* Character Image/Avatar */}
+                            {character.referenceImageUrl ? (
+                              <div className="w-12 h-12 rounded-full overflow-hidden">
+                                <img
+                                  src={character.referenceImageUrl}
+                                  alt={character.characterName}
+                                  className="w-full h-full object-cover"
+                                />
+                              </div>
+                            ) : (
+                              <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center">
+                                {character.characterType === "pet" ? (
+                                  <FaDog className="h-6 w-6 text-gray-600" />
+                                ) : (
+                                  <FaChild className="h-6 w-6 text-gray-600" />
+                                )}
+                              </div>
+                            )}
+                            <div>
+                              <Typography
+                                variant="small"
+                                className="font-medium"
+                              >
+                                {character.characterName}
+                              </Typography>
+                              <Typography
+                                variant="small"
+                                className="text-gray-600"
+                              >
+                                {t(`characters.${character.characterType}`)}
+                              </Typography>
+                            </div>
                           </div>
-                        </div>
-                      ))}
+                        ))}
                     </div>
                   </CardBody>
                 </Card>
@@ -628,11 +649,13 @@ const BookDetail = () => {
                                 </Button>
                               )}
                           </div>
-                          <img
-                            src={currentBook.frontCoverImageUrl}
-                            alt={t("books.frontCoverAlt")}
-                            className="w-full h-48 object-cover rounded-lg"
-                          />
+                          <div className="aspect-4-3-container rounded-lg">
+                            <img
+                              src={currentBook.frontCoverImageUrl}
+                              alt={t("books.frontCoverAlt")}
+                              className="rounded-lg"
+                            />
+                          </div>
                         </div>
                       )}
                       {currentBook.backCoverImageUrl && (
@@ -657,11 +680,13 @@ const BookDetail = () => {
                                 </Button>
                               )}
                           </div>
-                          <img
-                            src={currentBook.backCoverImageUrl}
-                            alt={t("books.backCoverAlt")}
-                            className="w-full h-48 object-cover rounded-lg"
-                          />
+                          <div className="aspect-4-3-container rounded-lg">
+                            <img
+                              src={currentBook.backCoverImageUrl}
+                              alt={t("books.backCoverAlt")}
+                              className="rounded-lg"
+                            />
+                          </div>
                         </div>
                       )}
                     </div>
@@ -703,17 +728,19 @@ const BookDetail = () => {
                               </div>
                               <div className="grid grid-cols-2 gap-4">
                                 {pageGroup.illustration_page && (
-                                  <img
-                                    src={
-                                      pageGroup.illustration_page
-                                        .illustrationUrl
-                                    }
-                                    alt={`Page ${pageGroup.storyPageNumber} illustration`}
-                                    className="w-full h-24 object-cover rounded"
-                                  />
+                                  <div className="aspect-4-3-container rounded">
+                                    <img
+                                      src={
+                                        pageGroup.illustration_page
+                                          .illustrationUrl
+                                      }
+                                      alt={`Page ${pageGroup.storyPageNumber} illustration`}
+                                      className="rounded"
+                                    />
+                                  </div>
                                 )}
                                 {pageGroup.text_page && (
-                                  <div className="text-xs text-gray-600 line-clamp-4">
+                                  <div className="text-xs text-gray-600 line-clamp-4 content-center">
                                     {pageGroup.text_page.textContent}
                                   </div>
                                 )}
@@ -776,6 +803,9 @@ const BookDetail = () => {
         alternatives={currentBook.alternativeFrontCovers || []}
         onSelect={handleFrontCoverSelect}
         isLoading={isUpdatingCover}
+        onRegenerate={isOwner ? handleRegenerateFrontCover : null}
+        isRegenerating={isRegeneratingFrontCover}
+        canRegenerate={isOwner}
       />
 
       {/* Back Cover Selector */}
@@ -787,6 +817,9 @@ const BookDetail = () => {
         alternatives={currentBook.alternativeBackCovers || []}
         onSelect={handleBackCoverSelect}
         isLoading={isUpdatingCover}
+        onRegenerate={isOwner ? handleRegenerateBackCover : null}
+        isRegenerating={isRegeneratingBackCover}
+        canRegenerate={isOwner}
       />
     </div>
   );

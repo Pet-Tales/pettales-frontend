@@ -128,8 +128,10 @@ const Gallery = () => {
   const handleUseAsTemplate = async (bookId) => {
     // Check if user is authenticated first
     if (!isAuthenticated) {
-      // Redirect to login for guest users without loading template or showing toast
-      navigate("/login");
+      // Redirect to login with redirect parameter pointing to book creation page
+      // Include the bookId as a query parameter so we can load the template after auth
+      const redirectPath = `/books/create?template=${bookId}`;
+      navigate(`/login?redirect=${encodeURIComponent(redirectPath)}`);
       return;
     }
 
@@ -154,12 +156,12 @@ const Gallery = () => {
   const BookCard = ({ book, showUseTemplate = false }) => (
     <Card className="w-full hover:shadow-lg transition-shadow duration-300 flex flex-col h-full">
       <div className="flex flex-col h-full">
-        <div className="relative">
+        <div className="relative aspect-4-3-container rounded-t-lg !max-w-none">
           {book.frontCoverImageUrl ? (
             <img
               src={book.frontCoverImageUrl}
               alt={book.title}
-              className="h-48 w-full object-cover rounded-t-lg"
+              className="rounded-t-lg"
               onError={(e) => {
                 e.target.style.display = "none";
                 e.target.nextSibling.style.display = "flex";
@@ -167,7 +169,7 @@ const Gallery = () => {
             />
           ) : null}
           <div
-            className={`h-48 w-full rounded-t-lg bg-gray-100 flex items-center justify-center ${
+            className={`absolute inset-0 rounded-t-lg bg-gray-100 flex items-center justify-center ${
               book.frontCoverImageUrl ? "hidden" : ""
             }`}
           >
@@ -185,14 +187,22 @@ const Gallery = () => {
           >
             {book.description}
           </Typography>
-          <div className="flex items-center justify-between text-sm text-gray-500 mt-auto">
-            <div className="flex items-center gap-1">
-              <FaUser className="h-3 w-3" />
-              <span>
-                {book.userId?.firstName} {book.userId?.lastName}
-              </span>
+          <div className="space-y-2 mt-auto">
+            <div className="flex items-center justify-between text-sm text-gray-500">
+              <div className="flex items-center gap-1">
+                <FaUser className="h-3 w-3" />
+                <span>
+                  {book.userId?.firstName} {book.userId?.lastName}
+                </span>
+              </div>
+              <span>{formatDate(book.createdAt)}</span>
             </div>
-            <span>{formatDate(book.createdAt)}</span>
+            <div className="flex justify-between items-center text-sm text-gray-500">
+              <span>
+                {book.pageCount} {t("books.pages")}
+              </span>
+              <span>{t(`books.styles.${book.illustrationStyle}`)}</span>
+            </div>
           </div>
         </CardBody>
 

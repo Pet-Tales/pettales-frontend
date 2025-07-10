@@ -136,7 +136,7 @@ const CharacterCard = ({ character, onEdit, onDelete }) => {
   };
 
   const getCharacterImage = () => {
-    // Reference images are now supported for both human and pet characters
+    // Reference images are supported for all character types
     if (character.referenceImageUrl) {
       return character.referenceImageUrl;
     }

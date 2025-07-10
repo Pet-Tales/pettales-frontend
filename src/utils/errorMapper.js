@@ -85,7 +85,7 @@ const ERROR_MESSAGE_MAP = {
   "Invalid file type. Only JPG and PNG files are allowed.":
     "profile.invalidFileType",
   "File size too large. Maximum size is 5MB.": "profile.fileTooLarge",
-  "Reference images are only allowed for pet characters":
+  "Reference images are not allowed for human characters":
     "characters.errors.imageOnlyForPets",
 
   // Generic errors

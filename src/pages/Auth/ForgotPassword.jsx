@@ -1,23 +1,39 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useValidatedTranslation } from "@/hooks/useValidatedTranslation";
 import { useErrorTranslation } from "@/utils/errorMapper";
 import { forgotPassword, clearError } from "@/stores/reducers/auth";
+import { getAuthPageRedirect } from "@/utils/navigationUtils";
 
 const ForgotPassword = () => {
   const { t } = useValidatedTranslation();
   const translateError = useErrorTranslation();
   const dispatch = useDispatch();
-  const { isLoading, error } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const { isLoading, error, isAuthenticated } = useSelector(
+    (state) => state.auth
+  );
+
+  // Redirect authenticated users away from forgot password page
+  useEffect(() => {
+    if (isAuthenticated) {
+      const redirectPath = getAuthPageRedirect(
+        window.location.pathname,
+        searchParams
+      );
+      navigate(redirectPath, { replace: true });
+    }
+  }, [isAuthenticated, navigate, searchParams]);
 
   const [email, setEmail] = useState("");
   const [emailSent, setEmailSent] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     const result = await dispatch(forgotPassword(email));
     if (forgotPassword.fulfilled.match(result)) {
       setEmailSent(true);
@@ -63,7 +79,8 @@ const ForgotPassword = () => {
             {t("auth.resetPassword")}
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
-            Enter your email address and we'll send you a link to reset your password.
+            Enter your email address and we'll send you a link to reset your
+            password.
           </p>
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>

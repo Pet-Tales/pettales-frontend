@@ -16,6 +16,7 @@ import BookService from "@/services/bookService";
 import { useErrorTranslation } from "@/utils/errorMapper";
 import { toast } from "react-toastify";
 import logger from "@/utils/logger";
+import IllustrationService from "@/services/illustrationService";
 import IllustrationSelector from "./IllustrationSelector";
 
 const PageEditor = ({ isOpen, onClose, page, onSuccess }) => {
@@ -27,6 +28,8 @@ const PageEditor = ({ isOpen, onClose, page, onSuccess }) => {
   const [isSaving, setIsSaving] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
   const [showIllustrationSelector, setShowIllustrationSelector] =
+    useState(false);
+  const [isRegeneratingIllustration, setIsRegeneratingIllustration] =
     useState(false);
 
   // Initialize form data when page changes
@@ -55,6 +58,31 @@ const PageEditor = ({ isOpen, onClose, page, onSuccess }) => {
     setSelectedIllustration(url);
     setHasChanges(true);
     setShowIllustrationSelector(false);
+  };
+
+  const handleRegenerateIllustration = async () => {
+    if (!page?.illustration_page?.id) return;
+
+    try {
+      setIsRegeneratingIllustration(true);
+      const response = await IllustrationService.regeneratePageIllustration(
+        page.illustration_page.id
+      );
+
+      // The backend now automatically sets the new image as the main illustration
+      if (response.data?.newImageUrl) {
+        toast.success(t("books.regenerateSuccess"));
+
+        // Refresh the page data to get updated alternatives and close editor
+        onSuccess?.();
+      }
+    } catch (error) {
+      logger.error("Regenerate page illustration error:", error);
+      const errorMessage = translateError(error?.message || error);
+      toast.error(errorMessage);
+    } finally {
+      setIsRegeneratingIllustration(false);
+    }
   };
 
   const handleSave = async () => {
@@ -141,7 +169,8 @@ const PageEditor = ({ isOpen, onClose, page, onSuccess }) => {
     >
       <DialogHeader className="flex items-center gap-3">
         <Typography variant="h5">
-          {t("books.editPage")} {page.story_page_number}
+          {t("books.editPage")} {page.storyPageNumber + 1},{" "}
+          {page.storyPageNumber + 2}
         </Typography>
       </DialogHeader>
 
@@ -185,16 +214,18 @@ const PageEditor = ({ isOpen, onClose, page, onSuccess }) => {
                       variant="outlined"
                       onClick={() => setShowIllustrationSelector(true)}
                     >
-                      {t("books.changeCover")}
+                      {t("books.changeIllustration")}
                     </Button>
                   )}
                 </div>
                 {selectedIllustration && (
-                  <img
-                    src={selectedIllustration}
-                    alt={t("books.selectedIllustration")}
-                    className="w-full h-48 object-cover rounded-lg"
-                  />
+                  <div className="aspect-4-3-container rounded-lg">
+                    <img
+                      src={selectedIllustration}
+                      alt={t("books.selectedIllustration")}
+                      className="rounded-lg"
+                    />
+                  </div>
                 )}
               </CardBody>
             </Card>
@@ -211,11 +242,13 @@ const PageEditor = ({ isOpen, onClose, page, onSuccess }) => {
                     <Typography variant="small" className="text-gray-600 mb-2">
                       {t("books.illustration")}
                     </Typography>
-                    <img
-                      src={selectedIllustration}
-                      alt={t("books.selectedIllustration")}
-                      className="w-full h-48 object-cover rounded-lg"
-                    />
+                    <div className="aspect-4-3-container rounded-lg">
+                      <img
+                        src={selectedIllustration}
+                        alt={t("books.selectedIllustration")}
+                        className="rounded-lg"
+                      />
+                    </div>
                   </div>
                 )}
                 {textContent && (
@@ -280,6 +313,11 @@ const PageEditor = ({ isOpen, onClose, page, onSuccess }) => {
         alternatives={availableIllustrations}
         onSelect={handleIllustrationSelect}
         isLoading={isSaving}
+        onRegenerate={
+          page?.illustration_page?.id ? handleRegenerateIllustration : null
+        }
+        isRegenerating={isRegeneratingIllustration}
+        canRegenerate={!!page?.illustration_page?.id}
       />
     </Dialog>
   );

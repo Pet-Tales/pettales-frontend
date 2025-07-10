@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useValidatedTranslation } from "@/hooks/useValidatedTranslation";
 import { toast } from "react-toastify";
-import ProtectedRoute from "@/components/ProtectedRoute";
+
 import CharacterForm from "@/components/Characters/CharacterForm";
 import {
   createCharacter,
@@ -92,18 +92,16 @@ const CreateCharacter = () => {
   };
 
   return (
-    <ProtectedRoute>
-      <div className="min-h-fit py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto">
-          <CharacterForm
-            character={null}
-            onSubmit={handleSubmit}
-            onCancel={handleCancel}
-            isLoading={isLoading}
-          />
-        </div>
+    <div className="min-h-fit py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto">
+        <CharacterForm
+          character={null}
+          onSubmit={handleSubmit}
+          onCancel={handleCancel}
+          isLoading={isLoading}
+        />
       </div>
-    </ProtectedRoute>
+    </div>
   );
 };
 

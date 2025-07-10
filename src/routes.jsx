@@ -1,4 +1,5 @@
 import MainLayout from "@/layouts";
+import ProtectedRoute from "@/components/ProtectedRoute";
 import Error404 from "@/pages/Error/404";
 import Error500 from "@/pages/Error/500";
 import Home from "@/pages/Home";
@@ -56,15 +57,27 @@ const Routes = [
       },
       {
         path: "/dashboard",
-        element: <Dashboard />,
+        element: (
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/my-books",
-        element: <MyBooks />,
+        element: (
+          <ProtectedRoute>
+            <MyBooks />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/books/create",
-        element: <CreateBook />,
+        element: (
+          <ProtectedRoute>
+            <CreateBook />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/books/:id",
@@ -76,23 +89,43 @@ const Routes = [
       },
       {
         path: "/characters",
-        element: <Characters />,
+        element: (
+          <ProtectedRoute>
+            <Characters />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/characters/create",
-        element: <CreateCharacter />,
+        element: (
+          <ProtectedRoute>
+            <CreateCharacter />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/characters/:id",
-        element: <CharacterDetails />,
+        element: (
+          <ProtectedRoute>
+            <CharacterDetails />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/characters/:id/edit",
-        element: <EditCharacter />,
+        element: (
+          <ProtectedRoute>
+            <EditCharacter />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/profile",
-        element: <Profile />,
+        element: (
+          <ProtectedRoute>
+            <Profile />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/error/500",

@@ -134,104 +134,100 @@ const MyBooks = () => {
   };
 
   return (
-    <ProtectedRoute>
-      <div className="min-h-fit py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          {/* Header */}
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8">
-            <div>
-              <Typography variant="h2" className="text-gray-900 mb-2">
-                {t("pages.myBooksPage")}
-              </Typography>
-              <Typography variant="lead" className="text-gray-600">
-                {t("books.manageYourBooks")}
-              </Typography>
-            </div>
+    <div className="min-h-fit py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8">
+          <div>
+            <Typography variant="h2" className="text-gray-900 mb-2">
+              {t("pages.myBooksPage")}
+            </Typography>
+            <Typography variant="lead" className="text-gray-600">
+              {t("books.manageYourBooks")}
+            </Typography>
+          </div>
+          <Button
+            variant="gradient"
+            className="flex items-center gap-2 mt-4 sm:mt-0"
+            onClick={() => navigate("/books/create")}
+          >
+            <FaPlus className="h-4 w-4" />
+            {t("books.createBook")}
+          </Button>
+        </div>
+
+        {/* Filters */}
+        <div className="flex flex-col sm:flex-row gap-4 mb-8">
+          <div className="flex items-center gap-2">
+            <FaFilter className="h-4 w-4 text-gray-500" />
+            <Typography variant="small" className="text-gray-700">
+              {t("books.filterByStatus")}:
+            </Typography>
+          </div>
+          <div className="w-full sm:w-48">
+            <Select
+              value={filters.status || ""}
+              onChange={handleFilterChange}
+              label={t("books.allStatuses")}
+            >
+              <Option value="">{t("books.allStatuses")}</Option>
+              <Option value="pending">{t("books.status.pending")}</Option>
+              <Option value="generating">{t("books.status.generating")}</Option>
+              <Option value="completed">{t("books.status.completed")}</Option>
+              <Option value="failed">{t("books.status.failed")}</Option>
+            </Select>
+          </div>
+        </div>
+
+        {/* Books Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {books.map((book) => (
+            <BookCard
+              key={book.id}
+              book={book}
+              onDelete={handleBookDelete}
+              onTogglePublic={handleTogglePublic}
+              onRetry={handleRetryGeneration}
+            />
+          ))}
+        </div>
+
+        {/* Loading States */}
+        {isLoading && books.length === 0 && (
+          <div className="flex justify-center items-center py-12">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+          </div>
+        )}
+
+        {isLoadingMore && (
+          <div className="flex justify-center items-center py-8">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
+          </div>
+        )}
+
+        {/* Empty State */}
+        {!isLoading && books.length === 0 && (
+          <div className="text-center py-12">
+            <Typography variant="h5" className="text-gray-600 mb-4">
+              {filters.status
+                ? t("books.noBooksWithStatus", {
+                    status: t(`books.status.${filters.status}`),
+                  })
+                : t("books.noBooks")}
+            </Typography>
+            <Typography variant="small" className="text-gray-500 mb-6">
+              {t("books.createFirstBook")}
+            </Typography>
             <Button
               variant="gradient"
-              className="flex items-center gap-2 mt-4 sm:mt-0"
               onClick={() => navigate("/books/create")}
             >
-              <FaPlus className="h-4 w-4" />
               {t("books.createBook")}
             </Button>
           </div>
-
-          {/* Filters */}
-          <div className="flex flex-col sm:flex-row gap-4 mb-8">
-            <div className="flex items-center gap-2">
-              <FaFilter className="h-4 w-4 text-gray-500" />
-              <Typography variant="small" className="text-gray-700">
-                {t("books.filterByStatus")}:
-              </Typography>
-            </div>
-            <div className="w-full sm:w-48">
-              <Select
-                value={filters.status || ""}
-                onChange={handleFilterChange}
-                label={t("books.allStatuses")}
-              >
-                <Option value="">{t("books.allStatuses")}</Option>
-                <Option value="pending">{t("books.status.pending")}</Option>
-                <Option value="generating">
-                  {t("books.status.generating")}
-                </Option>
-                <Option value="completed">{t("books.status.completed")}</Option>
-                <Option value="failed">{t("books.status.failed")}</Option>
-              </Select>
-            </div>
-          </div>
-
-          {/* Books Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {books.map((book) => (
-              <BookCard
-                key={book.id}
-                book={book}
-                onDelete={handleBookDelete}
-                onTogglePublic={handleTogglePublic}
-                onRetry={handleRetryGeneration}
-              />
-            ))}
-          </div>
-
-          {/* Loading States */}
-          {isLoading && books.length === 0 && (
-            <div className="flex justify-center items-center py-12">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
-            </div>
-          )}
-
-          {isLoadingMore && (
-            <div className="flex justify-center items-center py-8">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
-            </div>
-          )}
-
-          {/* Empty State */}
-          {!isLoading && books.length === 0 && (
-            <div className="text-center py-12">
-              <Typography variant="h5" className="text-gray-600 mb-4">
-                {filters.status
-                  ? t("books.noBooksWithStatus", {
-                      status: t(`books.status.${filters.status}`),
-                    })
-                  : t("books.noBooks")}
-              </Typography>
-              <Typography variant="small" className="text-gray-500 mb-6">
-                {t("books.createFirstBook")}
-              </Typography>
-              <Button
-                variant="gradient"
-                onClick={() => navigate("/books/create")}
-              >
-                {t("books.createBook")}
-              </Button>
-            </div>
-          )}
-        </div>
+        )}
       </div>
-    </ProtectedRoute>
+    </div>
   );
 };
 

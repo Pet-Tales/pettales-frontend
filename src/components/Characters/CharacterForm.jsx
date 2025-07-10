@@ -89,7 +89,7 @@ const CharacterForm = ({
           }),
     }));
 
-    // Note: Reference images are now allowed for both human and pet characters
+    // Note: Reference images are now supported for all character types
   };
 
   const validateForm = () => {
@@ -153,7 +153,7 @@ const CharacterForm = ({
   };
 
   const handleImageClick = () => {
-    // Reference images are now allowed for both human and pet characters
+    // Reference images are allowed for all character types
     fileInputRef.current?.click();
   };
 
@@ -289,81 +289,83 @@ const CharacterForm = ({
               </Typography>
             )}
           </div>
-          {/* Reference Image (for both human and pet characters) */}
+          {/* Reference Image */}
           <div>
-            <Typography variant="small" className="text-gray-600 mb-3">
-              {t("characters.referenceImage")}
-            </Typography>
+            <div>
+              <Typography variant="small" className="text-gray-600 mb-3">
+                {t("characters.referenceImage")}
+              </Typography>
 
-            {/* Hidden file input */}
-            <input
-              type="file"
-              ref={fileInputRef}
-              onChange={handleFileSelect}
-              accept="image/jpeg,image/jpg,image/png"
-              className="hidden"
-            />
+              {/* Hidden file input */}
+              <input
+                type="file"
+                ref={fileInputRef}
+                onChange={handleFileSelect}
+                accept="image/jpeg,image/jpg,image/png"
+                className="hidden"
+              />
 
-            <div className="flex items-center space-x-4">
-              {/* Image preview */}
-              <div
-                className="relative cursor-pointer"
-                onClick={handleImageClick}
-              >
-                {previewImage ? (
-                  <Avatar
-                    variant="rounded"
-                    alt={t("common.preview")}
-                    className="h-20 w-20"
-                    src={previewImage}
-                  />
-                ) : (
-                  <div className="h-20 w-20 rounded-lg bg-gray-200 flex items-center justify-center border-2 border-dashed border-gray-300 hover:border-indigo-400">
-                    <FaUpload className="h-6 w-6 text-gray-400" />
-                  </div>
-                )}
-              </div>
-
-              {/* Upload/Remove buttons */}
-              <div className="flex flex-col space-y-2">
-                <Button
-                  type="button"
-                  size="sm"
-                  variant="outlined"
+              <div className="flex items-center space-x-4">
+                {/* Image preview */}
+                <div
+                  className="relative cursor-pointer"
                   onClick={handleImageClick}
-                  className="flex items-center space-x-2"
                 >
-                  <FaUpload className="h-3 w-3" />
-                  <span>
-                    {previewImage ? t("common.change") : t("common.upload")}
-                  </span>
-                </Button>
+                  {previewImage ? (
+                    <Avatar
+                      variant="rounded"
+                      alt={t("common.preview")}
+                      className="h-20 w-20"
+                      src={previewImage}
+                    />
+                  ) : (
+                    <div className="h-20 w-20 rounded-lg bg-gray-200 flex items-center justify-center border-2 border-dashed border-gray-300 hover:border-indigo-400">
+                      <FaUpload className="h-6 w-6 text-gray-400" />
+                    </div>
+                  )}
+                </div>
 
-                {previewImage && (
+                {/* Upload/Remove buttons */}
+                <div className="flex flex-col space-y-2">
                   <Button
                     type="button"
                     size="sm"
                     variant="outlined"
-                    color="red"
-                    onClick={handleRemoveImage}
+                    onClick={handleImageClick}
                     className="flex items-center space-x-2"
                   >
-                    <FaTrash className="h-3 w-3" />
-                    <span>{t("common.remove")}</span>
+                    <FaUpload className="h-3 w-3" />
+                    <span>
+                      {previewImage ? t("common.change") : t("common.upload")}
+                    </span>
                   </Button>
-                )}
-              </div>
-            </div>
 
-            {/* Upload progress */}
-            {isUploadingImage && (
-              <div className="mt-3">
-                <Progress value={uploadProgress} className="h-2" />
-                <Typography variant="small" className="text-gray-600 mt-1">
-                  {t("common.uploading")} {Math.round(uploadProgress)}%
-                </Typography>
+                  {previewImage && (
+                    <Button
+                      type="button"
+                      size="sm"
+                      variant="outlined"
+                      color="red"
+                      onClick={handleRemoveImage}
+                      className="flex items-center space-x-2"
+                    >
+                      <FaTrash className="h-3 w-3" />
+                      <span>{t("common.remove")}</span>
+                    </Button>
+                  )}
+                </div>
               </div>
-            )}
+
+              {/* Upload progress */}
+              {isUploadingImage && (
+                <div className="mt-3">
+                  <Progress value={uploadProgress} className="h-2" />
+                  <Typography variant="small" className="text-gray-600 mt-1">
+                    {t("common.uploading")} {Math.round(uploadProgress)}%
+                  </Typography>
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Type-specific fields */}

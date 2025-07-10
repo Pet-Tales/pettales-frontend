@@ -10,6 +10,7 @@ import {
   resendEmailVerification,
 } from "@/stores/reducers/auth";
 import { API_BASE_URL } from "@/utils/constants";
+import { getAuthPageRedirect } from "@/utils/navigationUtils";
 
 const Login = () => {
   const { t } = useValidatedTranslation();
@@ -20,6 +21,17 @@ const Login = () => {
   const { isLoading, error, isAuthenticated } = useSelector(
     (state) => state.auth
   );
+
+  // Redirect authenticated users away from login page
+  useEffect(() => {
+    if (isAuthenticated) {
+      const redirectPath = getAuthPageRedirect(
+        window.location.pathname,
+        searchParams
+      );
+      navigate(redirectPath, { replace: true });
+    }
+  }, [isAuthenticated, navigate, searchParams]);
 
   const [formData, setFormData] = useState({
     email: "",
@@ -46,12 +58,6 @@ const Login = () => {
 
     return translateError(errorMessage);
   };
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      navigate("/");
-    }
-  }, [isAuthenticated, navigate]);
 
   useEffect(() => {
     // Check for auth error from URL params
@@ -81,14 +87,27 @@ const Login = () => {
     e.preventDefault();
     const result = await dispatch(login(formData));
     if (login.fulfilled.match(result)) {
-      navigate("/");
+      // Check for redirect parameter
+      const redirectPath = searchParams.get("redirect");
+      if (redirectPath) {
+        navigate(redirectPath);
+      } else {
+        navigate("/");
+      }
     } else if (login.rejected.match(result)) {
       // The error will be displayed by the auth slice's error handling
     }
   };
 
   const handleGoogleLogin = () => {
-    window.location.href = `${API_BASE_URL}/api/auth/google`;
+    // Pass redirect parameter to Google OAuth
+    const redirectPath = searchParams.get("redirect");
+    const googleUrl = redirectPath
+      ? `${API_BASE_URL}/api/auth/google?redirect=${encodeURIComponent(
+          redirectPath
+        )}`
+      : `${API_BASE_URL}/api/auth/google`;
+    window.location.href = googleUrl;
   };
 
   const handleResendVerification = async (email) => {

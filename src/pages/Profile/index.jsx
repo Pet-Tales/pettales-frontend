@@ -16,7 +16,6 @@ import {
 } from "@material-tailwind/react";
 import { toast } from "react-toastify";
 
-import ProtectedRoute from "@/components/ProtectedRoute";
 import LanguageUtils from "@/utils/languageUtils";
 import { useErrorTranslation } from "@/utils/errorMapper";
 import {
@@ -268,356 +267,325 @@ const Profile = () => {
   };
 
   return (
-    <ProtectedRoute>
-      <div className="min-h-fit py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold text-gray-900 mb-4">
-              {t("profile.title")}
-            </h1>
-            <p className="text-lg text-gray-600">{t("profile.subtitle")}</p>
-          </div>
+    <div className="min-h-fit py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto">
+        <div className="text-center mb-8">
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+            {t("profile.title")}
+          </h1>
+          <p className="text-lg text-gray-600">{t("profile.subtitle")}</p>
+        </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Profile Information Card */}
-            <div className="lg:col-span-2">
-              <Card className="mb-6">
-                <CardHeader className="bg-custom-light-yellow text-white p-4">
-                  <div className="flex justify-between items-center">
-                    <Typography variant="h5" className="text-white">
-                      {t("profile.personalInfo")}
-                    </Typography>
-                    <Button
-                      size="sm"
-                      variant="outlined"
-                      className="border-white text-white hover:bg-white hover:text-custom-light-yellow"
-                      onClick={handleEditToggle}
-                      disabled={isUpdatingProfile}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Profile Information Card */}
+          <div className="lg:col-span-2">
+            <Card className="mb-6">
+              <CardHeader className="bg-custom-light-yellow text-white p-4">
+                <div className="flex justify-between items-center">
+                  <Typography variant="h5" className="text-white">
+                    {t("profile.personalInfo")}
+                  </Typography>
+                  <Button
+                    size="sm"
+                    variant="outlined"
+                    className="border-white text-white hover:bg-white hover:text-custom-light-yellow"
+                    onClick={handleEditToggle}
+                    disabled={isUpdatingProfile}
+                  >
+                    {isEditing ? t("profile.cancel") : t("profile.editProfile")}
+                  </Button>
+                </div>
+              </CardHeader>
+              <CardBody className="p-6">
+                <div className="flex items-center mb-6">
+                  <div className="relative">
+                    {/* Hidden file input */}
+                    <input
+                      type="file"
+                      ref={fileInputRef}
+                      onChange={handleFileSelect}
+                      accept="image/jpeg,image/jpg,image/png"
+                      className="hidden"
+                    />
+
+                    {/* Avatar display with click handler */}
+                    <div
+                      className={`relative ${
+                        isEditing ? "cursor-pointer" : ""
+                      }`}
+                      onClick={handleAvatarClick}
                     >
-                      {isEditing
-                        ? t("profile.cancel")
-                        : t("profile.editProfile")}
-                    </Button>
-                  </div>
-                </CardHeader>
-                <CardBody className="p-6">
-                  <div className="flex items-center mb-6">
-                    <div className="relative">
-                      {/* Hidden file input */}
-                      <input
-                        type="file"
-                        ref={fileInputRef}
-                        onChange={handleFileSelect}
-                        accept="image/jpeg,image/jpg,image/png"
-                        className="hidden"
-                      />
+                      {previewAvatar ? (
+                        <Avatar
+                          variant="circular"
+                          alt={t("common.preview")}
+                          className="h-20 w-20 mr-4"
+                          src={previewAvatar}
+                        />
+                      ) : user?.profileImageUrl ? (
+                        <Avatar
+                          variant="circular"
+                          alt={user?.firstName || t("profile.user")}
+                          className="h-20 w-20 mr-4"
+                          src={user.profileImageUrl}
+                        />
+                      ) : (
+                        <div className="h-20 w-20 rounded-full bg-gray-200 flex items-center justify-center mr-4">
+                          <CiUser className="h-10 w-10 text-gray-600" />
+                        </div>
+                      )}
 
-                      {/* Avatar display with click handler */}
-                      <div
-                        className={`relative ${
-                          isEditing ? "cursor-pointer" : ""
-                        }`}
-                        onClick={handleAvatarClick}
-                      >
-                        {previewAvatar ? (
-                          <Avatar
-                            variant="circular"
-                            alt={t("common.preview")}
-                            className="h-20 w-20 mr-4"
-                            src={previewAvatar}
-                          />
-                        ) : user?.profileImageUrl ? (
-                          <Avatar
-                            variant="circular"
-                            alt={user?.firstName || t("profile.user")}
-                            className="h-20 w-20 mr-4"
-                            src={user.profileImageUrl}
-                          />
-                        ) : (
-                          <div className="h-20 w-20 rounded-full bg-gray-200 flex items-center justify-center mr-4">
-                            <CiUser className="h-10 w-10 text-gray-600" />
-                          </div>
-                        )}
+                      {/* Upload overlay in edit mode */}
+                      {isEditing && (
+                        <div className="absolute inset-0 bg-black bg-opacity-50 rounded-full flex items-center justify-center mr-4 opacity-0 hover:opacity-100 transition-opacity">
+                          <Typography
+                            variant="small"
+                            className="text-white text-center text-xs"
+                          >
+                            {t("profile.changeAvatar")}
+                          </Typography>
+                        </div>
+                      )}
 
-                        {/* Upload overlay in edit mode */}
-                        {isEditing && (
-                          <div className="absolute inset-0 bg-black bg-opacity-50 rounded-full flex items-center justify-center mr-4 opacity-0 hover:opacity-100 transition-opacity">
+                      {/* Upload progress */}
+                      {isUploadingAvatar && (
+                        <div className="absolute inset-0 bg-black bg-opacity-75 rounded-full flex items-center justify-center mr-4">
+                          <div className="text-center">
+                            <Progress
+                              value={uploadProgress}
+                              size="sm"
+                              className="mb-1 w-12"
+                              color="blue"
+                            />
                             <Typography
                               variant="small"
-                              className="text-white text-center text-xs"
+                              className="text-white text-xs"
                             >
-                              {t("profile.changeAvatar")}
+                              {Math.round(uploadProgress)}%
                             </Typography>
                           </div>
-                        )}
-
-                        {/* Upload progress */}
-                        {isUploadingAvatar && (
-                          <div className="absolute inset-0 bg-black bg-opacity-75 rounded-full flex items-center justify-center mr-4">
-                            <div className="text-center">
-                              <Progress
-                                value={uploadProgress}
-                                size="sm"
-                                className="mb-1 w-12"
-                                color="blue"
-                              />
-                              <Typography
-                                variant="small"
-                                className="text-white text-xs"
-                              >
-                                {Math.round(uploadProgress)}%
-                              </Typography>
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                    <div>
-                      <Typography variant="h6" className="text-gray-900">
-                        {user?.firstName && user?.lastName
-                          ? `${user.firstName} ${user.lastName}`
-                          : user?.firstName ||
-                            user?.email?.split("@")[0] ||
-                            t("profile.user")}
-                      </Typography>
-                      <Typography variant="small" className="text-gray-600">
-                        {user?.email}
-                      </Typography>
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <Typography
-                        variant="small"
-                        className="text-gray-600 mb-1"
-                      >
-                        {t("profile.firstName")}
-                      </Typography>
-                      <Input
-                        value={
-                          isEditing
-                            ? profileForm.firstName
-                            : user?.firstName || ""
-                        }
-                        disabled={!isEditing}
-                        className={`${!isEditing ? "!border-gray-300" : ""} ${
-                          formErrors.firstName ? "!border-red-500" : ""
-                        }`}
-                        onChange={(e) =>
-                          handleInputChange("firstName", e.target.value)
-                        }
-                        error={!!formErrors.firstName}
-                      />
-                      {formErrors.firstName && (
-                        <Typography
-                          variant="small"
-                          className="text-red-500 mt-1"
-                        >
-                          {formErrors.firstName}
-                        </Typography>
-                      )}
-                    </div>
-                    <div>
-                      <Typography
-                        variant="small"
-                        className="text-gray-600 mb-1"
-                      >
-                        {t("profile.lastName")}
-                      </Typography>
-                      <Input
-                        value={
-                          isEditing
-                            ? profileForm.lastName
-                            : user?.lastName || ""
-                        }
-                        disabled={!isEditing}
-                        className={`${!isEditing ? "!border-gray-300" : ""} ${
-                          formErrors.lastName ? "!border-red-500" : ""
-                        }`}
-                        onChange={(e) =>
-                          handleInputChange("lastName", e.target.value)
-                        }
-                        error={!!formErrors.lastName}
-                      />
-                      {formErrors.lastName && (
-                        <Typography
-                          variant="small"
-                          className="text-red-500 mt-1"
-                        >
-                          {formErrors.lastName}
-                        </Typography>
-                      )}
-                    </div>
-                    <div className="md:col-span-2">
-                      <Typography
-                        variant="small"
-                        className="text-gray-600 mb-1"
-                      >
-                        {t("profile.email")}
-                      </Typography>
-                      <Input
-                        value={
-                          isEditing ? profileForm.email : user?.email || ""
-                        }
-                        disabled={!isEditing}
-                        className={`${!isEditing ? "!border-gray-300" : ""} ${
-                          formErrors.email ? "!border-red-500" : ""
-                        }`}
-                        onChange={(e) =>
-                          handleInputChange("email", e.target.value)
-                        }
-                        error={!!formErrors.email}
-                        type="email"
-                      />
-                      {formErrors.email && (
-                        <Typography
-                          variant="small"
-                          className="text-red-500 mt-1"
-                        >
-                          {formErrors.email}
-                        </Typography>
-                      )}
-                      {user?.pendingEmailChange && (
-                        <Typography
-                          variant="small"
-                          className="text-blue-600 mt-1"
-                        >
-                          {t("profile.pendingEmailChange")}:{" "}
-                          {user.pendingEmailChange}
-                        </Typography>
+                        </div>
                       )}
                     </div>
                   </div>
-
-                  {isEditing && (
-                    <div className="flex justify-end gap-3 mt-6 pt-4 border-t">
-                      <Button
-                        variant="outlined"
-                        onClick={handleEditToggle}
-                        disabled={isUpdatingProfile}
-                      >
-                        {t("profile.cancel")}
-                      </Button>
-                      <Button
-                        className="bg-custom-light-yellow hover:bg-custom-light-yellow/90"
-                        onClick={handleSaveProfile}
-                        disabled={isUpdatingProfile}
-                      >
-                        {isUpdatingProfile
-                          ? t("profile.savingChanges")
-                          : t("profile.saveChanges")}
-                      </Button>
-                    </div>
-                  )}
-                </CardBody>
-              </Card>
-            </div>
-
-            {/* Settings Card */}
-            <div className="flex flex-col gap-12">
-              <Card>
-                <CardHeader className="bg-custom-light-yellow text-white p-4">
-                  <Typography variant="h5" className="text-white">
-                    {t("profile.settings")}
-                  </Typography>
-                </CardHeader>
-                <CardBody className="p-6">
-                  {/* Language Selection */}
-                  <div className="mb-6">
-                    <Typography variant="small" className="text-gray-600 mb-2">
-                      {t("profile.language")}
+                  <div>
+                    <Typography variant="h6" className="text-gray-900">
+                      {user?.firstName && user?.lastName
+                        ? `${user.firstName} ${user.lastName}`
+                        : user?.firstName ||
+                          user?.email?.split("@")[0] ||
+                          t("profile.user")}
                     </Typography>
-                    <Select
-                      value={selectedLanguage}
-                      onChange={handleLanguageChange}
-                      disabled={isUpdatingLanguage}
-                      className="!border-gray-300"
-                    >
-                      {getLanguages(t).map((language) => (
-                        <Option key={language.code} value={language.code}>
-                          <div className="flex items-center gap-2">
-                            <span className="text-lg">{language.flag}</span>
-                            <span>{language.name}</span>
-                          </div>
-                        </Option>
-                      ))}
-                    </Select>
-                    {isUpdatingLanguage && (
-                      <Typography
-                        variant="small"
-                        className="text-gray-500 mt-1"
-                      >
-                        {t("profile.updatingLanguage")}
+                    <Typography variant="small" className="text-gray-600">
+                      {user?.email}
+                    </Typography>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <Typography variant="small" className="text-gray-600 mb-1">
+                      {t("profile.firstName")}
+                    </Typography>
+                    <Input
+                      value={
+                        isEditing
+                          ? profileForm.firstName
+                          : user?.firstName || ""
+                      }
+                      disabled={!isEditing}
+                      className={`${!isEditing ? "!border-gray-300" : ""} ${
+                        formErrors.firstName ? "!border-red-500" : ""
+                      }`}
+                      onChange={(e) =>
+                        handleInputChange("firstName", e.target.value)
+                      }
+                      error={!!formErrors.firstName}
+                    />
+                    {formErrors.firstName && (
+                      <Typography variant="small" className="text-red-500 mt-1">
+                        {formErrors.firstName}
                       </Typography>
                     )}
                   </div>
-
-                  {/* Account Stats */}
-                  <div className="border-t pt-4">
-                    <Typography variant="small" className="text-gray-600 mb-2">
-                      {t("profile.accountStats")}
-                    </Typography>
-                    <div className="space-y-2">
-                      <div className="flex justify-between">
-                        <span className="text-sm text-gray-600">
-                          {t("profile.credits")}:
-                        </span>
-                        <span className="text-sm font-medium">
-                          {user?.creditsBalance || 0}
-                        </span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-sm text-gray-600">
-                          {t("profile.emailVerified")}:
-                        </span>
-                        <span
-                          className={`text-sm font-medium ${
-                            user?.emailVerified
-                              ? "text-green-600"
-                              : "text-red-600"
-                          }`}
-                        >
-                          {user?.emailVerified
-                            ? t("common.yes")
-                            : t("common.no")}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </CardBody>
-              </Card>
-
-              {/* Password & Security Card */}
-              <Card>
-                <CardHeader className="bg-custom-light-yellow text-white p-4">
-                  <Typography variant="h5" className="text-white">
-                    {t("profile.passwordSecurity")}
-                  </Typography>
-                </CardHeader>
-                <CardBody className="p-6">
                   <div>
-                    <Typography variant="small" className="text-gray-600 mb-4">
-                      {t("profile.passwordResetDescription")}
+                    <Typography variant="small" className="text-gray-600 mb-1">
+                      {t("profile.lastName")}
                     </Typography>
+                    <Input
+                      value={
+                        isEditing ? profileForm.lastName : user?.lastName || ""
+                      }
+                      disabled={!isEditing}
+                      className={`${!isEditing ? "!border-gray-300" : ""} ${
+                        formErrors.lastName ? "!border-red-500" : ""
+                      }`}
+                      onChange={(e) =>
+                        handleInputChange("lastName", e.target.value)
+                      }
+                      error={!!formErrors.lastName}
+                    />
+                    {formErrors.lastName && (
+                      <Typography variant="small" className="text-red-500 mt-1">
+                        {formErrors.lastName}
+                      </Typography>
+                    )}
+                  </div>
+                  <div className="md:col-span-2">
+                    <Typography variant="small" className="text-gray-600 mb-1">
+                      {t("profile.email")}
+                    </Typography>
+                    <Input
+                      value={isEditing ? profileForm.email : user?.email || ""}
+                      disabled={!isEditing}
+                      className={`${!isEditing ? "!border-gray-300" : ""} ${
+                        formErrors.email ? "!border-red-500" : ""
+                      }`}
+                      onChange={(e) =>
+                        handleInputChange("email", e.target.value)
+                      }
+                      error={!!formErrors.email}
+                      type="email"
+                    />
+                    {formErrors.email && (
+                      <Typography variant="small" className="text-red-500 mt-1">
+                        {formErrors.email}
+                      </Typography>
+                    )}
+                    {user?.pendingEmailChange && (
+                      <Typography
+                        variant="small"
+                        className="text-blue-600 mt-1"
+                      >
+                        {t("profile.pendingEmailChange")}:{" "}
+                        {user.pendingEmailChange}
+                      </Typography>
+                    )}
+                  </div>
+                </div>
+
+                {isEditing && (
+                  <div className="flex justify-end gap-3 mt-6 pt-4 border-t">
                     <Button
-                      onClick={handleRequestPasswordChange}
-                      disabled={isLoading}
-                      className="bg-indigo-600 hover:bg-indigo-700"
-                      size="sm"
+                      variant="outlined"
+                      onClick={handleEditToggle}
+                      disabled={isUpdatingProfile}
                     >
-                      {isLoading
-                        ? t("profile.sending")
-                        : t("profile.changePassword")}
+                      {t("profile.cancel")}
+                    </Button>
+                    <Button
+                      className="bg-custom-light-yellow hover:bg-custom-light-yellow/90"
+                      onClick={handleSaveProfile}
+                      disabled={isUpdatingProfile}
+                    >
+                      {isUpdatingProfile
+                        ? t("profile.savingChanges")
+                        : t("profile.saveChanges")}
                     </Button>
                   </div>
-                </CardBody>
-              </Card>
-            </div>
+                )}
+              </CardBody>
+            </Card>
+          </div>
+
+          {/* Settings Card */}
+          <div className="flex flex-col gap-12">
+            <Card>
+              <CardHeader className="bg-custom-light-yellow text-white p-4">
+                <Typography variant="h5" className="text-white">
+                  {t("profile.settings")}
+                </Typography>
+              </CardHeader>
+              <CardBody className="p-6">
+                {/* Language Selection */}
+                <div className="mb-6">
+                  <Typography variant="small" className="text-gray-600 mb-2">
+                    {t("profile.language")}
+                  </Typography>
+                  <Select
+                    value={selectedLanguage}
+                    onChange={handleLanguageChange}
+                    disabled={isUpdatingLanguage}
+                    className="!border-gray-300"
+                  >
+                    {getLanguages(t).map((language) => (
+                      <Option key={language.code} value={language.code}>
+                        <div className="flex items-center gap-2">
+                          <span className="text-lg">{language.flag}</span>
+                          <span>{language.name}</span>
+                        </div>
+                      </Option>
+                    ))}
+                  </Select>
+                  {isUpdatingLanguage && (
+                    <Typography variant="small" className="text-gray-500 mt-1">
+                      {t("profile.updatingLanguage")}
+                    </Typography>
+                  )}
+                </div>
+
+                {/* Account Stats */}
+                <div className="border-t pt-4">
+                  <Typography variant="small" className="text-gray-600 mb-2">
+                    {t("profile.accountStats")}
+                  </Typography>
+                  <div className="space-y-2">
+                    <div className="flex justify-between">
+                      <span className="text-sm text-gray-600">
+                        {t("profile.credits")}:
+                      </span>
+                      <span className="text-sm font-medium">
+                        {user?.creditsBalance || 0}
+                      </span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-sm text-gray-600">
+                        {t("profile.emailVerified")}:
+                      </span>
+                      <span
+                        className={`text-sm font-medium ${
+                          user?.emailVerified
+                            ? "text-green-600"
+                            : "text-red-600"
+                        }`}
+                      >
+                        {user?.emailVerified ? t("common.yes") : t("common.no")}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </CardBody>
+            </Card>
+
+            {/* Password & Security Card */}
+            <Card>
+              <CardHeader className="bg-custom-light-yellow text-white p-4">
+                <Typography variant="h5" className="text-white">
+                  {t("profile.passwordSecurity")}
+                </Typography>
+              </CardHeader>
+              <CardBody className="p-6">
+                <div>
+                  <Typography variant="small" className="text-gray-600 mb-4">
+                    {t("profile.passwordResetDescription")}
+                  </Typography>
+                  <Button
+                    onClick={handleRequestPasswordChange}
+                    disabled={isLoading}
+                    className="bg-indigo-600 hover:bg-indigo-700"
+                    size="sm"
+                  >
+                    {isLoading
+                      ? t("profile.sending")
+                      : t("profile.changePassword")}
+                  </Button>
+                </div>
+              </CardBody>
+            </Card>
           </div>
         </div>
       </div>
-    </ProtectedRoute>
+    </div>
   );
 };
 

@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useValidatedTranslation } from "@/hooks/useValidatedTranslation";
 import { toast } from "react-toastify";
-import ProtectedRoute from "@/components/ProtectedRoute";
+
 import CharacterForm from "@/components/Characters/CharacterForm";
 import {
   fetchCharacterById,
@@ -135,72 +135,64 @@ const EditCharacter = () => {
   // Show loading state
   if (isLoading) {
     return (
-      <ProtectedRoute>
-        <div className="min-h-fit py-12 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-4xl mx-auto">
-            <div className="flex justify-center items-center py-12">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
-            </div>
+      <div className="min-h-fit py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto">
+          <div className="flex justify-center items-center py-12">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
           </div>
         </div>
-      </ProtectedRoute>
+      </div>
     );
   }
 
   // Show not found state (only when explicitly set, not when currentCharacter is null during loading)
   if (characterNotFound) {
     return (
-      <ProtectedRoute>
-        <div className="min-h-fit py-12 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center py-12">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                {t("characters.characterNotFound")}
-              </h2>
-              <p className="text-gray-600 mb-6">
-                {t("characters.characterNotFoundDescription")}
-              </p>
-              <button
-                onClick={() => navigate("/characters")}
-                className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700"
-              >
-                {t("characters.backToCharacters")}
-              </button>
-            </div>
+      <div className="min-h-fit py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center py-12">
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">
+              {t("characters.characterNotFound")}
+            </h2>
+            <p className="text-gray-600 mb-6">
+              {t("characters.characterNotFoundDescription")}
+            </p>
+            <button
+              onClick={() => navigate("/characters")}
+              className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700"
+            >
+              {t("characters.backToCharacters")}
+            </button>
           </div>
         </div>
-      </ProtectedRoute>
+      </div>
     );
   }
 
   // Show loading state if we don't have character data yet (and not in error state)
   if (!currentCharacter && !characterNotFound) {
     return (
-      <ProtectedRoute>
-        <div className="min-h-fit py-12 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-4xl mx-auto">
-            <div className="flex justify-center items-center py-12">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
-            </div>
+      <div className="min-h-fit py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto">
+          <div className="flex justify-center items-center py-12">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
           </div>
         </div>
-      </ProtectedRoute>
+      </div>
     );
   }
 
   return (
-    <ProtectedRoute>
-      <div className="min-h-fit py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto">
-          <CharacterForm
-            character={currentCharacter}
-            onSubmit={handleSubmit}
-            onCancel={handleCancel}
-            isLoading={isUpdating}
-          />
-        </div>
+    <div className="min-h-fit py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto">
+        <CharacterForm
+          character={currentCharacter}
+          onSubmit={handleSubmit}
+          onCancel={handleCancel}
+          isLoading={isUpdating}
+        />
       </div>
-    </ProtectedRoute>
+    </div>
   );
 };
 

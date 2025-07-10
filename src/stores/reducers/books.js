@@ -42,9 +42,7 @@ export const fetchBooks = createAsyncThunk(
       };
     } catch (error) {
       logger.error("Fetch books error:", error);
-      return rejectWithValue(
-        error?.data?.message || "Failed to fetch books"
-      );
+      return rejectWithValue(error?.data?.message || "Failed to fetch books");
     }
   }
 );
@@ -57,9 +55,7 @@ export const fetchBookById = createAsyncThunk(
       return response.data.data.book;
     } catch (error) {
       logger.error("Fetch book by ID error:", error);
-      return rejectWithValue(
-        error?.data?.message || "Failed to fetch book"
-      );
+      return rejectWithValue(error?.data?.message || "Failed to fetch book");
     }
   }
 );
@@ -72,9 +68,7 @@ export const createBook = createAsyncThunk(
       return response.data.data.book;
     } catch (error) {
       logger.error("Create book error:", error);
-      return rejectWithValue(
-        error?.data?.message || "Failed to create book"
-      );
+      return rejectWithValue(error?.data?.message || "Failed to create book");
     }
   }
 );
@@ -87,9 +81,7 @@ export const updateBook = createAsyncThunk(
       return response.data.data.book;
     } catch (error) {
       logger.error("Update book error:", error);
-      return rejectWithValue(
-        error?.data?.message || "Failed to update book"
-      );
+      return rejectWithValue(error?.data?.message || "Failed to update book");
     }
   }
 );
@@ -117,9 +109,7 @@ export const deleteBook = createAsyncThunk(
       return bookId;
     } catch (error) {
       logger.error("Delete book error:", error);
-      return rejectWithValue(
-        error?.data?.message || "Failed to delete book"
-      );
+      return rejectWithValue(error?.data?.message || "Failed to delete book");
     }
   }
 );
@@ -164,9 +154,21 @@ const booksSlice = createSlice({
     // Update book in list (for real-time updates)
     updateBookInList: (state, action) => {
       const updatedBook = action.payload;
-      const index = state.books.findIndex(book => book.id === updatedBook.id);
+      const index = state.books.findIndex((book) => book.id === updatedBook.id);
       if (index !== -1) {
         state.books[index] = { ...state.books[index], ...updatedBook };
+      }
+    },
+    // Set PDF regeneration flag for current book
+    setPdfNeedsRegeneration: (state, action) => {
+      const { bookId, needsRegeneration } = action.payload;
+      if (state.currentBook && state.currentBook.id === bookId) {
+        state.currentBook.pdfNeedsRegeneration = needsRegeneration;
+      }
+      // Also update in books list if present
+      const index = state.books.findIndex((book) => book.id === bookId);
+      if (index !== -1) {
+        state.books[index].pdfNeedsRegeneration = needsRegeneration;
       }
     },
   },
@@ -186,14 +188,14 @@ const booksSlice = createSlice({
       })
       .addCase(fetchBooks.fulfilled, (state, action) => {
         const { books, pagination, reset } = action.payload;
-        
+
         if (reset) {
           state.books = books;
         } else {
           // Append new books for infinite scroll
           state.books = [...state.books, ...books];
         }
-        
+
         state.pagination = pagination;
         state.isLoading = false;
         state.isLoadingMore = false;
@@ -244,18 +246,20 @@ const booksSlice = createSlice({
       })
       .addCase(updateBook.fulfilled, (state, action) => {
         const updatedBook = action.payload;
-        
+
         // Update in books list
-        const index = state.books.findIndex(book => book.id === updatedBook.id);
+        const index = state.books.findIndex(
+          (book) => book.id === updatedBook.id
+        );
         if (index !== -1) {
           state.books[index] = updatedBook;
         }
-        
+
         // Update current book if it's the same
         if (state.currentBook && state.currentBook.id === updatedBook.id) {
           state.currentBook = { ...state.currentBook, ...updatedBook };
         }
-        
+
         state.isUpdating = false;
         state.error = null;
       })
@@ -271,18 +275,20 @@ const booksSlice = createSlice({
       })
       .addCase(toggleBookPublic.fulfilled, (state, action) => {
         const updatedBook = action.payload;
-        
+
         // Update in books list
-        const index = state.books.findIndex(book => book.id === updatedBook.id);
+        const index = state.books.findIndex(
+          (book) => book.id === updatedBook.id
+        );
         if (index !== -1) {
           state.books[index] = updatedBook;
         }
-        
+
         // Update current book if it's the same
         if (state.currentBook && state.currentBook.id === updatedBook.id) {
           state.currentBook = { ...state.currentBook, ...updatedBook };
         }
-        
+
         state.isTogglingPublic = false;
         state.error = null;
       })
@@ -298,16 +304,19 @@ const booksSlice = createSlice({
       })
       .addCase(deleteBook.fulfilled, (state, action) => {
         const deletedBookId = action.payload;
-        
+
         // Remove from books list
-        state.books = state.books.filter(book => book.id !== deletedBookId);
-        state.pagination.totalCount = Math.max(0, state.pagination.totalCount - 1);
-        
+        state.books = state.books.filter((book) => book.id !== deletedBookId);
+        state.pagination.totalCount = Math.max(
+          0,
+          state.pagination.totalCount - 1
+        );
+
         // Clear current book if it's the deleted one
         if (state.currentBook && state.currentBook.id === deletedBookId) {
           state.currentBook = null;
         }
-        
+
         state.isDeleting = false;
         state.error = null;
       })
@@ -323,18 +332,20 @@ const booksSlice = createSlice({
       })
       .addCase(retryBookGeneration.fulfilled, (state, action) => {
         const updatedBook = action.payload;
-        
+
         // Update in books list
-        const index = state.books.findIndex(book => book.id === updatedBook.id);
+        const index = state.books.findIndex(
+          (book) => book.id === updatedBook.id
+        );
         if (index !== -1) {
           state.books[index] = updatedBook;
         }
-        
+
         // Update current book if it's the same
         if (state.currentBook && state.currentBook.id === updatedBook.id) {
           state.currentBook = { ...state.currentBook, ...updatedBook };
         }
-        
+
         state.isRetrying = false;
         state.error = null;
       })
@@ -352,6 +363,7 @@ export const {
   setFilters,
   clearCurrentBook,
   updateBookInList,
+  setPdfNeedsRegeneration,
 } = booksSlice.actions;
 
 // Export reducer

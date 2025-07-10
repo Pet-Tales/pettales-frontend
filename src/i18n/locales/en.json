@@ -234,13 +234,20 @@
     "noAlternativesAvailable": "No alternative illustrations available",
     "selectedIllustration": "Selected illustration",
     "changeCover": "Change Cover",
+    "changeIllustration": "Change Illustration",
     "frontCover": "Front Cover",
     "backCover": "Back Cover",
     "frontCoverAlt": "Front cover",
     "backCoverAlt": "Back cover",
     "selectFrontCover": "Select Front Cover",
     "selectBackCover": "Select Back Cover",
-    "coverUpdateSuccess": "Cover updated successfully"
+    "coverUpdateSuccess": "Cover updated successfully",
+    "regenerate": "Regenerate",
+    "regenerateSuccess": "Illustration regenerated successfully",
+    "regeneratePDF": "Regenerate PDF",
+    "regeneratingPDF": "Regenerating PDF...",
+    "pdfRegenerateSuccess": "PDF regenerated successfully",
+    "useAsTemplate": "Use as Template"
   },
   "gallery": {
     "title": "Public Gallery",
@@ -343,7 +350,7 @@
       "ethnicityRequired": "Ethnicity is required for human characters",
       "petTypeRequired": "Pet type is required for pet characters",
       "breedRequired": "Breed is required for pet characters",
-      "imageOnlyForPets": "Reference images are only allowed for pet characters"
+      "imageOnlyForPets": "Reference images are allowed for all character types"
     }
   },
   "errors": {

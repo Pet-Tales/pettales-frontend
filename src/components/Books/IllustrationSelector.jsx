@@ -10,7 +10,7 @@ import {
   Card,
   CardBody,
 } from "@material-tailwind/react";
-import { FaTimes, FaSave, FaImage } from "react-icons/fa";
+import { FaTimes, FaSave, FaImage, FaRedo } from "react-icons/fa";
 
 const IllustrationSelector = ({
   isOpen,
@@ -20,6 +20,9 @@ const IllustrationSelector = ({
   alternatives = [],
   onSelect,
   isLoading = false,
+  onRegenerate = null,
+  isRegenerating = false,
+  canRegenerate = false,
 }) => {
   const { t } = useValidatedTranslation();
   const [selectedUrl, setSelectedUrl] = useState(currentUrl);
@@ -72,11 +75,13 @@ const IllustrationSelector = ({
                 }`}
                 onClick={() => handleSelect(url)}
               >
-                <img
-                  src={url}
-                  alt={t("books.illustrationOption", { number: index + 1 })}
-                  className="w-full h-32 object-cover"
-                />
+                <div className="aspect-4-3-container rounded-lg">
+                  <img
+                    src={url}
+                    alt={t("books.illustrationOption", { number: index + 1 })}
+                    className="rounded-lg"
+                  />
+                </div>
                 {selectedUrl === url && (
                   <div className="absolute inset-0 bg-blue-500 bg-opacity-20 flex items-center justify-center">
                     <div className="bg-blue-500 text-white rounded-full p-2">
@@ -119,36 +124,56 @@ const IllustrationSelector = ({
               <Typography variant="h6" className="mb-4">
                 {t("books.preview")}
               </Typography>
-              <img
-                src={selectedUrl}
-                alt={t("books.selectedIllustration")}
-                className="w-full max-w-md mx-auto h-48 object-cover rounded-lg"
-              />
+              <div className="aspect-4-3-container max-w-md mx-auto rounded-lg">
+                <img
+                  src={selectedUrl}
+                  alt={t("books.selectedIllustration")}
+                  className="rounded-lg"
+                />
+              </div>
             </CardBody>
           </Card>
         )}
       </DialogBody>
 
-      <DialogFooter className="flex gap-2">
+      <DialogFooter className="flex justify-between">
         <Button
           variant="text"
           onClick={handleClose}
-          disabled={isLoading}
+          disabled={isLoading || isRegenerating}
           className="flex justify-center"
         >
           <FaTimes className="h-4 w-4 mr-2" />
           {t("common.cancel")}
         </Button>
-        <Button
-          variant="filled"
-          color="blue"
-          onClick={handleSave}
-          disabled={isLoading || selectedUrl === currentUrl}
-          className="flex justify-center"
-        >
-          <FaSave className="h-4 w-4 mr-2" />
-          {isLoading ? t("common.saving") : t("common.save")}
-        </Button>
+
+        <div className="flex gap-2">
+          {canRegenerate && onRegenerate && (
+            <Button
+              variant="outlined"
+              color="blue"
+              onClick={onRegenerate}
+              disabled={isLoading || isRegenerating}
+              className="flex items-center gap-2"
+            >
+              <FaRedo
+                className={`h-4 w-4 ${isRegenerating ? "animate-spin" : ""}`}
+              />
+              {t("books.regenerate")}
+            </Button>
+          )}
+
+          <Button
+            variant="filled"
+            color="blue"
+            onClick={handleSave}
+            disabled={isLoading || isRegenerating || selectedUrl === currentUrl}
+            className="flex justify-center"
+          >
+            <FaSave className="h-4 w-4 mr-2" />
+            {isLoading ? t("common.saving") : t("common.save")}
+          </Button>
+        </div>
       </DialogFooter>
     </Dialog>
   );

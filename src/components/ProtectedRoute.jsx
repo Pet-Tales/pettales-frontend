@@ -37,7 +37,10 @@ const ProtectedRoute = ({ children, requireEmailVerification = true }) => {
 
   // Redirect to login if not authenticated (only after we've attempted auth)
   if (!isAuthenticated && hasAttemptedAuth) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
+    // Create redirect URL with current path and search params
+    const redirectPath = `${location.pathname}${location.search}`;
+    const loginUrl = `/login?redirect=${encodeURIComponent(redirectPath)}`;
+    return <Navigate to={loginUrl} replace />;
   }
 
   // Check email verification if required

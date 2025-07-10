@@ -444,23 +444,29 @@ const validateImageFile = (file) => {
  */
 const uploadCharacterImage = async (characterId, file, onProgress = null) => {
   try {
+    // Step 1: Get character to validate type
+    const characterResponse = await getCharacterById(characterId);
+    const character = characterResponse.data.data;
+
+    // Reference images are now allowed for all character types
+
     // Validate file
     const validation = validateImageFile(file);
     if (!validation.isValid) {
       throw new Error(validation.error);
     }
 
-    // Step 1: Generate presigned URL
+    // Step 2: Generate presigned URL
     const uploadUrlResponse = await generateImageUploadUrl(
       characterId,
       file.type
     );
     const { uploadUrl, imageUrl } = uploadUrlResponse.data.data;
 
-    // Step 2: Upload to S3
+    // Step 3: Upload to S3
     await uploadToS3(uploadUrl, file, file.type, onProgress);
 
-    // Step 3: Update character's image URL in database
+    // Step 4: Update character's image URL in database
     const updateResponse = await updateCharacterImage(characterId, imageUrl);
 
     return updateResponse;

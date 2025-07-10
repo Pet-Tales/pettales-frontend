@@ -80,12 +80,12 @@ const BookCard = ({ book, onDelete, onTogglePublic, onRetry }) => {
     <>
       <Card className="w-full cursor-pointer hover:shadow-lg transition-shadow duration-300 flex flex-col h-full">
         <div onClick={handleCardClick} className="flex flex-col h-full">
-          <div className="relative">
+          <div className="relative aspect-4-3-container rounded-t-lg !max-w-none">
             {book.frontCoverImageUrl ? (
               <img
                 src={book.frontCoverImageUrl}
                 alt={book.title}
-                className="h-48 w-full object-cover rounded-t-lg"
+                className="rounded-t-lg"
                 onError={(e) => {
                   e.target.style.display = "none";
                   e.target.nextSibling.style.display = "flex";
@@ -93,7 +93,7 @@ const BookCard = ({ book, onDelete, onTogglePublic, onRetry }) => {
               />
             ) : null}
             <div
-              className={`h-48 w-full rounded-t-lg bg-gray-100 flex items-center justify-center ${
+              className={`absolute inset-0 rounded-t-lg bg-gray-100 flex items-center justify-center ${
                 book.frontCoverImageUrl ? "hidden" : ""
               }`}
             >
@@ -187,9 +187,13 @@ const BookCard = ({ book, onDelete, onTogglePublic, onRetry }) => {
             </Typography>
             <div className="flex justify-between items-center text-sm text-gray-500 mt-auto">
               <span>{formatDate(book.createdAt)}</span>
-              <span>
-                {book.pageCount} {t("books.pages")}
-              </span>
+              <div className="flex items-center gap-2">
+                <span>
+                  {book.pageCount} {t("books.pages")}
+                </span>
+                <span>•</span>
+                <span>{t(`books.styles.${book.illustrationStyle}`)}</span>
+              </div>
             </div>
           </CardBody>
         </div>
@@ -231,7 +235,7 @@ const BookCard = ({ book, onDelete, onTogglePublic, onRetry }) => {
               size="sm"
               variant="filled"
               color="red"
-              className="w-full"
+              className="w-full flex justify-center"
               onClick={(e) => {
                 e.stopPropagation();
                 onRetry?.(book.id);

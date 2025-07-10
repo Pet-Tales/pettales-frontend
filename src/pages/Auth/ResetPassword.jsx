@@ -97,7 +97,12 @@ const ResetPassword = () => {
 
       // Small delay to let user see the success message, then redirect
       setTimeout(() => {
-        navigate("/login");
+        // Preserve redirect parameter when redirecting to login
+        const redirectPath = searchParams.get("redirect");
+        const loginUrl = redirectPath
+          ? `/login?redirect=${encodeURIComponent(redirectPath)}`
+          : "/login";
+        navigate(loginUrl);
       }, 2000);
     }
   };

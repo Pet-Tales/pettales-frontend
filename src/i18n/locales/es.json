@@ -235,13 +235,20 @@
     "noAlternativesAvailable": "No hay ilustraciones alternativas disponibles",
     "selectedIllustration": "Ilustración seleccionada",
     "changeCover": "Cambiar Portada",
+    "changeIllustration": "Cambiar Ilustración",
     "frontCover": "Portada Frontal",
     "backCover": "Contraportada",
     "frontCoverAlt": "Portada frontal",
     "backCoverAlt": "Contraportada",
     "selectFrontCover": "Seleccionar Portada Frontal",
     "selectBackCover": "Seleccionar Contraportada",
-    "coverUpdateSuccess": "Portada actualizada exitosamente"
+    "coverUpdateSuccess": "Portada actualizada exitosamente",
+    "regenerate": "Regenerar",
+    "regenerateSuccess": "Ilustración regenerada exitosamente",
+    "regeneratePDF": "Regenerar PDF",
+    "regeneratingPDF": "Regenerando PDF...",
+    "pdfRegenerateSuccess": "PDF regenerado exitosamente",
+    "useAsTemplate": "Usar como Plantilla"
   },
   "gallery": {
     "title": "Galería Pública",
@@ -342,7 +349,7 @@
       "ethnicityRequired": "La etnia es requerida para personajes humanos",
       "petTypeRequired": "El tipo de mascota es requerido para personajes mascotas",
       "breedRequired": "La raza es requerida para personajes mascotas",
-      "imageOnlyForPets": "Las imágenes de referencia solo están permitidas para personajes mascotas"
+      "imageOnlyForPets": "Las imágenes de referencia están permitidas para todos los tipos de personajes"
     }
   },
   "errors": {
