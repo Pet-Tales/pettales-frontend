@@ -16,6 +16,7 @@ import Profile from "@/pages/Profile";
 import Pricing from "@/pages/Pricing";
 import PurchaseSuccess from "@/pages/Credits/PurchaseSuccess";
 import CreditHistory from "@/pages/Credits/CreditHistory";
+import { PrivacyPolicy, TermsOfService } from "@/pages/Legal";
 import {
   Login,
   Signup,
@@ -133,6 +134,14 @@ const Routes = [
       {
         path: "/pricing",
         element: <Pricing />,
+      },
+      {
+        path: "/privacy-policy",
+        element: <PrivacyPolicy />,
+      },
+      {
+        path: "/terms-of-service",
+        element: <TermsOfService />,
       },
       {
         path: "/credits/success",

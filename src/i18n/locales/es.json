@@ -48,7 +48,8 @@
     "histories": "Historial",
     "support": "Soporte",
     "faq": "Preguntas Frecuentes",
-    "user": "Usuario"
+    "user": "Usuario",
+    "language": "Idioma"
   },
   "auth": {
     "signInToAccount": "Inicia sesión en tu cuenta",
@@ -114,6 +115,372 @@
   "home": {
     "title": "PetTalesAI",
     "subtitle": "Crea historias mágicas con tus queridas mascotas"
+  },
+  "landing": {
+    "hero": {
+      "title": "Convierte a Tu Mascota en el Héroe de Su Propia Historia",
+      "subtitle": "Crea libros infantiles mágicos y personalizados con tus queridas mascotas usando narrativa impulsada por IA",
+      "primaryCta": "Crear Tu Primera Historia",
+      "secondaryCta": "Ver Galería",
+      "trustIndicator1": "Historias con IA",
+      "trustIndicator2": "Calidad Profesional",
+      "trustIndicator3": "PDFs Listos para Imprimir",
+      "videoPlaceholder": "Video Demo Próximamente"
+    },
+    "features": {
+      "title": "¿Por Qué Elegir PetTalesAI?",
+      "subtitle": "Todo lo que necesitas para crear hermosos libros infantiles personalizados con tus mascotas",
+      "feature1": {
+        "title": "Narrativa Impulsada por IA",
+        "description": "Nuestra IA avanzada crea historias únicas y atractivas adaptadas específicamente a la personalidad y aventuras de tu mascota"
+      },
+      "feature2": {
+        "title": "Ilustraciones Hermosas",
+        "description": "Obras de arte de calidad profesional dan vida a las aventuras de tu mascota con narrativa visual impresionante"
+      },
+      "feature3": {
+        "title": "Creación de Personajes",
+        "description": "Construye perfiles detallados para tus mascotas y miembros de la familia para crear historias verdaderamente personalizadas"
+      },
+      "feature4": {
+        "title": "Múltiples Idiomas",
+        "description": "Crea historias en inglés y español, haciéndolas accesibles para más familias"
+      },
+      "feature5": {
+        "title": "PDFs Listos para Imprimir",
+        "description": "Descarga libros de alta calidad listos para imprimir en casa o en imprentas profesionales"
+      },
+      "feature6": {
+        "title": "Calidad Profesional",
+        "description": "Cada libro cumple con estándares de publicación profesional con hermosos diseños y tipografía"
+      }
+    },
+    "howItWorks": {
+      "title": "Cómo Funciona",
+      "subtitle": "Crear tu historia personalizada de mascotas es simple y divertido",
+      "step1": {
+        "title": "Crear Personajes",
+        "description": "Agrega tus mascotas y miembros de la familia con perfiles detallados y fotos"
+      },
+      "step2": {
+        "title": "Elige Tu Historia",
+        "description": "Selecciona temas, escenarios y tipos de aventuras que coincidan con la personalidad de tu mascota"
+      },
+      "step3": {
+        "title": "Magia de IA",
+        "description": "Observa cómo nuestra IA genera tu libro personalizado con ilustraciones personalizadas"
+      },
+      "step4": {
+        "title": "Descargar y Compartir",
+        "description": "Obtén tu PDF y comparte tu historia mágica con familia y amigos"
+      },
+      "cta": "Comenzar a Crear Ahora"
+    },
+    "socialProof": {
+      "title": "Inspírate con Nuestra Comunidad",
+      "subtitle": "Ve las increíbles historias creadas por familias de todo el mundo",
+      "bookPlaceholder": "Libro Destacado",
+      "sampleTitle": "Historia de Ejemplo",
+      "sampleDescription": "Una aventura maravillosa con mascotas queridas y sus familias",
+      "sampleAuthor": "Padre de Mascota",
+      "viewGalleryCta": "Explorar Más Historias"
+    },
+    "pricing": {
+      "title": "Precios Simples y Transparentes",
+      "subtitle": "Elige el plan que mejor funcione para tu familia",
+      "free": {
+        "title": "Funciones Gratuitas",
+        "price": "$0",
+        "feature1": "Creación de personajes",
+        "feature2": "Navegación de galería",
+        "feature3": "Acceso a la comunidad"
+      },
+      "credits": {
+        "title": "Pago por Uso",
+        "price": "Desde $5",
+        "badge": "Más Popular",
+        "feature1": "Crear libros ilimitados",
+        "feature2": "Todos los estilos de ilustración",
+        "feature3": "PDFs de alta calidad"
+      },
+      "premium": {
+        "title": "Próximamente",
+        "price": "Por Determinar",
+        "feature1": "Soporte prioritario",
+        "feature2": "Funciones avanzadas",
+        "feature3": "Descuentos por volumen"
+      },
+      "viewFullPricing": "Ver Precios Completos"
+    },
+    "finalCta": {
+      "title": "¿Listo para Crear Magia?",
+      "subtitle": "Únete a miles de familias creando historias inolvidables con sus mascotas",
+      "primaryCta": "Comenzar Tu Historia",
+      "secondaryCta": "Explorar Galería"
+    },
+    "faq": {
+      "title": "Preguntas Frecuentes",
+      "subtitle": "Todo lo que necesitas saber sobre crear historias mágicas con PetTalesAI",
+      "question1": "¿Cómo funciona PetTalesAI?",
+      "answer1": "PetTalesAI utiliza tecnología de IA avanzada para crear libros infantiles personalizados con tus mascotas. Simplemente crea perfiles de personajes para tus mascotas y miembros de la familia, elige tus preferencias de historia, y nuestra IA generará un libro único con ilustraciones personalizadas y narrativa adaptada a tus mascotas.",
+      "question2": "¿Qué información necesito proporcionar sobre mi mascota?",
+      "answer2": "Para obtener los mejores resultados, proporciona el nombre de tu mascota, tipo (perro, gato, etc.), raza, características físicas como color de pelaje y marcas, y rasgos de personalidad. También puedes subir fotos para ayudar a nuestra IA a crear ilustraciones más precisas. Cuantos más detalles proporciones, más personalizada será tu historia.",
+      "question3": "¿Cuánto tiempo toma crear un libro?",
+      "answer3": "La creación del libro típicamente toma 3-5 minutos. Nuestra IA genera la historia, crea ilustraciones personalizadas y formatea todo en un hermoso diseño de libro. Recibirás notificaciones cuando tu libro esté listo para descargar.",
+      "question4": "¿Qué formatos están disponibles para descarga?",
+      "answer4": "Todos los libros están disponibles como archivos PDF de alta calidad optimizados tanto para visualización digital como para impresión. Los PDFs están diseñados para imprimir hermosamente en impresoras domésticas estándar o en imprentas profesionales.",
+      "question5": "¿Puedo editar la historia después de crearla?",
+      "answer5": "¡Sí! Puedes editar tanto el texto de la historia como regenerar ilustraciones si no estás satisfecho con los resultados. También tienes la opción de regenerar páginas individuales o todo el libro con diferentes configuraciones.",
+      "question6": "¿Está segura mi información personal y las fotos de mis mascotas?",
+      "answer6": "Absolutamente. Tomamos la privacidad en serio y utilizamos medidas de seguridad estándar de la industria para proteger tus datos. Tus fotos e información personal están encriptadas y almacenadas de forma segura. Nunca compartimos tus datos personales con terceros.",
+      "question7": "¿Qué idiomas son compatibles?",
+      "answer7": "Actualmente, PetTalesAI soporta inglés y español. Puedes crear historias en cualquier idioma, y nuestra IA generará contenido e ilustraciones apropiadas para tu idioma elegido.",
+      "question8": "¿Cuánto cuesta crear un libro?",
+      "answer8": "PetTalesAI utiliza un sistema basado en créditos. Crear un libro típicamente cuesta entre 50-100 créditos dependiendo de la longitud y complejidad. Puedes comprar créditos en paquetes flexibles desde $5. La creación de personajes y navegación de galería siempre son gratuitas.",
+      "stillHaveQuestions": "¿Aún tienes preguntas?",
+      "contactUs": "Contactar Soporte"
+    },
+    "contact": {
+      "title": "Ponte en Contacto",
+      "subtitle": "¿Tienes preguntas, comentarios o necesitas soporte? ¡Nos encantaría saber de ti!",
+      "getInTouch": "Ponte en Contacto",
+      "description": "Nuestro equipo está aquí para ayudarte a crear historias increíbles con tus mascotas. Ya sea que necesites soporte técnico, tengas sugerencias o simplemente quieras compartir tu experiencia, ¡estamos aquí para escucharte!",
+      "support": {
+        "title": "Soporte Técnico",
+        "description": "Obtén ayuda con la creación de libros, problemas de cuenta o preguntas técnicas de nuestro equipo de soporte."
+      },
+      "community": {
+        "title": "Únete a Nuestra Comunidad",
+        "description": "Conéctate con otros padres de mascotas y comparte tus historias increíbles en nuestra creciente comunidad."
+      },
+      "feedback": {
+        "title": "Comparte Comentarios",
+        "description": "Ayúdanos a mejorar PetTalesAI compartiendo tus ideas, sugerencias y solicitudes de funciones."
+      },
+      "form": {
+        "title": "Envíanos un Mensaje",
+        "name": "Tu Nombre",
+        "email": "Dirección de Email",
+        "subject": "Asunto",
+        "message": "Tu Mensaje",
+        "send": "Enviar Mensaje",
+        "sending": "Enviando...",
+        "characters": "caracteres"
+      },
+      "validation": {
+        "nameRequired": "El nombre es requerido",
+        "nameTooLong": "El nombre debe tener menos de 100 caracteres",
+        "emailRequired": "El email es requerido",
+        "emailInvalid": "Por favor ingresa una dirección de email válida",
+        "subjectRequired": "El asunto es requerido",
+        "subjectTooLong": "El asunto debe tener menos de 200 caracteres",
+        "messageRequired": "El mensaje es requerido",
+        "messageTooShort": "El mensaje debe tener al menos 10 caracteres",
+        "messageTooLong": "El mensaje debe tener menos de 2000 caracteres",
+        "pleaseFixErrors": "Por favor corrige los errores antes de enviar",
+        "serverValidationFailed": "Por favor revisa tu información e intenta de nuevo"
+      },
+      "successMessage": "¡Gracias por tu mensaje! Te responderemos pronto.",
+      "errorMessage": "Lo siento, hubo un error al enviar tu mensaje. Por favor intenta de nuevo.",
+      "serverError": "Error del servidor. Por favor intenta más tarde.",
+      "networkError": "Error de red. Por favor verifica tu conexión e intenta de nuevo."
+    }
+  },
+  "legal": {
+    "privacy": {
+      "title": "Política de Privacidad",
+      "subtitle": "Cómo recopilamos, usamos y protegemos tu información personal",
+      "lastUpdated": "Última Actualización",
+      "lastUpdatedDate": "15 de enero de 2025",
+      "introduction": {
+        "title": "Introducción",
+        "content1": "En PetTalesAI, estamos comprometidos a proteger tu privacidad y garantizar la seguridad de tu información personal. Esta Política de Privacidad explica cómo recopilamos, usamos, divulgamos y protegemos tu información cuando usas nuestro servicio de creación de libros infantiles impulsado por IA.",
+        "content2": "Al usar nuestro servicio, aceptas la recopilación y uso de información de acuerdo con esta política. No usaremos ni compartiremos tu información con nadie excepto como se describe en esta Política de Privacidad."
+      },
+      "informationCollected": {
+        "title": "Información que Recopilamos",
+        "personal": {
+          "title": "Información Personal",
+          "item1": "Nombre y dirección de email cuando creas una cuenta",
+          "item2": "Información de perfil incluyendo preferencias de idioma",
+          "item3": "Información de pago para compras de créditos (procesada de forma segura a través de Stripe)",
+          "item4": "Información de contacto cuando te comunicas con nuestro equipo de soporte"
+        },
+        "usage": {
+          "title": "Información de Uso",
+          "item1": "Información sobre cómo usas nuestro servicio, incluyendo libros creados y personajes agregados",
+          "item2": "Fotos y descripciones de tus mascotas y miembros de la familia para la creación de libros",
+          "item3": "Preferencias y configuraciones que estableces en tu cuenta"
+        },
+        "technical": {
+          "title": "Información Técnica",
+          "item1": "Dirección IP, tipo de navegador e información del dispositivo",
+          "item2": "Cookies y tecnologías de seguimiento similares para autenticación y preferencias",
+          "item3": "Datos de registro incluyendo horarios de acceso y páginas visitadas"
+        }
+      },
+      "howWeUse": {
+        "title": "Cómo Usamos tu Información",
+        "item1": "Para proporcionar y mantener nuestro servicio de creación de libros con IA",
+        "item2": "Para procesar pagos y gestionar tu saldo de créditos",
+        "item3": "Para personalizar tu experiencia y mejorar nuestro servicio",
+        "item4": "Para comunicarnos contigo sobre tu cuenta y nuestro servicio",
+        "item5": "Para proporcionar atención al cliente y responder a tus consultas",
+        "item6": "Para cumplir con obligaciones legales y proteger nuestros derechos"
+      },
+      "informationSharing": {
+        "title": "Compartir y Divulgación de Información",
+        "content1": "No vendemos, intercambiamos o transferimos tu información personal a terceros excepto en las siguientes circunstancias:",
+        "item1": "Proveedores de servicios que nos ayudan a operar nuestro servicio (como procesamiento de pagos y alojamiento en la nube)",
+        "item2": "Cuando sea requerido por ley o para proteger nuestros derechos y seguridad",
+        "item3": "En conexión con una transferencia o adquisición de negocio",
+        "item4": "Con tu consentimiento explícito para propósitos específicos"
+      },
+      "dataSecurity": {
+        "title": "Seguridad de Datos",
+        "content1": "Implementamos medidas de seguridad técnicas y organizacionales apropiadas para proteger tu información personal contra acceso no autorizado, alteración, divulgación o destrucción.",
+        "content2": "Sin embargo, ningún método de transmisión por internet o almacenamiento electrónico es 100% seguro. Aunque nos esforzamos por usar medios comercialmente aceptables para proteger tu información, no podemos garantizar seguridad absoluta."
+      },
+      "yourRights": {
+        "title": "Tus Derechos y Opciones",
+        "item1": "Acceder y actualizar tu información personal a través de la configuración de tu cuenta",
+        "item2": "Solicitar la eliminación de tu cuenta y datos asociados",
+        "item3": "Optar por no recibir comunicaciones promocionales",
+        "item4": "Solicitar una copia de tus datos personales",
+        "item5": "Contactarnos para ejercer cualquiera de estos derechos"
+      },
+      "cookies": {
+        "title": "Cookies y Seguimiento",
+        "content1": "Usamos cookies y tecnologías similares para mejorar tu experiencia, recordar tus preferencias y analizar cómo se usa nuestro servicio.",
+        "content2": "Puedes controlar la configuración de cookies a través de tu navegador, pero deshabilitar las cookies puede afectar la funcionalidad de nuestro servicio."
+      },
+      "childrensPrivacy": {
+        "title": "Privacidad de Menores",
+        "content": "Nuestro servicio está diseñado para familias y puede ser usado por niños bajo supervisión parental. No recopilamos conscientemente información personal de niños menores de 13 años sin consentimiento parental. Si crees que hemos recopilado información de un niño menor de 13 años, por favor contáctanos inmediatamente."
+      },
+      "changes": {
+        "title": "Cambios a esta Política de Privacidad",
+        "content": "Podemos actualizar esta Política de Privacidad de vez en cuando. Te notificaremos de cualquier cambio publicando la nueva Política de Privacidad en esta página y actualizando la fecha de 'Última Actualización'. Se te aconseja revisar esta Política de Privacidad periódicamente para cualquier cambio."
+      },
+      "contact": {
+        "title": "Contáctanos",
+        "content": "Si tienes alguna pregunta sobre esta Política de Privacidad o nuestras prácticas de privacidad, por favor contáctanos:",
+        "email": "Email"
+      }
+    },
+    "terms": {
+      "title": "Términos de Servicio",
+      "subtitle": "Términos y condiciones para usar PetTalesAI",
+      "lastUpdated": "Última Actualización",
+      "lastUpdatedDate": "15 de enero de 2025",
+      "introduction": {
+        "title": "Introducción",
+        "content1": "¡Bienvenido a PetTalesAI! Estos Términos de Servicio ('Términos') rigen tu uso de nuestro servicio de creación de libros infantiles impulsado por IA operado por PetTalesAI ('nosotros', 'nos', o 'nuestro').",
+        "content2": "Al acceder o usar nuestro servicio, aceptas estar sujeto a estos Términos. Si no estás de acuerdo con alguna parte de estos términos, entonces no puedes acceder al servicio."
+      },
+      "acceptance": {
+        "title": "Aceptación de Términos",
+        "content": "Al crear una cuenta o usar nuestro servicio, reconoces que has leído, entendido y aceptas estar sujeto a estos Términos y nuestra Política de Privacidad. Estos Términos se aplican a todos los visitantes, usuarios y otros que acceden o usan el servicio."
+      },
+      "serviceDescription": {
+        "title": "Descripción del Servicio",
+        "content1": "PetTalesAI proporciona una plataforma impulsada por IA para crear libros infantiles personalizados con tus mascotas y miembros de la familia. Nuestro servicio incluye:",
+        "item1": "Herramientas de creación de personajes para mascotas y miembros de la familia",
+        "item2": "Historias e ilustraciones generadas por IA",
+        "item3": "Funciones de personalización y edición de libros",
+        "item4": "Generación de PDF para impresión y compartir"
+      },
+      "userAccounts": {
+        "title": "Cuentas de Usuario",
+        "content1": "Para usar ciertas funciones de nuestro servicio, debes crear una cuenta. Eres responsable de:",
+        "item1": "Proporcionar información precisa y completa",
+        "item2": "Mantener la seguridad de las credenciales de tu cuenta",
+        "item3": "Todas las actividades que ocurran bajo tu cuenta",
+        "item4": "Notificarnos inmediatamente de cualquier uso no autorizado"
+      },
+      "payment": {
+        "title": "Pago y Créditos",
+        "content1": "Nuestro servicio opera con un sistema basado en créditos. Al comprar créditos, aceptas lo siguiente:",
+        "item1": "Todos los pagos se procesan de forma segura a través de Stripe",
+        "item2": "Los créditos no son reembolsables excepto como lo requiera la ley",
+        "item3": "Los créditos no expiran pero están vinculados a tu cuenta",
+        "item4": "Los precios pueden cambiar con aviso, pero los créditos existentes siguen siendo válidos",
+        "item5": "Las generaciones de libros fallidas resultarán en reembolsos automáticos de créditos"
+      },
+      "userContent": {
+        "title": "Contenido del Usuario y Propiedad Intelectual",
+        "content1": "Mantienes la propiedad del contenido que proporcionas (fotos, descripciones, etc.) y los libros que creas usando nuestro servicio.",
+        "content2": "Al usar nuestro servicio, nos otorgas una licencia limitada para usar tu contenido únicamente para proporcionar el servicio. Declaras que:",
+        "item1": "Posees o tienes el derecho de usar todo el contenido que proporcionas",
+        "item2": "Tu contenido no viola ningún derecho de terceros",
+        "item3": "Tu contenido no es ilegal, dañino u ofensivo",
+        "item4": "No usarás nuestro servicio para crear contenido inapropiado que involucre menores"
+      },
+      "prohibitedUses": {
+        "title": "Usos Prohibidos",
+        "content": "No puedes usar nuestro servicio para ningún propósito ilegal o para solicitar a otros que realicen actos ilegales. Los usos prohibidos incluyen:",
+        "item1": "Crear contenido que sea ilegal, dañino, amenazante u ofensivo",
+        "item2": "Violar cualquier derecho de propiedad intelectual",
+        "item3": "Intentar obtener acceso no autorizado a nuestros sistemas",
+        "item4": "Usar nuestro servicio para enviar spam o acosar a otros",
+        "item5": "Crear contenido que explote o dañe a niños",
+        "item6": "Hacer ingeniería inversa o intentar extraer nuestros modelos de IA"
+      },
+      "intellectualProperty": {
+        "title": "Derechos de Propiedad Intelectual",
+        "content1": "El servicio y su contenido original, características y funcionalidad son propiedad de PetTalesAI y están protegidos por leyes internacionales de derechos de autor, marcas registradas, patentes, secretos comerciales y otras leyes de propiedad intelectual.",
+        "content2": "No puedes reproducir, distribuir, modificar o crear trabajos derivados de nuestro servicio sin nuestro permiso expreso por escrito."
+      },
+      "disclaimers": {
+        "title": "Exenciones de Responsabilidad",
+        "content1": "Nuestro servicio se proporciona 'tal como está' sin garantías de ningún tipo. No garantizamos que el servicio será ininterrumpido, seguro o libre de errores.",
+        "content2": "El contenido generado por IA puede no siempre cumplir con tus expectativas, y no podemos garantizar la calidad o precisión de las historias e ilustraciones generadas."
+      },
+      "limitationOfLiability": {
+        "title": "Limitación de Responsabilidad",
+        "content": "En la máxima medida permitida por la ley, PetTalesAI no será responsable de ningún daño indirecto, incidental, especial, consecuente o punitivo, incluyendo sin limitación, pérdida de ganancias, datos, uso, buena voluntad u otras pérdidas intangibles."
+      },
+      "termination": {
+        "title": "Terminación",
+        "content": "Podemos terminar o suspender tu cuenta y acceso al servicio inmediatamente, sin aviso previo, por conducta que creemos viola estos Términos o es dañina para otros usuarios, nosotros o terceros, o por cualquier otra razón."
+      },
+      "changes": {
+        "title": "Cambios a los Términos",
+        "content": "Nos reservamos el derecho de modificar estos Términos en cualquier momento. Notificaremos a los usuarios de cualquier cambio material publicando los nuevos Términos en nuestro sitio web. Tu uso continuo del servicio después de tales modificaciones constituye aceptación de los Términos actualizados."
+      },
+      "governingLaw": {
+        "title": "Ley Aplicable",
+        "content": "Estos Términos se regirán e interpretarán de acuerdo con las leyes de la jurisdicción en la que opera PetTalesAI, sin tener en cuenta sus disposiciones de conflicto de leyes."
+      },
+      "contact": {
+        "title": "Información de Contacto",
+        "content": "Si tienes alguna pregunta sobre estos Términos de Servicio, por favor contáctanos:",
+        "email": "Email"
+      }
+    }
+  },
+  "footer": {
+    "social": {
+      "title": "Conéctate Con Nosotros",
+      "description": "Síguenos en redes sociales para actualizaciones, consejos e inspiración para crear historias increíbles de mascotas."
+    },
+    "sitemap": {
+      "title": "Enlaces Rápidos",
+      "home": "Inicio",
+      "gallery": "Galería",
+      "pricing": "Precios",
+      "howItWorks": "Cómo Funciona"
+    },
+    "legal": {
+      "title": "Legal",
+      "privacyPolicy": "Política de Privacidad",
+      "termsOfService": "Términos de Servicio"
+    },
+    "bottom": {
+      "copyright": "© 2025 PetTalesAI. Todos los derechos reservados.",
+      "madeWith": "Hecho con",
+      "forPetLovers": "para amantes de mascotas en todas partes"
+    }
   },
   "pages": {
     "myBooksPage": "Mis Libros",
