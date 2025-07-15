@@ -69,6 +69,12 @@ const PageEditor = ({ isOpen, onClose, page, onSuccess }) => {
         page.illustration_page.id
       );
 
+      // Update credit balance if credits were used
+      if (response.data?.creditsUsed > 0) {
+        // We need to update the credit balance in the parent component
+        // This will be handled by the parent BookDetail component
+      }
+
       // The backend now automatically sets the new image as the main illustration
       if (response.data?.newImageUrl) {
         toast.success(t("books.regenerateSuccess"));
@@ -78,8 +84,9 @@ const PageEditor = ({ isOpen, onClose, page, onSuccess }) => {
       }
     } catch (error) {
       logger.error("Regenerate page illustration error:", error);
-      const errorMessage = translateError(error?.message || error);
-      toast.error(errorMessage);
+
+      // Re-throw the error so IllustrationSelector can handle it
+      throw error;
     } finally {
       setIsRegeneratingIllustration(false);
     }
@@ -318,6 +325,8 @@ const PageEditor = ({ isOpen, onClose, page, onSuccess }) => {
         }
         isRegenerating={isRegeneratingIllustration}
         canRegenerate={!!page?.illustration_page?.id}
+        pageCount={page?.book?.page_count || 0}
+        regenerationsUsed={page?.book?.regenerations_used || 0}
       />
     </Dialog>
   );

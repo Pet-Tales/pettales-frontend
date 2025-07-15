@@ -3,6 +3,7 @@ import HealthReducer from "./reducers/health";
 import AuthReducer, { setAxiosStore } from "./reducers/auth";
 import CharactersReducer from "./reducers/characters";
 import BooksReducer from "./reducers/books";
+import CreditsReducer from "./reducers/credits";
 import { DEBUG_MODE } from "@/utils/constants";
 
 const reducer = {
@@ -10,6 +11,7 @@ const reducer = {
   auth: AuthReducer,
   characters: CharactersReducer,
   books: BooksReducer,
+  credits: CreditsReducer,
 };
 
 export const store = configureStore({

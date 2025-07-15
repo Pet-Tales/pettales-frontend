@@ -312,6 +312,13 @@ const authSlice = createSlice({
     markAuthAttempted: (state) => {
       state.hasAttemptedAuth = true;
     },
+    updateCreditsBalance: (state, action) => {
+      if (state.user) {
+        state.user.creditsBalance = action.payload;
+        // Update localStorage
+        setStoredUser(state.user);
+      }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -500,5 +507,6 @@ export const {
   setUser,
   clearAuth,
   markAuthAttempted,
+  updateCreditsBalance,
 } = authSlice.actions;
 export default authSlice.reducer;

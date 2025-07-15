@@ -17,11 +17,19 @@ import { FaArrowLeft, FaBook } from "react-icons/fa";
 
 import { createBook } from "@/stores/reducers/books";
 import { fetchCharacters } from "@/stores/reducers/characters";
+import { fetchCreditBalance } from "@/stores/reducers/credits";
 import { useErrorTranslation } from "@/utils/errorMapper";
 import { toast } from "react-toastify";
 import logger from "@/utils/logger";
 import GalleryService from "@/services/galleryService";
 import { smartNavigateBack, getFallbackPath } from "@/utils/navigationUtils";
+
+// Credit costs for different book types
+const CREDIT_COSTS = {
+  12: 250, // 12-page book
+  16: 300, // 16-page book
+  24: 350, // 24-page book
+};
 
 const CreateBook = () => {
   const { t } = useValidatedTranslation();
@@ -35,6 +43,8 @@ const CreateBook = () => {
   const { characters, isLoading: isLoadingCharacters } = useSelector(
     (state) => state.characters
   );
+  const { balance: creditBalance } = useSelector((state) => state.credits);
+  const { user } = useSelector((state) => state.auth);
 
   // Get template data from location state (if coming from gallery)
   const templateDataFromState = location.state?.template;
@@ -53,7 +63,7 @@ const CreateBook = () => {
     moral: "",
     language: "en",
     pageCount: 12,
-    illustrationStyle: "disney",
+    illustrationStyle: "vector_art",
     characterIds: [],
   });
 
@@ -133,6 +143,11 @@ const CreateBook = () => {
     }
   }, [templateData]);
 
+  // Fetch credit balance when component mounts
+  useEffect(() => {
+    dispatch(fetchCreditBalance());
+  }, [dispatch]);
+
   const handleInputChange = (field, value) => {
     setFormData((prev) => ({
       ...prev,
@@ -205,6 +220,16 @@ const CreateBook = () => {
 
     if (formData.characterIds.length === 0) {
       newErrors.characterIds = t("books.validation.charactersRequired");
+    }
+
+    // Check if user has sufficient credits
+    const requiredCredits = CREDIT_COSTS[formData.pageCount];
+    const currentBalance = user?.creditsBalance || creditBalance || 0;
+    if (currentBalance < requiredCredits) {
+      newErrors.credits = t("books.validation.insufficientCredits", {
+        required: requiredCredits,
+        available: currentBalance,
+      });
     }
 
     setErrors(newErrors);
@@ -431,6 +456,48 @@ const CreateBook = () => {
                       </Select>
                     </div>
                   </div>
+
+                  {/* Credit Cost Display */}
+                  <div className="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <Typography
+                          variant="small"
+                          className="font-medium text-blue-900"
+                        >
+                          {t("books.creditCost")}
+                        </Typography>
+                        <Typography variant="small" className="text-blue-700">
+                          {CREDIT_COSTS[formData.pageCount]}{" "}
+                          {t("pricing.credits")}
+                        </Typography>
+                      </div>
+                      <div className="text-right">
+                        <Typography variant="small" className="text-blue-700">
+                          {t("books.currentBalance")}:{" "}
+                          {user?.creditsBalance?.toLocaleString() || 0}
+                        </Typography>
+                        {(user?.creditsBalance || 0) <
+                          CREDIT_COSTS[formData.pageCount] && (
+                          <Typography
+                            variant="small"
+                            className="text-red-600 font-medium"
+                          >
+                            {t("books.insufficientCredits")}
+                          </Typography>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Credit Error Display */}
+                  {errors.credits && (
+                    <div className="mt-2">
+                      <Typography variant="small" color="red">
+                        {errors.credits}
+                      </Typography>
+                    </div>
+                  )}
                 </div>
 
                 {/* Character Selection */}

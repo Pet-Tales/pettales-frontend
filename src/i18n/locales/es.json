@@ -43,6 +43,7 @@
     "knowledgeBase": "Base de Conocimientos",
     "contactSupport": "Contactar Soporte",
     "credits": "Créditos",
+    "balance": "Saldo",
     "buyMore": "Comprar más",
     "histories": "Historial",
     "support": "Soporte",
@@ -197,6 +198,9 @@
     "selectCharacters": "Seleccionar Personajes",
     "selectCharactersDescription": "Elige hasta 3 personajes para incluir en tu historia",
     "noCharactersAvailable": "No hay personajes disponibles. Crea algunos personajes primero.",
+    "creditCost": "Costo en Créditos",
+    "currentBalance": "Saldo Actual",
+    "insufficientCredits": "Créditos Insuficientes",
     "creating": "Creando...",
     "createSuccess": "¡Libro creado exitosamente! La generación ha comenzado.",
     "styles": {
@@ -218,6 +222,7 @@
       "moralTooLong": "La moraleja debe tener menos de 200 caracteres",
       "dedicationTooLong": "La dedicatoria debe tener menos de 200 caracteres",
       "charactersRequired": "Se requiere al menos un personaje",
+      "insufficientCredits": "Créditos insuficientes. Requeridos: {{required}}, Disponibles: {{available}}",
       "fixErrors": "Por favor corrige los errores antes de enviar"
     },
     "notFound": "Libro no encontrado",
@@ -248,7 +253,25 @@
     "regeneratePDF": "Regenerar PDF",
     "regeneratingPDF": "Regenerando PDF...",
     "pdfRegenerateSuccess": "PDF regenerado exitosamente",
-    "useAsTemplate": "Usar como Plantilla"
+    "useAsTemplate": "Usar como Plantilla",
+    "freeRegenerations": "Regeneraciones Gratuitas",
+    "illustration": "ilustración",
+    "regenerationWarning": {
+      "title": "Créditos Requeridos para Regeneración",
+      "message": "Has excedido tu límite de regeneraciones gratuitas. Regenerar esta {{type}} costará {{credits}} créditos.",
+      "cost": "Costo de Regeneración",
+      "confirmation": "¿Deseas proceder con la regeneración?",
+      "proceed": "Proceder",
+      "needMoreCredits": "Necesitas Más Créditos",
+      "insufficientCredits": "Necesitas {{shortfall}} créditos más. Requeridos: {{required}}, Disponibles: {{available}}"
+    },
+    "regenerationTooltip": {
+      "available": "{{remaining}} regeneraciones gratuitas restantes. Después, cada regeneración cuesta {{cost}} créditos.",
+      "exceeded": "Regeneraciones gratuitas agotadas. Cada regeneración ahora cuesta {{cost}} créditos."
+    },
+    "regenerationError": {
+      "insufficientCredits": "Créditos insuficientes para regeneración. Por favor compra más créditos para continuar."
+    }
   },
   "gallery": {
     "title": "Galería Pública",
@@ -487,5 +510,56 @@
     "invalidCredentials": "Correo electrónico o contraseña inválidos",
     "emailRequired": "El correo electrónico es requerido",
     "passwordRequired": "La contraseña es requerida"
+  },
+  "pricing": {
+    "title": "Paquetes de Créditos",
+    "subtitle": "Compra créditos para crear increíbles libros infantiles generados por IA",
+    "credits": "créditos",
+    "book12Pages": "Libro de 12 Páginas",
+    "book16Pages": "Libro de 16 Páginas",
+    "book24Pages": "Libro de 24 Páginas",
+    "regeneration": "Regeneración de Ilustración",
+    "suggestedPackages": "Paquetes Sugeridos",
+    "popular": "Más Popular",
+    "buyNow": "Comprar Ahora",
+    "processing": "Procesando...",
+    "customAmount": "Cantidad Personalizada",
+    "enterCredits": "Ingresa el número de créditos",
+    "invalidAmount": "Por favor ingresa una cantidad válida entre 1 y 100,000",
+    "total": "Total",
+    "currentBalance": "Saldo Actual",
+    "loginRequired": "Por favor inicia sesión para comprar créditos",
+    "checkoutError": "Error al crear la sesión de pago"
+  },
+  "credits": {
+    "purchaseSuccess": "¡Compra completada exitosamente!",
+    "verifyingPurchase": "Verificando Compra",
+    "pleaseWait": "Por favor espera mientras verificamos tu pago...",
+    "purchaseSuccessTitle": "¡Pago Exitoso!",
+    "purchaseSuccessMessage": "Tus créditos han sido agregados a tu cuenta.",
+    "purchaseDetails": "Detalles de la Compra",
+    "creditsAdded": "Créditos Agregados",
+    "newBalance": "Nuevo Saldo",
+    "continueToBooks": "Continuar a Mis Libros",
+    "buyMoreCredits": "Comprar Más Créditos",
+    "verificationFailed": "Verificación Fallida",
+    "verificationFailedMessage": "No pudimos verificar tu pago. Por favor contacta soporte si fuiste cobrado.",
+    "contactSupport": "Si fuiste cobrado pero no recibiste créditos, por favor contacta nuestro equipo de soporte.",
+    "tryAgain": "Intentar de Nuevo",
+    "backToHome": "Volver al Inicio",
+    "historyTitle": "Historial de Créditos",
+    "historySubtitle": "Ve todas tus transacciones y compras de créditos",
+    "currentBalance": "Saldo Actual",
+    "transactionHistory": "Historial de Transacciones",
+    "loadingHistory": "Cargando historial de transacciones...",
+    "noTransactions": "Aún No Hay Transacciones",
+    "noTransactionsMessage": "Aún no has realizado ninguna transacción de créditos.",
+    "type": {
+      "purchase": "Compra",
+      "usage": "Uso",
+      "refund": "Reembolso"
+    },
+    "relatedBook": "Libro Relacionado",
+    "showingTransactions": "Mostrando {{start}}-{{end}} de {{total}} transacciones"
   }
 }

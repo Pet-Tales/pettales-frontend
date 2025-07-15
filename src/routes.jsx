@@ -13,6 +13,9 @@ import CreateBook from "@/pages/Books/CreateBook";
 import BookDetail from "@/pages/Books/BookDetail";
 import Gallery from "@/pages/Gallery";
 import Profile from "@/pages/Profile";
+import Pricing from "@/pages/Pricing";
+import PurchaseSuccess from "@/pages/Credits/PurchaseSuccess";
+import CreditHistory from "@/pages/Credits/CreditHistory";
 import {
   Login,
   Signup,
@@ -124,6 +127,22 @@ const Routes = [
         element: (
           <ProtectedRoute>
             <Profile />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/pricing",
+        element: <Pricing />,
+      },
+      {
+        path: "/credits/success",
+        element: <PurchaseSuccess />,
+      },
+      {
+        path: "/credits/history",
+        element: (
+          <ProtectedRoute>
+            <CreditHistory />
           </ProtectedRoute>
         ),
       },

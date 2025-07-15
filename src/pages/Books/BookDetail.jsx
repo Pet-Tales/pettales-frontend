@@ -27,6 +27,7 @@ import BookStatusBadge from "@/components/Books/BookStatusBadge";
 import DeleteConfirmationModal from "@/components/Books/DeleteConfirmationModal";
 import PageEditor from "@/components/Books/PageEditor";
 import IllustrationSelector from "@/components/Books/IllustrationSelector";
+import RegenerationCounter from "@/components/Books/RegenerationCounter";
 import IllustrationService from "@/services/illustrationService";
 import {
   fetchBookById,
@@ -37,6 +38,8 @@ import {
   clearCurrentBook,
   setPdfNeedsRegeneration,
 } from "@/stores/reducers/books";
+import { updateCreditsBalance } from "@/stores/reducers/auth";
+import { fetchCreditBalance } from "@/stores/reducers/credits";
 import BookService from "@/services/bookService";
 import { useErrorTranslation } from "@/utils/errorMapper";
 import { toast } from "react-toastify";
@@ -51,7 +54,7 @@ const BookDetail = () => {
   const translateError = useErrorTranslation();
 
   const { currentBook, isLoading } = useSelector((state) => state.books);
-  const { isAuthenticated } = useSelector((state) => state.auth);
+  const { isAuthenticated, user } = useSelector((state) => state.auth);
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showPageEditor, setShowPageEditor] = useState(false);
@@ -148,7 +151,7 @@ const BookDetail = () => {
     setShowPageEditor(true);
   };
 
-  const handlePageUpdateSuccess = () => {
+  const handlePageUpdateSuccess = async () => {
     setShowPageEditor(false);
     setSelectedPage(null);
 
@@ -156,6 +159,9 @@ const BookDetail = () => {
     dispatch(setPdfNeedsRegeneration({ bookId: id, needsRegeneration: true }));
 
     loadBookPages(); // Reload pages to get updated data
+
+    // Refresh book data to get updated regeneration count and credit balance
+    dispatch(fetchBookById(id));
   };
 
   const handleFrontCoverSelect = async (selectedUrl) => {
@@ -221,6 +227,13 @@ const BookDetail = () => {
       const response = await IllustrationService.regenerateFrontCover(id);
       const newImageUrl = response.data?.newImageUrl;
 
+      // Update credit balance if credits were used
+      if (response.data?.creditsUsed > 0) {
+        dispatch(
+          updateCreditsBalance(user.creditsBalance - response.data.creditsUsed)
+        );
+      }
+
       if (newImageUrl) {
         // Automatically set the new image as the main front cover
         await dispatch(
@@ -231,14 +244,18 @@ const BookDetail = () => {
         ).unwrap();
       }
 
-      // Refresh book data to get updated alternatives
-      await dispatch(fetchBookById(id));
+      // Refresh book data to get updated alternatives and regeneration count
+      dispatch(fetchBookById(id));
+
+      // Refresh credit balance to ensure navbar is updated
+      dispatch(fetchCreditBalance());
 
       toast.success(t("books.regenerateSuccess"));
     } catch (error) {
       logger.error("Regenerate front cover error:", error);
-      const errorMessage = translateError(error?.message || error);
-      toast.error(errorMessage);
+
+      // Re-throw the error so IllustrationSelector can handle it
+      throw error;
     } finally {
       setIsRegeneratingFrontCover(false);
     }
@@ -256,6 +273,13 @@ const BookDetail = () => {
       const response = await IllustrationService.regenerateBackCover(id);
       const newImageUrl = response.data?.newImageUrl;
 
+      // Update credit balance if credits were used
+      if (response.data?.creditsUsed > 0) {
+        dispatch(
+          updateCreditsBalance(user.creditsBalance - response.data.creditsUsed)
+        );
+      }
+
       if (newImageUrl) {
         // Automatically set the new image as the main back cover
         await dispatch(
@@ -266,14 +290,18 @@ const BookDetail = () => {
         ).unwrap();
       }
 
-      // Refresh book data to get updated alternatives
-      await dispatch(fetchBookById(id));
+      // Refresh book data to get updated alternatives and regeneration count
+      dispatch(fetchBookById(id));
+
+      // Refresh credit balance to ensure navbar is updated
+      dispatch(fetchCreditBalance());
 
       toast.success(t("books.regenerateSuccess"));
     } catch (error) {
       logger.error("Regenerate back cover error:", error);
-      const errorMessage = translateError(error?.message || error);
-      toast.error(errorMessage);
+
+      // Re-throw the error so IllustrationSelector can handle it
+      throw error;
     } finally {
       setIsRegeneratingBackCover(false);
     }
@@ -527,6 +555,18 @@ const BookDetail = () => {
                         {currentBook.pageCount} {t("books.pages")}
                       </Typography>
                     </div>
+
+                    {/* Regeneration Counter */}
+                    {isOwner && (
+                      <div>
+                        <RegenerationCounter
+                          pageCount={currentBook.pageCount}
+                          regenerationsUsed={currentBook.regenerationsUsed || 0}
+                          showLabel={true}
+                          className="mt-1"
+                        />
+                      </div>
+                    )}
                     <div>
                       <Typography variant="small" className="text-gray-600">
                         {t("books.illustrationStyle")}
@@ -806,6 +846,8 @@ const BookDetail = () => {
         onRegenerate={isOwner ? handleRegenerateFrontCover : null}
         isRegenerating={isRegeneratingFrontCover}
         canRegenerate={isOwner}
+        pageCount={currentBook.pageCount}
+        regenerationsUsed={currentBook.regenerationsUsed || 0}
       />
 
       {/* Back Cover Selector */}
@@ -820,6 +862,8 @@ const BookDetail = () => {
         onRegenerate={isOwner ? handleRegenerateBackCover : null}
         isRegenerating={isRegeneratingBackCover}
         canRegenerate={isOwner}
+        pageCount={currentBook.pageCount}
+        regenerationsUsed={currentBook.regenerationsUsed || 0}
       />
     </div>
   );

@@ -43,6 +43,7 @@
     "knowledgeBase": "Knowledge Base",
     "contactSupport": "Contact Support",
     "credits": "Credits",
+    "balance": "Balance",
     "buyMore": "Buy more",
     "histories": "Histories",
     "support": "Support",
@@ -196,6 +197,9 @@
     "selectCharacters": "Select Characters",
     "selectCharactersDescription": "Choose up to 3 characters to include in your story",
     "noCharactersAvailable": "No characters available. Create some characters first.",
+    "creditCost": "Credit Cost",
+    "currentBalance": "Current Balance",
+    "insufficientCredits": "Insufficient Credits",
     "creating": "Creating...",
     "createSuccess": "Book created successfully! Generation has started.",
     "styles": {
@@ -217,6 +221,7 @@
       "moralTooLong": "Moral must be less than 200 characters",
       "dedicationTooLong": "Dedication must be less than 200 characters",
       "charactersRequired": "At least one character is required",
+      "insufficientCredits": "Insufficient credits. Required: {{required}}, Available: {{available}}",
       "fixErrors": "Please fix the errors before submitting"
     },
     "notFound": "Book not found",
@@ -247,7 +252,25 @@
     "regeneratePDF": "Regenerate PDF",
     "regeneratingPDF": "Regenerating PDF...",
     "pdfRegenerateSuccess": "PDF regenerated successfully",
-    "useAsTemplate": "Use as Template"
+    "useAsTemplate": "Use as Template",
+    "freeRegenerations": "Free Regenerations",
+    "illustration": "illustration",
+    "regenerationWarning": {
+      "title": "Credit Required for Regeneration",
+      "message": "You have exceeded your free regeneration limit. Regenerating this {{type}} will cost {{credits}} credits.",
+      "cost": "Regeneration Cost",
+      "confirmation": "Do you want to proceed with the regeneration?",
+      "proceed": "Proceed",
+      "needMoreCredits": "Need More Credits",
+      "insufficientCredits": "You need {{shortfall}} more credits. Required: {{required}}, Available: {{available}}"
+    },
+    "regenerationTooltip": {
+      "available": "{{remaining}} free regenerations remaining. After that, each regeneration costs {{cost}} credits.",
+      "exceeded": "Free regenerations exhausted. Each regeneration now costs {{cost}} credits."
+    },
+    "regenerationError": {
+      "insufficientCredits": "Insufficient credits for regeneration. Please purchase more credits to continue."
+    }
   },
   "gallery": {
     "title": "Public Gallery",
@@ -489,5 +512,56 @@
     "invalidCredentials": "Invalid email or password",
     "emailRequired": "Email is required",
     "passwordRequired": "Password is required"
+  },
+  "pricing": {
+    "title": "Credit Packages",
+    "subtitle": "Purchase credits to create amazing AI-generated children's books",
+    "credits": "credits",
+    "book12Pages": "12-Page Book",
+    "book16Pages": "16-Page Book",
+    "book24Pages": "24-Page Book",
+    "regeneration": "Illustration Regeneration",
+    "suggestedPackages": "Suggested Packages",
+    "popular": "Most Popular",
+    "buyNow": "Buy Now",
+    "processing": "Processing...",
+    "customAmount": "Custom Amount",
+    "enterCredits": "Enter number of credits",
+    "invalidAmount": "Please enter a valid amount between 1 and 100,000",
+    "total": "Total",
+    "currentBalance": "Current Balance",
+    "loginRequired": "Please log in to purchase credits",
+    "checkoutError": "Failed to create checkout session"
+  },
+  "credits": {
+    "purchaseSuccess": "Purchase completed successfully!",
+    "verifyingPurchase": "Verifying Purchase",
+    "pleaseWait": "Please wait while we verify your payment...",
+    "purchaseSuccessTitle": "Payment Successful!",
+    "purchaseSuccessMessage": "Your credits have been added to your account.",
+    "purchaseDetails": "Purchase Details",
+    "creditsAdded": "Credits Added",
+    "newBalance": "New Balance",
+    "continueToBooks": "Continue to My Books",
+    "buyMoreCredits": "Buy More Credits",
+    "verificationFailed": "Verification Failed",
+    "verificationFailedMessage": "We couldn't verify your payment. Please contact support if you were charged.",
+    "contactSupport": "If you were charged but didn't receive credits, please contact our support team.",
+    "tryAgain": "Try Again",
+    "backToHome": "Back to Home",
+    "historyTitle": "Credit History",
+    "historySubtitle": "View all your credit transactions and purchases",
+    "currentBalance": "Current Balance",
+    "transactionHistory": "Transaction History",
+    "loadingHistory": "Loading transaction history...",
+    "noTransactions": "No Transactions Yet",
+    "noTransactionsMessage": "You haven't made any credit transactions yet.",
+    "type": {
+      "purchase": "Purchase",
+      "usage": "Usage",
+      "refund": "Refund"
+    },
+    "relatedBook": "Related Book",
+    "showingTransactions": "Showing {{start}}-{{end}} of {{total}} transactions"
   }
 }

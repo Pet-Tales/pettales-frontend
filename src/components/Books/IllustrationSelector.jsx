@@ -11,6 +11,8 @@ import {
   CardBody,
 } from "@material-tailwind/react";
 import { FaTimes, FaSave, FaImage, FaRedo } from "react-icons/fa";
+import RegenerationCounter from "./RegenerationCounter";
+import InlineAlert from "./InlineAlert";
 
 const IllustrationSelector = ({
   isOpen,
@@ -23,9 +25,13 @@ const IllustrationSelector = ({
   onRegenerate = null,
   isRegenerating = false,
   canRegenerate = false,
+  pageCount = 0,
+  regenerationsUsed = 0,
 }) => {
   const { t } = useValidatedTranslation();
   const [selectedUrl, setSelectedUrl] = useState(currentUrl);
+  const [alertMessage, setAlertMessage] = useState("");
+  const [showAlert, setShowAlert] = useState(false);
 
   // Combine current URL with alternatives, ensuring no duplicates
   const allOptions = [
@@ -46,7 +52,29 @@ const IllustrationSelector = ({
 
   const handleClose = () => {
     setSelectedUrl(currentUrl); // Reset to original selection
+    setShowAlert(false); // Clear any alerts
+    setAlertMessage("");
     onClose();
+  };
+
+  const handleRegenerate = async () => {
+    if (!onRegenerate) return;
+
+    try {
+      setShowAlert(false); // Clear any previous alerts
+      await onRegenerate();
+    } catch (error) {
+      // console.log("", error);
+      // Handle insufficient credits error specifically
+      // setAlertMessage(t("books.regenerationError.insufficientCredits"));
+      console.log("error?.data?.message :>> ", error?.message);
+      setAlertMessage(
+        error?.data?.message || t("books.regenerationError.insufficientCredits")
+      );
+      setShowAlert(true);
+      // Let the parent component handle other errors
+      // throw error;
+    }
   };
 
   if (!isOpen) return null;
@@ -62,6 +90,13 @@ const IllustrationSelector = ({
         <Typography variant="small" className="text-gray-600 mb-4">
           {t("books.selectIllustrationDescription")}
         </Typography>
+
+        {/* Alert for errors */}
+        <InlineAlert
+          message={alertMessage}
+          isVisible={showAlert}
+          onClose={() => setShowAlert(false)}
+        />
 
         {allOptions.length > 0 ? (
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
@@ -136,23 +171,35 @@ const IllustrationSelector = ({
         )}
       </DialogBody>
 
-      <DialogFooter className="flex justify-between">
-        <Button
-          variant="text"
-          onClick={handleClose}
-          disabled={isLoading || isRegenerating}
-          className="flex justify-center"
-        >
-          <FaTimes className="h-4 w-4 mr-2" />
-          {t("common.cancel")}
-        </Button>
+      <DialogFooter className="flex flex-col sm:flex-row justify-between gap-4">
+        <div className="flex items-center justify-between w-full sm:w-auto">
+          <Button
+            variant="text"
+            onClick={handleClose}
+            disabled={isLoading || isRegenerating}
+            className="flex justify-center"
+          >
+            <FaTimes className="h-4 w-4 mr-2" />
+            {t("common.cancel")}
+          </Button>
 
-        <div className="flex gap-2">
+          {/* Regeneration Counter */}
+          {canRegenerate && pageCount > 0 && (
+            <RegenerationCounter
+              pageCount={pageCount}
+              regenerationsUsed={regenerationsUsed}
+              showLabel={false}
+              className="ml-4 sm:ml-0"
+            />
+          )}
+        </div>
+
+        <div className="flex gap-2 justify-end">
           {canRegenerate && onRegenerate && (
             <Button
               variant="outlined"
               color="blue"
-              onClick={onRegenerate}
+              onClick={handleRegenerate}
               disabled={isLoading || isRegenerating}
               className="flex items-center gap-2"
             >

@@ -2,6 +2,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { CiUser } from "react-icons/ci";
+import { FaCoins } from "react-icons/fa";
 import { logout, setUser } from "@/stores/reducers/auth";
 import logger from "@/utils/logger";
 import { useValidatedTranslation } from "@/hooks/useValidatedTranslation";
@@ -161,6 +162,19 @@ const PTAINavBar = () => {
           })}
         </div>
         <div className="flex gap-4 items-center">
+          {/* Credit Balance Display */}
+          {isAuthenticated && user && (
+            <div
+              className="flex items-center gap-1 text-sm text-gray-600 cursor-pointer"
+              onClick={() => navigate("/credits/history")}
+            >
+              <FaCoins className="text-yellow-800" />
+              <span className="font-medium">
+                {user?.creditsBalance?.toLocaleString() || 0}
+              </span>
+            </div>
+          )}
+
           {/* Language Dropdown */}
           <Menu>
             <MenuHandler>
@@ -244,9 +258,15 @@ const PTAINavBar = () => {
                   <p className=" w-1/3 text-center">{t("navbar.credits")}</p>
                   <hr className="my-2  w-1/3 border-blue-gray-50" />
                 </div>
+                <div className="px-4 py-2 text-center">
+                  <Typography variant="small" className="text-gray-600">
+                    {t("navbar.balance")}:{" "}
+                    {user?.creditsBalance?.toLocaleString() || 0}
+                  </Typography>
+                </div>
                 <MenuItem
                   className="flex gap-2"
-                  onClick={() => navigate("/billing")}
+                  onClick={() => navigate("/pricing")}
                 >
                   <Typography variant="small" className="font-normal">
                     {t("navbar.buyMore")}
@@ -254,7 +274,7 @@ const PTAINavBar = () => {
                 </MenuItem>
                 <MenuItem
                   className="flex gap-2"
-                  onClick={() => navigate("/transactions")}
+                  onClick={() => navigate("/credits/history")}
                 >
                   <Typography variant="small" className="font-normal">
                     {t("navbar.histories")}
