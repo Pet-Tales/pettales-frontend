@@ -1,0 +1,939 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "submit": "Submit",
+    "confirm": "Confirm",
+    "yes": "Yes",
+    "no": "No",
+    "create": "Create",
+    "update": "Update",
+    "saving": "Saving...",
+    "updating": "Updating...",
+    "deleting": "Deleting...",
+    "uploading": "Uploading",
+    "upload": "Upload",
+    "change": "Change",
+    "remove": "Remove",
+    "retry": "Retry",
+    "preview": "Preview"
+  },
+  "navbar": {
+    "home": "Home",
+    "myBooks": "My Books",
+    "characters": "Characters",
+    "gallery": "Gallery",
+    "pricing": "Pricing",
+    "howItWork": "How it works",
+    "login": "LogIn",
+    "signup": "SignUp",
+    "logout": "Logout",
+    "profile": "Profile",
+    "settings": "Settings",
+    "account": "Account",
+    "knowledgeBase": "Knowledge Base",
+    "contactSupport": "Contact Support",
+    "credits": "Credits",
+    "balance": "Balance",
+    "buyMore": "Buy more",
+    "histories": "Histories",
+    "support": "Support",
+    "faq": "FAQ",
+    "user": "User",
+    "language": "Language"
+  },
+  "auth": {
+    "signInToAccount": "Sign in to your account",
+    "createAccount": "Create your account",
+    "emailAddress": "Email address",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "signIn": "Sign in",
+    "signingIn": "Signing in...",
+    "signUp": "Sign up",
+    "signingUp": "Signing up...",
+    "creatingAccount": "Creating account...",
+    "signInWithGoogle": "Sign in with Google",
+    "signUpWithGoogle": "Sign up with Google",
+    "alreadyHaveAccount": "Already have an account?",
+    "dontHaveAccount": "Don't have an account?",
+    "passwordMinChars": "Password (min. 6 characters)",
+    "orContinueWith": "Or continue with",
+    "google": "Google",
+    "forgotPassword": "Forgot your password?",
+    "resetPassword": "Reset Password",
+    "sendResetLink": "Send Reset Link",
+    "sendingResetLink": "Sending reset link...",
+    "resetPasswordTitle": "Reset your password",
+    "resetPasswordSubtitle": "Enter your new password below",
+    "newPassword": "New password",
+    "confirmNewPassword": "Confirm new password",
+    "resetPasswordButton": "Reset Password",
+    "resettingPassword": "Resetting password...",
+    "backToLogin": "Back to login",
+    "checkYourEmail": "Check your email",
+    "verificationEmailSent": "We've sent a verification link to",
+    "clickVerificationLink": "Please check your email and click the verification link to complete your registration.",
+    "resendVerification": "Resend"
+  },
+  "verifyEmail": {
+    "verifying": "Verifying your email...",
+    "verifyingMessage": "Please wait while we verify your email address.",
+    "welcomeTitle": "Welcome to PetTalesAI!",
+    "verifiedMessage": "Your email has been verified and you're now logged in.",
+    "redirectingMessage": "Redirecting to dashboard in {{count}} seconds...",
+    "goToDashboard": "Go to Dashboard Now",
+    "backToHome": "Back to Home",
+    "verificationFailed": "Verification failed",
+    "verificationFailedMessage": "The verification link is invalid or has expired.",
+    "createNewAccount": "Create new account",
+    "backToLogin": "Back to login"
+  },
+  "dashboard": {
+    "welcomeTitle": "Welcome to PetTalesAI",
+    "welcomeMessage": "Start creating magical stories with your beloved pets.",
+    "createCharacters": "Create Characters",
+    "createCharactersDesc": "Add your pets as characters in your stories.",
+    "generateStories": "Generate Stories",
+    "generateStoriesDesc": "Create personalized children's books with AI.",
+    "viewMyBooks": "View My Books",
+    "viewBooksDesc": "Browse and manage your created stories.",
+    "getStarted": "Get Started",
+    "createStory": "Create Story",
+    "viewBooks": "View Books"
+  },
+  "home": {
+    "title": "PetTalesAI",
+    "subtitle": "Create magical stories with your beloved pets"
+  },
+  "landing": {
+    "hero": {
+      "title": "Turn Your Pet Into the Hero of Their Own Story",
+      "subtitle": "Create magical, personalized children's books featuring your beloved pets with AI-powered storytelling",
+      "primaryCta": "Create Your First Story",
+      "secondaryCta": "View Gallery",
+      "trustIndicator1": "AI-Powered Stories",
+      "trustIndicator2": "Professional Quality",
+      "trustIndicator3": "Print-Ready PDFs",
+      "videoPlaceholder": "Demo Video Coming Soon"
+    },
+    "features": {
+      "title": "Why Choose PetTalesAI?",
+      "subtitle": "Everything you need to create beautiful, personalized children's books featuring your pets",
+      "feature1": {
+        "title": "AI-Powered Storytelling",
+        "description": "Our advanced AI creates unique, engaging stories tailored specifically to your pet's personality and adventures"
+      },
+      "feature2": {
+        "title": "Beautiful Illustrations",
+        "description": "Professional-quality artwork brings your pet's adventures to life with stunning visual storytelling"
+      },
+      "feature3": {
+        "title": "Character Creation",
+        "description": "Build detailed profiles for your pets and family members to create truly personalized stories"
+      },
+      "feature4": {
+        "title": "Multiple Languages",
+        "description": "Create stories in English and Spanish, making them accessible to more families"
+      },
+      "feature5": {
+        "title": "Print-Ready PDFs",
+        "description": "Download high-quality books ready for printing at home or at professional print shops"
+      },
+      "feature6": {
+        "title": "Professional Quality",
+        "description": "Every book meets professional publishing standards with beautiful layouts and typography"
+      }
+    },
+    "howItWorks": {
+      "title": "How It Works",
+      "subtitle": "Creating your personalized pet story is simple and fun",
+      "step1": {
+        "title": "Create Characters",
+        "description": "Add your pets and family members with detailed profiles and photos"
+      },
+      "step2": {
+        "title": "Choose Your Story",
+        "description": "Select themes, settings, and adventure types that match your pet's personality"
+      },
+      "step3": {
+        "title": "AI Magic",
+        "description": "Watch as our AI generates your personalized book with custom illustrations"
+      },
+      "step4": {
+        "title": "Download & Share",
+        "description": "Get your PDF and share your magical story with family and friends"
+      },
+      "cta": "Start Creating Now"
+    },
+    "socialProof": {
+      "title": "Get Inspired by Our Community",
+      "subtitle": "See the amazing stories created by families around the world",
+      "bookPlaceholder": "Featured Book",
+      "sampleTitle": "Sample Story",
+      "sampleDescription": "A wonderful adventure featuring beloved pets and their families",
+      "sampleAuthor": "Pet Parent",
+      "viewGalleryCta": "Explore More Stories"
+    },
+    "pricing": {
+      "title": "Simple, Transparent Pricing",
+      "subtitle": "Choose the plan that works best for your family",
+      "free": {
+        "title": "Free Features",
+        "price": "$0",
+        "feature1": "Character creation",
+        "feature2": "Gallery browsing",
+        "feature3": "Community access"
+      },
+      "credits": {
+        "title": "Pay-as-you-go",
+        "price": "From $5",
+        "badge": "Most Popular",
+        "feature1": "Create unlimited books",
+        "feature2": "All illustration styles",
+        "feature3": "High-quality PDFs"
+      },
+      "premium": {
+        "title": "Coming Soon",
+        "price": "TBD",
+        "feature1": "Priority support",
+        "feature2": "Advanced features",
+        "feature3": "Bulk discounts"
+      },
+      "viewFullPricing": "View Full Pricing"
+    },
+    "finalCta": {
+      "title": "Ready to Create Magic?",
+      "subtitle": "Join thousands of families creating unforgettable stories with their pets",
+      "primaryCta": "Start Your Story",
+      "secondaryCta": "Browse Gallery"
+    },
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "subtitle": "Everything you need to know about creating magical stories with PetTalesAI",
+      "question1": "How does PetTalesAI work?",
+      "answer1": "PetTalesAI uses advanced AI technology to create personalized children's books featuring your pets. Simply create character profiles for your pets and family members, choose your story preferences, and our AI will generate a unique book with custom illustrations and storytelling tailored to your pets.",
+      "question2": "What information do I need to provide about my pet?",
+      "answer2": "For the best results, provide your pet's name, type (dog, cat, etc.), breed, physical characteristics like fur color and markings, and personality traits. You can also upload photos to help our AI create more accurate illustrations. The more details you provide, the more personalized your story will be.",
+      "question3": "How long does it take to create a book?",
+      "answer3": "Book creation typically takes 3-5 minutes. Our AI generates the story, creates custom illustrations, and formats everything into a beautiful book layout. You'll receive notifications when your book is ready for download.",
+      "question4": "What formats are available for download?",
+      "answer4": "All books are available as high-quality PDF files optimized for both digital viewing and printing. The PDFs are designed to print beautifully on standard home printers or at professional print shops.",
+      "question5": "Can I edit the story after it's created?",
+      "answer5": "Yes! You can edit both the story text and regenerate illustrations if you're not satisfied with the results. You also have the option to regenerate individual pages or the entire book with different settings.",
+      "question6": "Is my personal information and pet photos secure?",
+      "answer6": "Absolutely. We take privacy seriously and use industry-standard security measures to protect your data. Your photos and personal information are encrypted and stored securely. We never share your personal data with third parties.",
+      "question7": "What languages are supported?",
+      "answer7": "Currently, PetTalesAI supports English and Spanish. You can create stories in either language, and our AI will generate appropriate content and illustrations for your chosen language.",
+      "question8": "How much does it cost to create a book?",
+      "answer8": "PetTalesAI uses a credit-based system. Creating a book typically costs between 50-100 credits depending on the length and complexity. You can purchase credits in flexible packages starting from $5. Character creation and gallery browsing are always free.",
+      "stillHaveQuestions": "Still have questions?",
+      "contactUs": "Contact Support"
+    },
+    "contact": {
+      "title": "Get in Touch",
+      "subtitle": "Have questions, feedback, or need support? We'd love to hear from you!",
+      "getInTouch": "Get in Touch",
+      "description": "Our team is here to help you create amazing stories with your pets. Whether you need technical support, have suggestions, or just want to share your experience, we're all ears!",
+      "support": {
+        "title": "Technical Support",
+        "description": "Get help with book creation, account issues, or technical questions from our support team."
+      },
+      "community": {
+        "title": "Join Our Community",
+        "description": "Connect with other pet parents and share your amazing stories in our growing community."
+      },
+      "feedback": {
+        "title": "Share Feedback",
+        "description": "Help us improve PetTalesAI by sharing your ideas, suggestions, and feature requests."
+      },
+      "form": {
+        "title": "Send us a Message",
+        "name": "Your Name",
+        "email": "Email Address",
+        "subject": "Subject",
+        "message": "Your Message",
+        "send": "Send Message",
+        "sending": "Sending...",
+        "characters": "characters"
+      },
+      "validation": {
+        "nameRequired": "Name is required",
+        "nameTooLong": "Name must be less than 100 characters",
+        "emailRequired": "Email is required",
+        "emailInvalid": "Please enter a valid email address",
+        "subjectRequired": "Subject is required",
+        "subjectTooLong": "Subject must be less than 200 characters",
+        "messageRequired": "Message is required",
+        "messageTooShort": "Message must be at least 10 characters",
+        "messageTooLong": "Message must be less than 2000 characters",
+        "pleaseFixErrors": "Please fix the errors above before submitting",
+        "serverValidationFailed": "Please check your input and try again"
+      },
+      "successMessage": "Thank you for your message! We'll get back to you soon.",
+      "errorMessage": "Sorry, there was an error sending your message. Please try again.",
+      "serverError": "Server error occurred. Please try again later.",
+      "networkError": "Network error. Please check your connection and try again."
+    }
+  },
+  "legal": {
+    "privacy": {
+      "title": "Privacy Policy",
+      "subtitle": "How we collect, use, and protect your personal information",
+      "lastUpdated": "Last Updated",
+      "lastUpdatedDate": "January 15, 2025",
+      "introduction": {
+        "title": "Introduction",
+        "content1": "At PetTalesAI, we are committed to protecting your privacy and ensuring the security of your personal information. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our AI-powered children's book creation service.",
+        "content2": "By using our service, you agree to the collection and use of information in accordance with this policy. We will not use or share your information with anyone except as described in this Privacy Policy."
+      },
+      "informationCollected": {
+        "title": "Information We Collect",
+        "personal": {
+          "title": "Personal Information",
+          "item1": "Name and email address when you create an account",
+          "item2": "Profile information including language preferences",
+          "item3": "Payment information for credit purchases (processed securely through Stripe)",
+          "item4": "Contact information when you reach out to our support team"
+        },
+        "usage": {
+          "title": "Usage Information",
+          "item1": "Information about how you use our service, including books created and characters added",
+          "item2": "Photos and descriptions of your pets and family members for book creation",
+          "item3": "Preferences and settings you configure in your account"
+        },
+        "technical": {
+          "title": "Technical Information",
+          "item1": "IP address, browser type, and device information",
+          "item2": "Cookies and similar tracking technologies for authentication and preferences",
+          "item3": "Log data including access times and pages visited"
+        }
+      },
+      "howWeUse": {
+        "title": "How We Use Your Information",
+        "item1": "To provide and maintain our AI book creation service",
+        "item2": "To process payments and manage your credit balance",
+        "item3": "To personalize your experience and improve our service",
+        "item4": "To communicate with you about your account and our service",
+        "item5": "To provide customer support and respond to your inquiries",
+        "item6": "To comply with legal obligations and protect our rights"
+      },
+      "informationSharing": {
+        "title": "Information Sharing and Disclosure",
+        "content1": "We do not sell, trade, or otherwise transfer your personal information to third parties except in the following circumstances:",
+        "item1": "Service providers who assist us in operating our service (such as payment processing and cloud hosting)",
+        "item2": "When required by law or to protect our rights and safety",
+        "item3": "In connection with a business transfer or acquisition",
+        "item4": "With your explicit consent for specific purposes"
+      },
+      "dataSecurity": {
+        "title": "Data Security",
+        "content1": "We implement appropriate technical and organizational security measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction.",
+        "content2": "However, no method of transmission over the internet or electronic storage is 100% secure. While we strive to use commercially acceptable means to protect your information, we cannot guarantee absolute security."
+      },
+      "yourRights": {
+        "title": "Your Rights and Choices",
+        "item1": "Access and update your personal information through your account settings",
+        "item2": "Request deletion of your account and associated data",
+        "item3": "Opt out of promotional communications",
+        "item4": "Request a copy of your personal data",
+        "item5": "Contact us to exercise any of these rights"
+      },
+      "cookies": {
+        "title": "Cookies and Tracking",
+        "content1": "We use cookies and similar technologies to enhance your experience, remember your preferences, and analyze how our service is used.",
+        "content2": "You can control cookie settings through your browser, but disabling cookies may affect the functionality of our service."
+      },
+      "childrensPrivacy": {
+        "title": "Children's Privacy",
+        "content": "Our service is designed for families and may be used by children under parental supervision. We do not knowingly collect personal information from children under 13 without parental consent. If you believe we have collected information from a child under 13, please contact us immediately."
+      },
+      "changes": {
+        "title": "Changes to This Privacy Policy",
+        "content": "We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the 'Last Updated' date. You are advised to review this Privacy Policy periodically for any changes."
+      },
+      "contact": {
+        "title": "Contact Us",
+        "content": "If you have any questions about this Privacy Policy or our privacy practices, please contact us:",
+        "email": "Email"
+      }
+    },
+    "terms": {
+      "title": "Terms of Service",
+      "subtitle": "Terms and conditions for using PetTalesAI",
+      "lastUpdated": "Last Updated",
+      "lastUpdatedDate": "January 15, 2025",
+      "introduction": {
+        "title": "Introduction",
+        "content1": "Welcome to PetTalesAI! These Terms of Service ('Terms') govern your use of our AI-powered children's book creation service operated by PetTalesAI ('we', 'us', or 'our').",
+        "content2": "By accessing or using our service, you agree to be bound by these Terms. If you disagree with any part of these terms, then you may not access the service."
+      },
+      "acceptance": {
+        "title": "Acceptance of Terms",
+        "content": "By creating an account or using our service, you acknowledge that you have read, understood, and agree to be bound by these Terms and our Privacy Policy. These Terms apply to all visitors, users, and others who access or use the service."
+      },
+      "serviceDescription": {
+        "title": "Description of Service",
+        "content1": "PetTalesAI provides an AI-powered platform for creating personalized children's books featuring your pets and family members. Our service includes:",
+        "item1": "Character creation tools for pets and family members",
+        "item2": "AI-generated stories and illustrations",
+        "item3": "Book customization and editing features",
+        "item4": "PDF generation for printing and sharing"
+      },
+      "userAccounts": {
+        "title": "User Accounts",
+        "content1": "To use certain features of our service, you must create an account. You are responsible for:",
+        "item1": "Providing accurate and complete information",
+        "item2": "Maintaining the security of your account credentials",
+        "item3": "All activities that occur under your account",
+        "item4": "Notifying us immediately of any unauthorized use"
+      },
+      "payment": {
+        "title": "Payment and Credits",
+        "content1": "Our service operates on a credit-based system. By purchasing credits, you agree to the following:",
+        "item1": "All payments are processed securely through Stripe",
+        "item2": "Credits are non-refundable except as required by law",
+        "item3": "Credits do not expire but are tied to your account",
+        "item4": "Prices may change with notice, but existing credits remain valid",
+        "item5": "Failed book generations will result in automatic credit refunds"
+      },
+      "userContent": {
+        "title": "User Content and Intellectual Property",
+        "content1": "You retain ownership of the content you provide (photos, descriptions, etc.) and the books you create using our service.",
+        "content2": "By using our service, you grant us a limited license to use your content solely for providing the service. You represent that:",
+        "item1": "You own or have the right to use all content you provide",
+        "item2": "Your content does not violate any third-party rights",
+        "item3": "Your content is not illegal, harmful, or offensive",
+        "item4": "You will not use our service to create inappropriate content involving minors"
+      },
+      "prohibitedUses": {
+        "title": "Prohibited Uses",
+        "content": "You may not use our service for any unlawful purpose or to solicit others to perform unlawful acts. Prohibited uses include:",
+        "item1": "Creating content that is illegal, harmful, threatening, or offensive",
+        "item2": "Violating any intellectual property rights",
+        "item3": "Attempting to gain unauthorized access to our systems",
+        "item4": "Using our service to spam or harass others",
+        "item5": "Creating content that exploits or harms children",
+        "item6": "Reverse engineering or attempting to extract our AI models"
+      },
+      "intellectualProperty": {
+        "title": "Intellectual Property Rights",
+        "content1": "The service and its original content, features, and functionality are owned by PetTalesAI and are protected by international copyright, trademark, patent, trade secret, and other intellectual property laws.",
+        "content2": "You may not reproduce, distribute, modify, or create derivative works of our service without our express written permission."
+      },
+      "disclaimers": {
+        "title": "Disclaimers",
+        "content1": "Our service is provided 'as is' without warranties of any kind. We do not guarantee that the service will be uninterrupted, secure, or error-free.",
+        "content2": "AI-generated content may not always meet your expectations, and we cannot guarantee the quality or accuracy of generated stories and illustrations."
+      },
+      "limitationOfLiability": {
+        "title": "Limitation of Liability",
+        "content": "To the maximum extent permitted by law, PetTalesAI shall not be liable for any indirect, incidental, special, consequential, or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses."
+      },
+      "termination": {
+        "title": "Termination",
+        "content": "We may terminate or suspend your account and access to the service immediately, without prior notice, for conduct that we believe violates these Terms or is harmful to other users, us, or third parties, or for any other reason."
+      },
+      "changes": {
+        "title": "Changes to Terms",
+        "content": "We reserve the right to modify these Terms at any time. We will notify users of any material changes by posting the new Terms on our website. Your continued use of the service after such modifications constitutes acceptance of the updated Terms."
+      },
+      "governingLaw": {
+        "title": "Governing Law",
+        "content": "These Terms shall be governed by and construed in accordance with the laws of the jurisdiction in which PetTalesAI operates, without regard to its conflict of law provisions."
+      },
+      "contact": {
+        "title": "Contact Information",
+        "content": "If you have any questions about these Terms of Service, please contact us:",
+        "email": "Email"
+      }
+    }
+  },
+  "footer": {
+    "social": {
+      "title": "Connect With Us",
+      "description": "Follow us on social media for updates, tips, and inspiration for creating amazing pet stories."
+    },
+    "sitemap": {
+      "title": "Quick Links",
+      "home": "Home",
+      "gallery": "Gallery",
+      "pricing": "Pricing",
+      "howItWorks": "How It Works"
+    },
+    "legal": {
+      "title": "Legal",
+      "privacyPolicy": "Privacy Policy",
+      "termsOfService": "Terms of Service"
+    },
+    "bottom": {
+      "copyright": "© 2025 PetTalesAI. All rights reserved.",
+      "madeWith": "Made with",
+      "forPetLovers": "for pet lovers everywhere"
+    }
+  },
+  "pages": {
+    "myBooksPage": "My Books",
+    "charactersPage": "Characters"
+  },
+  "books": {
+    "manageYourBooks": "Manage and organize your created stories",
+    "createBook": "Create New Book",
+    "noBooks": "No books found",
+    "noBooksWithStatus": "No {{status}} books found",
+    "createFirstBook": "Create your first magical story with your beloved pets",
+    "createdOn": "Created at",
+    "view": "View",
+    "delete": "Delete",
+    "download": "Download",
+    "retry": "Retry",
+    "makePublic": "Make Public",
+    "makePrivate": "Make Private",
+    "pages": "pages",
+    "status": {
+      "pending": "Pending",
+      "generating": "Generating",
+      "completed": "Completed",
+      "failed": "Failed",
+      "unknown": "Unknown"
+    },
+    "filters": {
+      "all": "All Books",
+      "pending": "Pending",
+      "generating": "Generating",
+      "completed": "Completed",
+      "failed": "Failed"
+    },
+    "title": "Title",
+    "description": "Description",
+    "moral": "Moral",
+    "dedication": "Dedication",
+    "backCoverMoral": "Back Cover Moral",
+    "metadata": "Book Metadata",
+    "editMetadata": "Edit Metadata",
+    "saveChanges": "Save Changes",
+    "savingChanges": "Saving changes...",
+    "generationPending": "Your book is in the generation queue. Please check back later.",
+    "generationInProgress": "Your book is being generated. This may take a few minutes.",
+    "generationFailed": "Book generation failed. You can retry the generation process.",
+    "deleteConfirmation": {
+      "title": "Delete Book",
+      "message": "Are you sure you want to delete \"{{title}}\"?",
+      "warning": "This action cannot be undone. All book data and files will be permanently deleted."
+    },
+    "editPage": "Edit Page",
+    "pageText": "Page Text",
+    "pageIllustration": "Page Illustration",
+    "selectIllustration": "Select an illustration for this page",
+    "illustrationOption": "Illustration option {{number}}",
+    "selectedIllustration": "Selected illustration",
+    "enterPageText": "Enter the text content for this page...",
+    "pageUpdateSuccess": "Page updated successfully",
+    "unsavedChangesWarning": "You have unsaved changes. Are you sure you want to close without saving?",
+    "saving": "Saving...",
+    "frontCover": "Front Cover",
+    "backCover": "Back Cover",
+    "frontCoverAlt": "Front Cover",
+    "backCoverAlt": "Back Cover",
+    "page": "Page",
+    "characters": "characters",
+    "preview": "Preview",
+    "illustration": "Illustration",
+    "text": "Text",
+    "filterByStatus": "Filter by status",
+    "allStatuses": "All Statuses",
+    "deleteSuccess": "Book deleted successfully",
+    "madePublicSuccess": "Book made public successfully",
+    "madePrivateSuccess": "Book made private successfully",
+    "retrySuccess": "Book generation retry initiated successfully",
+    "maxCharactersWarning": "You can select up to 3 characters maximum",
+    "basicInformation": "Basic Information",
+    "language": "Language",
+    "bookSettings": "Book Settings",
+    "pageCount": "Page Count",
+    "illustrationStyle": "Illustration Style",
+    "selectCharacters": "Select Characters",
+    "selectCharactersDescription": "Choose up to 3 characters to include in your story",
+    "noCharactersAvailable": "No characters available. Create some characters first.",
+    "creditCost": "Credit Cost",
+    "currentBalance": "Current Balance",
+    "insufficientCredits": "Insufficient Credits",
+    "creating": "Creating...",
+    "createSuccess": "Book created successfully! Generation has started.",
+    "styles": {
+      "anime": "Anime",
+      "disney": "Disney",
+      "vector_art": "Vector Art",
+      "vectorArt": "Vector Art",
+      "classic_watercolor": "Classic Watercolor"
+    },
+    "basedOnTemplate": "Based on template: {{title}}",
+    "validation": {
+      "titleRequired": "Title is required",
+      "titleTooShort": "Title must be at least 2 characters",
+      "titleTooLong": "Title must be less than 100 characters",
+      "descriptionRequired": "Description is required",
+      "descriptionTooShort": "Description must be at least 10 characters",
+      "descriptionTooLong": "Description must be less than 500 characters",
+      "moralRequired": "Moral is required",
+      "moralTooShort": "Moral must be at least 5 characters",
+      "moralTooLong": "Moral must be less than 200 characters",
+      "dedicationTooLong": "Dedication must be less than 200 characters",
+      "charactersRequired": "At least one character is required",
+      "insufficientCredits": "Insufficient credits. Required: {{required}}, Available: {{available}}",
+      "fixErrors": "Please fix the errors before submitting"
+    },
+    "notFound": "Book not found",
+    "bookDetails": "Book Details",
+    "bookContent": "Book Content",
+    "storyPages": "Story Pages",
+    "noPagesAvailable": "No pages available yet",
+    "visibility": "Visibility",
+    "public": "Public",
+    "private": "Private",
+    "updateSuccess": "Book updated successfully",
+    "selectIllustrationDescription": "Choose from the available illustration options below:",
+    "illustrationOption": "Option {{number}}",
+    "current": "Current",
+    "noAlternativesAvailable": "No alternative illustrations available",
+    "selectedIllustration": "Selected illustration",
+    "changeCover": "Change Cover",
+    "changeIllustration": "Change Illustration",
+    "frontCover": "Front Cover",
+    "backCover": "Back Cover",
+    "frontCoverAlt": "Front cover",
+    "backCoverAlt": "Back cover",
+    "selectFrontCover": "Select Front Cover",
+    "selectBackCover": "Select Back Cover",
+    "coverUpdateSuccess": "Cover updated successfully",
+    "regenerate": "Regenerate",
+    "regenerateSuccess": "Illustration regenerated successfully",
+    "regeneratePDF": "Regenerate PDF",
+    "regeneratingPDF": "Regenerating PDF...",
+    "pdfRegenerateSuccess": "PDF regenerated successfully",
+    "useAsTemplate": "Use as Template",
+    "freeRegenerations": "Free Regenerations",
+    "illustration": "illustration",
+    "regenerationWarning": {
+      "title": "Credit Required for Regeneration",
+      "message": "You have exceeded your free regeneration limit. Regenerating this {{type}} will cost {{credits}} credits.",
+      "cost": "Regeneration Cost",
+      "confirmation": "Do you want to proceed with the regeneration?",
+      "proceed": "Proceed",
+      "needMoreCredits": "Need More Credits",
+      "insufficientCredits": "You need {{shortfall}} more credits. Required: {{required}}, Available: {{available}}"
+    },
+    "regenerationTooltip": {
+      "available": "{{remaining}} free regenerations remaining. After that, each regeneration costs {{cost}} credits.",
+      "exceeded": "Free regenerations exhausted. Each regeneration now costs {{cost}} credits."
+    },
+    "regenerationError": {
+      "insufficientCredits": "Insufficient credits for regeneration. Please purchase more credits to continue."
+    }
+  },
+  "gallery": {
+    "title": "Public Gallery",
+    "description": "Discover amazing stories created by our community and use them as templates for your own books",
+    "searchBooks": "Search books...",
+    "featuredBooks": "Featured Books",
+    "allBooks": "All Books",
+    "searchResults": "Search Results",
+    "view": "View",
+    "useTemplate": "Use as Template",
+    "templateLoaded": "Template loaded successfully! You can now customize it.",
+    "noSearchResults": "No books found matching your search",
+    "noBooksAvailable": "No public books available yet",
+    "tryDifferentSearch": "Try searching with different keywords"
+  },
+  "languages": {
+    "english": "English",
+    "spanish": "Spanish",
+    "en": "English",
+    "es": "Spanish"
+  },
+  "characters": {
+    "pageDescription": "Create and manage your story characters",
+    "newCharacter": "+ New Character",
+    "createCharacterDescription": "Create a new character for your stories",
+    "createCharacter": "Create Character",
+    "editCharacter": "Edit Character",
+    "characterDetails": "Character Details",
+    "characterName": "Character Name",
+    "characterNamePlaceholder": "Enter character name",
+    "characterType": "Character Type",
+    "human": "Human",
+    "pet": "Pet",
+    "boy": "Boy",
+    "girl": "Girl",
+    "male": "Male",
+    "female": "Female",
+    "notSpecified": "Not Specified",
+    "age": "Age",
+    "agePlaceholder": "Enter age",
+    "yearsOld": "years old",
+    "gender": "Gender",
+    "ethnicity": "Ethnicity",
+    "ethnicityPlaceholder": "Enter ethnicity",
+    "hairColor": "Hair Color",
+    "hairColorPlaceholder": "Enter hair color",
+    "eyeColor": "Eye Color",
+    "eyeColorPlaceholder": "Enter eye color",
+    "petType": "Pet Type",
+    "petTypePlaceholder": "e.g., Dog, Cat, Bird",
+    "breed": "Breed",
+    "breedPlaceholder": "Enter breed",
+    "fur": "Fur",
+    "furPlaceholder": "Describe fur color/pattern",
+    "ears": "Ears",
+    "earsPlaceholder": "Describe ear type",
+    "tail": "Tail",
+    "tailPlaceholder": "Describe tail type",
+    "personality": "Personality",
+    "personalityPlaceholder": "Describe the character's personality",
+    "referenceImage": "Reference Image",
+    "characterAvatar": "Character Avatar",
+    "basicInformation": "Basic Information",
+    "metadata": "Metadata",
+    "createdAt": "Created",
+    "lastUpdated": "Last Updated",
+    "filterBy": "Filter by",
+    "allTypes": "All Types",
+    "totalCharacters": "{{count}} character",
+    "totalCharacters_plural": "{{count}} characters",
+    "noCharacters": "No characters found",
+    "noCharactersOfType": "No {{type}} characters found",
+    "createFirstCharacter": "Create your first character to get started",
+    "endOfList": "You've reached the end of your characters",
+    "backToCharacters": "Back to Characters",
+    "characterNotFound": "Character Not Found",
+    "characterNotFoundDescription": "The character you're looking for doesn't exist or has been deleted.",
+    "deleteConfirmTitle": "Delete Character",
+    "deleteConfirmMessage": "Are you sure you want to delete {{name}}? This action cannot be undone.",
+    "forceDeleteTitle": "Character Used in Books",
+    "characterUsedInBooks": "{{name}} is currently used in one or more books.",
+    "usedInBooksLabel": "Used in books",
+    "forceDeleteWarning": "Deleting this character will remove it from all books. This action cannot be undone.",
+    "forceDelete": "Delete Anyway",
+    "deleteSuccess": "Character deleted successfully",
+    "createSuccess": "Character created successfully",
+    "createSuccessWithImage": "Character created successfully with image",
+    "createSuccessImageFailed": "Character created but image upload failed",
+    "updateSuccess": "Character updated successfully",
+    "updateSuccessWithImage": "Character updated successfully with image",
+    "updateSuccessImageFailed": "Character updated but image upload failed",
+    "imageDeleteSuccess": "Reference image removed successfully",
+    "imageDeleteFailed": "Failed to remove reference image",
+    "failedToDeleteCharacter": "Failed to delete character",
+    "failedToCreateCharacter": "Failed to create character",
+    "failedToUpdateCharacter": "Failed to update character",
+    "errors": {
+      "nameRequired": "Character name is required",
+      "nameMinLength": "Character name must be at least 2 characters",
+      "ageRequired": "Age is required for human characters",
+      "ageInvalid": "Please enter a valid age",
+      "genderRequired": "Gender is required for human characters",
+      "petGenderRequired": "Gender is required for pet characters",
+      "ethnicityRequired": "Ethnicity is required for human characters",
+      "petTypeRequired": "Pet type is required for pet characters",
+      "breedRequired": "Breed is required for pet characters",
+      "imageOnlyForPets": "Reference images are allowed for all character types"
+    }
+  },
+  "errors": {
+    "pageNotFound": "Page Not Found",
+    "somethingWentWrong": "Something went wrong",
+    "tryAgain": "Try again",
+    "goHome": "Go Home",
+    "genericError": "An error occurred. Please try again.",
+
+    "invalidCredentials": "Invalid email or password",
+    "userNotFound": "User not found",
+    "emailNotVerified": "Please verify your email address before logging in.",
+    "accountSuspended": "Your account has been suspended",
+    "accountDeleted": "This account has been deleted",
+
+    "emailAlreadyExists": "An account with this email already exists",
+    "emailExistsUnverified": "An account with this email exists but is not verified. Please check your email or",
+    "invalidEmailFormat": "Please enter a valid email address",
+    "passwordTooShort": "Password must be at least 6 characters long",
+    "passwordsDoNotMatch": "Passwords do not match",
+
+    "emailRequired": "Email address is required",
+    "passwordRequired": "Password is required",
+    "firstNameRequired": "First name is required",
+    "lastNameRequired": "Last name is required",
+
+    "invalidToken": "Invalid or expired link",
+    "tokenExpired": "This link has expired. Please request a new one.",
+    "passwordResetSent": "If an account with that email exists, a password reset link has been sent.",
+    "passwordResetSuccess": "Password has been reset successfully. Please log in with your new password.",
+    "invalidResetToken": "Invalid or expired password reset token",
+    "tooManyResetRequests": "Too many password reset requests. Please try again later.",
+    "redirectingToLogin": "Redirecting to login page...",
+    "sessionExpired": "Your session has expired. Please log in again.",
+    "authenticationRequired": "Please log in to continue",
+    "accessDenied": "Access denied",
+    "unauthorized": "You are not authorized to perform this action",
+    "loginFailed": "Login failed",
+    "registrationFailed": "Registration failed",
+    "emailVerificationFailed": "Email verification failed",
+    "emailChangeVerificationFailed": "Email change verification failed",
+
+    "verificationTokenNotFound": "Verification link not found or expired",
+    "emailAlreadyVerified": "Email address is already verified",
+
+    "internalServerError": "Internal server error. Please try again later.",
+    "serverError": "Server error. Please try again later.",
+    "serverErrorDescription": "We're experiencing technical difficulties. Please try again in a few moments.",
+    "serviceUnavailable": "Service temporarily unavailable",
+    "networkError": "Network error. Please check your connection.",
+    "requestTimeout": "Request timed out. Please try again.",
+
+    "tooManyRequests": "Too many requests. Please wait before trying again.",
+    "rateLimitExceeded": "Rate limit exceeded. Please wait before trying again.",
+
+    "invalidLanguage": "Invalid language selection",
+    "languageNotSupported": "Language not supported",
+
+    "badRequest": "Invalid request",
+    "notFound": "Resource not found",
+    "forbidden": "Access forbidden",
+    "conflict": "Request conflict"
+  },
+  "toast": {
+    "emailVerifiedSuccess": "Email verified successfully! You are now logged in.",
+    "emailVerificationFailed": "Email verification failed",
+    "noVerificationToken": "No verification token provided",
+    "loginSuccess": "Login successful",
+    "loginFailed": "Login failed",
+    "logoutSuccess": "Logout successful",
+    "registrationSuccess": "Registration successful",
+    "registrationFailed": "Registration failed",
+    "verificationEmailResent": "Verification email sent successfully",
+    "sessionExpired": "Session expired. Please login again.",
+    "networkError": "Network error. Please check your connection.",
+    "serverError": "Server error. Please try again later.",
+    "languageUpdated": "Language updated successfully",
+    "languageUpdateFailed": "Failed to update language",
+    "profileUpdated": "Profile updated successfully",
+    "profileUpdateFailed": "Failed to update profile",
+    "emailChangeVerificationSent": "Verification email sent to your new email address",
+    "emailChangeVerified": "Email address updated successfully",
+    "emailChangeVerificationFailed": "Email change verification failed",
+    "avatarUpdated": "Avatar updated successfully"
+  },
+  "profile": {
+    "title": "Profile",
+    "subtitle": "Manage your account settings and preferences",
+    "personalInfo": "Personal Information",
+    "settings": "Settings",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "email": "Email",
+    "language": "Language",
+    "accountStats": "Account Statistics",
+    "credits": "Credits",
+    "emailVerified": "Email Verified",
+    "updatingLanguage": "Updating language...",
+    "editProfile": "Edit Profile",
+    "saveChanges": "Save Changes",
+    "savingChanges": "Saving changes...",
+    "cancel": "Cancel",
+    "changeAvatar": "Change Avatar",
+    "pendingEmailChange": "Pending email change",
+    "verifyNewEmail": "Please check your new email to verify the change",
+    "firstNameRequired": "First name must be at least 2 characters",
+    "lastNameRequired": "Last name must be at least 2 characters",
+    "validEmailRequired": "Please enter a valid email address",
+    "changePassword": "Change Password",
+    "currentPassword": "Current Password",
+    "newPassword": "New Password",
+    "confirmNewPassword": "Confirm New Password",
+    "changePasswordButton": "Change Password",
+    "changingPassword": "Changing password...",
+    "passwordSecurity": "Password & Security",
+    "emailChangeVerified": "Email Change Verified",
+    "emailChangeVerificationFailed": "Email Change Verification Failed",
+    "emailUpdatedSuccessfully": "Your email address has been successfully updated.",
+    "emailChangeVerificationInvalid": "The email change verification link is invalid or has expired.",
+    "goToProfile": "Go to Profile",
+    "failedToSendPasswordReset": "Failed to send password reset email",
+    "failedToUpdateProfile": "Failed to update profile",
+    "uploadFailed": "Upload failed",
+    "failedToUploadAvatar": "Failed to upload avatar",
+    "passwordResetDescription": "Click the button below to receive a password reset link via email.",
+    "sending": "Sending...",
+    "user": "User",
+    "passwordResetEmailSent": "Password reset link has been sent to your email address"
+  },
+  "validation": {
+    "required": "This field is required",
+    "invalidEmail": "Please enter a valid email address",
+    "passwordMinLength": "Password must be at least {{min}} characters",
+    "passwordsDoNotMatch": "Passwords do not match",
+    "emailAlreadyExists": "This email is already registered",
+    "invalidCredentials": "Invalid email or password",
+    "emailRequired": "Email is required",
+    "passwordRequired": "Password is required"
+  },
+  "pricing": {
+    "title": "Credit Packages",
+    "subtitle": "Purchase credits to create amazing AI-generated children's books",
+    "credits": "credits",
+    "book12Pages": "12-Page Book",
+    "book16Pages": "16-Page Book",
+    "book24Pages": "24-Page Book",
+    "regeneration": "Illustration Regeneration",
+    "suggestedPackages": "Suggested Packages",
+    "popular": "Most Popular",
+    "buyNow": "Buy Now",
+    "processing": "Processing...",
+    "customAmount": "Custom Amount",
+    "enterCredits": "Enter number of credits",
+    "invalidAmount": "Please enter a valid amount between 1 and 100,000",
+    "total": "Total",
+    "currentBalance": "Current Balance",
+    "loginRequired": "Please log in to purchase credits",
+    "checkoutError": "Failed to create checkout session"
+  },
+  "credits": {
+    "purchaseSuccess": "Purchase completed successfully!",
+    "verifyingPurchase": "Verifying Purchase",
+    "pleaseWait": "Please wait while we verify your payment...",
+    "purchaseSuccessTitle": "Payment Successful!",
+    "purchaseSuccessMessage": "Your credits have been added to your account.",
+    "purchaseDetails": "Purchase Details",
+    "creditsAdded": "Credits Added",
+    "newBalance": "New Balance",
+    "continueToBooks": "Continue to My Books",
+    "buyMoreCredits": "Buy More Credits",
+    "verificationFailed": "Verification Failed",
+    "verificationFailedMessage": "We couldn't verify your payment. Please contact support if you were charged.",
+    "contactSupport": "If you were charged but didn't receive credits, please contact our support team.",
+    "tryAgain": "Try Again",
+    "backToHome": "Back to Home",
+    "historyTitle": "Credit History",
+    "historySubtitle": "View all your credit transactions and purchases",
+    "currentBalance": "Current Balance",
+    "transactionHistory": "Transaction History",
+    "loadingHistory": "Loading transaction history...",
+    "noTransactions": "No Transactions Yet",
+    "noTransactionsMessage": "You haven't made any credit transactions yet.",
+    "type": {
+      "purchase": "Purchase",
+      "usage": "Usage",
+      "refund": "Refund"
+    },
+    "relatedBook": "Related Book",
+    "showingTransactions": "Showing {{start}}-{{end}} of {{total}} transactions"
+  }
+}
