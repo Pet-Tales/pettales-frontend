@@ -1,13 +1,64 @@
-import "./App.css";
-const VITE_DEBUG_MODE_ENV = import.meta.env.VITE_DEBUG_MODE_ENV;
-const DEBUG_MODE = VITE_DEBUG_MODE_ENV !== "false";
-function App() {
+import { useRoutes } from "react-router-dom";
+import { Provider } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+import Routes from "./routes";
+import { store } from "@/stores/store";
+import {
+  getCurrentUser,
+  markAuthAttempted,
+  setUser,
+} from "@/stores/reducers/auth";
+import LanguageUtils from "@/utils/languageUtils";
+import logger from "./utils/logger";
+
+function AppContent() {
+  const dispatch = useDispatch();
+  const pages = useRoutes(Routes);
+  const { hasAttemptedAuth, isAuthenticated, isValidatingSession, user } =
+    useSelector((state) => state.auth);
+
+  // Initialize language system on app startup
+  useEffect(() => {
+    LanguageUtils.initializeLanguageSystem();
+  }, []);
+
+  useEffect(() => {
+    // Only attempt to validate session if we haven't tried yet and not already validating
+    if (!hasAttemptedAuth && !isValidatingSession) {
+      // Always try to validate session with server (in case there's a session cookie from OAuth)
+      logger.info("App: Validating session with server");
+      dispatch(getCurrentUser());
+    }
+  }, [dispatch, hasAttemptedAuth, isValidatingSession]);
+
+  // Sync language preferences when user data is available
+  useEffect(() => {
+    if (user) {
+      LanguageUtils.syncLanguagePreferences(
+        user,
+        (updatedUser) => dispatch(setUser(updatedUser)),
+        isAuthenticated
+      );
+    }
+  }, [user, dispatch, isAuthenticated]);
+
   return (
     <>
-      <h1 className="">
-        Pet Tales AI - {DEBUG_MODE ? "Staging" : "Production"} Environment
-      </h1>
+      {pages}
+      <ToastContainer />
     </>
+  );
+}
+
+function App() {
+  return (
+    <Provider store={store}>
+      <AppContent />
+    </Provider>
   );
 }
 

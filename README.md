@@ -1,12 +1,106 @@
-# React + Vite
+# PetTalesAI Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+The frontend application for PetTalesAI - an AI-powered children's book generator platform.
 
-Currently, two official plugins are available:
+## 🚀 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **User Authentication**: Login, signup, email verification with Google OAuth
+- **Internationalization**: Full support for English and Spanish with automatic language detection
+- **Responsive Design**: Mobile-first design with Tailwind CSS
+- **State Management**: Redux Toolkit for efficient state management
+- **Error Handling**: Comprehensive error handling with localized error messages
+- **Modern Development**: Built with React 19, Vite, and modern JavaScript
 
-## Expanding the ESLint configuration
+## 🛠️ Tech Stack
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- **React 19** - UI framework
+- **Vite** - Build tool and development server
+- **Redux Toolkit** - State management
+- **React Router** - Client-side routing
+- **Tailwind CSS** - Utility-first CSS framework
+- **Material Tailwind** - UI components
+- **i18next** - Internationalization
+- **Axios** - HTTP client
+- **React Toastify** - Toast notifications
+
+## 📦 Installation
+
+1. Install dependencies:
+
+```bash
+yarn install
+```
+
+2. Create environment file:
+
+```bash
+cp .env.example .env
+```
+
+3. Configure environment variables:
+
+```env
+VITE_DEBUG_MODE=true
+VITE_API_BASE_URL=http://localhost:3000
+```
+
+## 🏃‍♂️ Development
+
+Start the development server:
+
+```bash
+yarn dev
+```
+
+The application will be available at `http://localhost:5173`
+
+## 🏗️ Build
+
+Build for production:
+
+```bash
+yarn build
+```
+
+## 🧹 Code Quality
+
+Run ESLint:
+
+```bash
+yarn lint
+```
+
+## 🌍 Internationalization
+
+The application supports:
+
+- **English** (default)
+- **Spanish**
+
+Language detection priority:
+
+1. localStorage (user preference)
+2. Browser language
+3. English (fallback)
+
+## 📁 Project Structure
+
+```
+src/
+├── components/     # Reusable UI components
+├── hooks/         # Custom React hooks
+├── i18n/          # Internationalization setup and translations
+├── layouts/       # Layout components
+├── pages/         # Page components
+├── services/      # API service functions
+├── stores/        # Redux store and slices
+├── utils/         # Utility functions and helpers
+└── assets/        # Static assets
+```
+
+## 🔧 Configuration
+
+- **Vite**: `vite.config.js`
+- **Tailwind**: `tailwind.config.js`
+- **ESLint**: `eslint.config.js`
+- **Path aliases**: `jsconfig.json`
