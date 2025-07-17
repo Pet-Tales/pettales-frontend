@@ -71,7 +71,7 @@ const CharacterForm = ({
     setFormData((prev) => ({
       ...prev,
       characterType: type,
-      // Clear type-specific fields when switching
+      // Clear type-specific fields when switching (gender is now shared)
       ...(type === "human"
         ? {
             petType: "",
@@ -82,7 +82,6 @@ const CharacterForm = ({
           }
         : {
             age: "",
-            gender: "",
             ethnicity: "",
             hairColor: "",
             eyeColor: "",
@@ -124,6 +123,10 @@ const CharacterForm = ({
 
       if (!formData.breed.trim()) {
         errors.breed = t("characters.errors.breedRequired");
+      }
+
+      if (!formData.gender) {
+        errors.gender = t("characters.errors.petGenderRequired");
       }
     }
 
@@ -224,6 +227,7 @@ const CharacterForm = ({
         if (formData.fur.trim()) submitData.fur = formData.fur.trim();
         if (formData.ears.trim()) submitData.ears = formData.ears.trim();
         if (formData.tail.trim()) submitData.tail = formData.tail.trim();
+        submitData.gender = formData.gender;
       }
 
       await onSubmit(submitData, selectedFile);
@@ -505,6 +509,38 @@ const CharacterForm = ({
                 {formErrors.breed && (
                   <Typography variant="small" className="text-red-500 mt-1">
                     {formErrors.breed}
+                  </Typography>
+                )}
+              </div>
+
+              {/* Gender for pets */}
+              <div className="md:col-span-2">
+                <Typography variant="small" className="text-gray-600 mb-3">
+                  {t("characters.gender")} *
+                </Typography>
+                <div className="flex gap-6">
+                  <div className="flex items-center">
+                    <Radio
+                      name="petGender"
+                      value="male"
+                      checked={formData.gender === "male"}
+                      onChange={() => handleInputChange("gender", "male")}
+                      label={t("characters.male")}
+                    />
+                  </div>
+                  <div className="flex items-center">
+                    <Radio
+                      name="petGender"
+                      value="female"
+                      checked={formData.gender === "female"}
+                      onChange={() => handleInputChange("gender", "female")}
+                      label={t("characters.female")}
+                    />
+                  </div>
+                </div>
+                {formErrors.gender && (
+                  <Typography variant="small" className="text-red-500 mt-1">
+                    {formErrors.gender}
                   </Typography>
                 )}
               </div>

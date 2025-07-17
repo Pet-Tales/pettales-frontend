@@ -66,6 +66,8 @@ const ERROR_MESSAGE_MAP = {
   "Age is required for human characters": "characters.errors.ageRequired",
   "Age must be a positive number": "characters.errors.ageInvalid",
   "Gender is required for human characters": "characters.errors.genderRequired",
+  "Gender is required for pet characters":
+    "characters.errors.petGenderRequired",
   "Ethnicity is required for human characters":
     "characters.errors.ethnicityRequired",
   "Age, gender, and ethnicity are required for human characters":

@@ -154,6 +154,7 @@ const CharacterCard = ({ character, onEdit, onDelete }) => {
       const info = [];
       if (character.petType) info.push(character.petType);
       if (character.breed) info.push(character.breed);
+      if (character.gender) info.push(t(`characters.${character.gender}`));
       return info.join(" • ");
     }
   };

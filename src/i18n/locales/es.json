@@ -574,7 +574,8 @@
       "anime": "Anime",
       "disney": "Disney",
       "vector_art": "Arte Vectorial",
-      "vectorArt": "Arte Vectorial"
+      "vectorArt": "Arte Vectorial",
+      "classic_watercolor": "Acuarela Clásica"
     },
     "basedOnTemplate": "Basado en plantilla: {{title}}",
     "validation": {
@@ -672,6 +673,9 @@
     "pet": "Mascota",
     "boy": "Niño",
     "girl": "Niña",
+    "male": "Macho",
+    "female": "Hembra",
+    "notSpecified": "No Especificado",
     "age": "Edad",
     "agePlaceholder": "Ingresa la edad",
     "yearsOld": "años",
@@ -736,6 +740,7 @@
       "ageRequired": "La edad es requerida para personajes humanos",
       "ageInvalid": "Por favor ingresa una edad válida",
       "genderRequired": "El género es requerido para personajes humanos",
+      "petGenderRequired": "El género es requerido para personajes mascotas",
       "ethnicityRequired": "La etnia es requerida para personajes humanos",
       "petTypeRequired": "El tipo de mascota es requerido para personajes mascotas",
       "breedRequired": "La raza es requerida para personajes mascotas",

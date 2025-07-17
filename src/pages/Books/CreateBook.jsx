@@ -453,6 +453,9 @@ const CreateBook = () => {
                         <Option value="vector_art">
                           {t("books.styles.vectorArt")}
                         </Option>
+                        <Option value="classic_watercolor">
+                          {t("books.styles.classic_watercolor")}
+                        </Option>
                       </Select>
                     </div>
                   </div>

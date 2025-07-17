@@ -573,7 +573,8 @@
       "anime": "Anime",
       "disney": "Disney",
       "vector_art": "Vector Art",
-      "vectorArt": "Vector Art"
+      "vectorArt": "Vector Art",
+      "classic_watercolor": "Classic Watercolor"
     },
     "basedOnTemplate": "Based on template: {{title}}",
     "validation": {
@@ -673,6 +674,9 @@
     "pet": "Pet",
     "boy": "Boy",
     "girl": "Girl",
+    "male": "Male",
+    "female": "Female",
+    "notSpecified": "Not Specified",
     "age": "Age",
     "agePlaceholder": "Enter age",
     "yearsOld": "years old",
@@ -737,6 +741,7 @@
       "ageRequired": "Age is required for human characters",
       "ageInvalid": "Please enter a valid age",
       "genderRequired": "Gender is required for human characters",
+      "petGenderRequired": "Gender is required for pet characters",
       "ethnicityRequired": "Ethnicity is required for human characters",
       "petTypeRequired": "Pet type is required for pet characters",
       "breedRequired": "Breed is required for pet characters",

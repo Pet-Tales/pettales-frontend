@@ -273,6 +273,20 @@ const CharacterDetails = () => {
             </div>
           )}
 
+          {currentCharacter.gender && (
+            <div>
+              <Typography
+                variant="small"
+                className="text-gray-600 font-semibold"
+              >
+                {t("characters.gender")}
+              </Typography>
+              <Typography className="text-gray-900">
+                {t(`characters.${currentCharacter.gender}`)}
+              </Typography>
+            </div>
+          )}
+
           {currentCharacter.fur && (
             <div>
               <Typography
