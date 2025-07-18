@@ -1,7 +1,4 @@
-import axios from "axios";
-import { API_BASE_URL } from "@/utils/constants";
-
-const API_URL = `${API_BASE_URL}/api/user`;
+import http from "@/utils/http";
 
 /**
  * Get user profile information
@@ -9,7 +6,7 @@ const API_URL = `${API_BASE_URL}/api/user`;
  */
 export const getUserProfile = async () => {
   try {
-    const response = await axios.get(`${API_URL}/profile`);
+    const response = await http.get("/api/user/profile");
     return response.data;
   } catch (error) {
     throw error.response?.data || error;
@@ -26,7 +23,7 @@ export const getUserProfile = async () => {
  */
 export const updateProfile = async (profileData) => {
   try {
-    const response = await axios.put(`${API_URL}/profile`, profileData);
+    const response = await http.put("/api/user/profile", profileData);
     return response.data;
   } catch (error) {
     throw error.response?.data || error;
@@ -40,7 +37,9 @@ export const updateProfile = async (profileData) => {
  */
 export const verifyEmailChange = async (token) => {
   try {
-    const response = await axios.get(`${API_URL}/verify-email-change?token=${token}`);
+    const response = await http.get(
+      `/api/user/verify-email-change?token=${token}`
+    );
     return response.data;
   } catch (error) {
     throw error.response?.data || error;
@@ -54,7 +53,7 @@ export const verifyEmailChange = async (token) => {
  */
 export const updateLanguagePreference = async (language) => {
   try {
-    const response = await axios.put(`${API_URL}/language-preference`, {
+    const response = await http.put("/api/user/language-preference", {
       language,
     });
     return response.data;
@@ -69,7 +68,7 @@ export const updateLanguagePreference = async (language) => {
  */
 export const requestPasswordChange = async () => {
   try {
-    const response = await axios.post(`${API_URL}/request-password-change`);
+    const response = await http.post("/api/user/request-password-change");
     return response.data;
   } catch (error) {
     throw error.response?.data || error;

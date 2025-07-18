@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { API_BASE_URL } from "@/utils/constants";
 import axios from "axios";
+import http from "@/utils/http";
 import logger from "@/utils/logger";
 
 // Configure axios defaults
@@ -103,10 +103,7 @@ export const register = createAsyncThunk(
         preferred_language: i18n.language || "en",
       };
 
-      const response = await axios.post(
-        `${API_BASE_URL}/api/auth/register`,
-        registrationData
-      );
+      const response = await http.post("/api/auth/register", registrationData);
       return response.data;
     } catch (error) {
       return rejectWithValue(
@@ -120,10 +117,7 @@ export const login = createAsyncThunk(
   "auth/login",
   async (credentials, { rejectWithValue }) => {
     try {
-      const response = await axios.post(
-        `${API_BASE_URL}/api/auth/login`,
-        credentials
-      );
+      const response = await http.post("/api/auth/login", credentials);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || "Login failed");
@@ -135,7 +129,7 @@ export const logout = createAsyncThunk(
   "auth/logout",
   async (_, { rejectWithValue }) => {
     try {
-      await axios.post(`${API_BASE_URL}/api/auth/logout`);
+      await http.post("/api/auth/logout");
       return true;
     } catch (error) {
       return rejectWithValue(error.response?.data?.message || "Logout failed");
@@ -147,7 +141,7 @@ export const getCurrentUser = createAsyncThunk(
   "auth/getCurrentUser",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/api/auth/me`);
+      const response = await http.get("/api/auth/me");
       return response.data;
     } catch (error) {
       return rejectWithValue(
@@ -161,9 +155,7 @@ export const verifyEmail = createAsyncThunk(
   "auth/verifyEmail",
   async (token, { rejectWithValue }) => {
     try {
-      const response = await axios.get(
-        `${API_BASE_URL}/api/auth/verify-email?token=${token}`
-      );
+      const response = await http.get(`/api/auth/verify-email?token=${token}`);
       return response.data;
     } catch (error) {
       return rejectWithValue(
@@ -177,10 +169,9 @@ export const resendEmailVerification = createAsyncThunk(
   "auth/resendEmailVerification",
   async (email, { rejectWithValue }) => {
     try {
-      const response = await axios.post(
-        `${API_BASE_URL}/api/auth/resend-verification`,
-        { email }
-      );
+      const response = await http.post("/api/auth/resend-verification", {
+        email,
+      });
       return response.data;
     } catch (error) {
       return rejectWithValue(
@@ -195,10 +186,7 @@ export const forgotPassword = createAsyncThunk(
   "auth/forgotPassword",
   async (email, { rejectWithValue }) => {
     try {
-      const response = await axios.post(
-        `${API_BASE_URL}/api/auth/forgot-password`,
-        { email }
-      );
+      const response = await http.post("/api/auth/forgot-password", { email });
       return response.data;
     } catch (error) {
       logger.error("Forgot password error:", error);
@@ -214,10 +202,10 @@ export const resetPassword = createAsyncThunk(
   "auth/resetPassword",
   async ({ token, password }, { rejectWithValue }) => {
     try {
-      const response = await axios.post(
-        `${API_BASE_URL}/api/auth/reset-password`,
-        { token, password }
-      );
+      const response = await http.post("/api/auth/reset-password", {
+        token,
+        password,
+      });
       return response.data;
     } catch (error) {
       logger.error("Reset password error:", error);
@@ -233,9 +221,7 @@ export const requestPasswordChange = createAsyncThunk(
   "auth/requestPasswordChange",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.post(
-        `${API_BASE_URL}/api/user/request-password-change`
-      );
+      const response = await http.post("/api/user/request-password-change");
       return response.data;
     } catch (error) {
       logger.error("Request password change error:", error);
@@ -251,10 +237,7 @@ export const updateProfile = createAsyncThunk(
   "auth/updateProfile",
   async (profileData, { rejectWithValue }) => {
     try {
-      const response = await axios.put(
-        `${API_BASE_URL}/api/user/profile`,
-        profileData
-      );
+      const response = await http.put("/api/user/profile", profileData);
       return response.data;
     } catch (error) {
       logger.error("Update profile error:", error);
@@ -270,8 +253,8 @@ export const verifyEmailChange = createAsyncThunk(
   "auth/verifyEmailChange",
   async (token, { rejectWithValue }) => {
     try {
-      const response = await axios.get(
-        `${API_BASE_URL}/api/user/verify-email-change?token=${token}`
+      const response = await http.get(
+        `/api/user/verify-email-change?token=${token}`
       );
       return response.data;
     } catch (error) {
