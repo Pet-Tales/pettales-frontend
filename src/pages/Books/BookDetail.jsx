@@ -601,6 +601,12 @@ const BookDetail = () => {
                     </Typography>
                     <div className="space-y-3">
                       {[...currentBook.characterIds]
+                        .filter(
+                          (character) =>
+                            character &&
+                            character.characterName &&
+                            character.characterType
+                        )
                         .sort((a, b) => {
                           // Sort by character type first (human before pet), then alphabetically by name
                           if (a.characterType !== b.characterType) {
