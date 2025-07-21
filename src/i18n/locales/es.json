@@ -560,6 +560,8 @@
     "creditCost": "Costo en Créditos",
     "currentBalance": "Saldo Actual",
     "insufficientCredits": "Créditos Insuficientes",
+    "buyMore": "Comprar más",
+    "formDataRestored": "Datos del formulario restaurados de la sesión anterior",
     "creating": "Creando...",
     "createSuccess": "¡Libro creado exitosamente! La generación ha comenzado.",
     "styles": {
@@ -888,6 +890,7 @@
     "buyNow": "Comprar Ahora",
     "processing": "Procesando...",
     "customAmount": "Cantidad Personalizada",
+    "enterAmount": "Ingresa la cantidad",
     "enterCredits": "Ingresa el número de créditos",
     "invalidAmount": "Por favor ingresa una cantidad válida entre 1 y 100,000",
     "total": "Total",
@@ -924,6 +927,11 @@
       "refund": "Reembolso"
     },
     "relatedBook": "Libro Relacionado",
-    "showingTransactions": "Mostrando {{start}}-{{end}} de {{total}} transacciones"
+    "showingTransactions": "Mostrando {{start}}-{{end}} de {{total}} transacciones",
+    "purchaseCredits": "Comprar Créditos",
+    "selectPackage": "Selecciona un Paquete",
+    "exactAmount": "Cantidad Exacta Necesaria",
+    "insufficientCreditsMessage": "Necesitas {{required}} créditos pero solo tienes {{current}}. Necesitas {{shortfall}} créditos más.",
+    "paymentCancelled": "El pago fue cancelado. Puedes intentar de nuevo en cualquier momento."
   }
 }

@@ -7,12 +7,13 @@ const _API = "/api/credits";
 /**
  * Create a Stripe checkout session for credit purchase
  * @param {number} creditAmount - Number of credits to purchase
+ * @param {string} context - Purchase context ('pricing' or 'book-creation')
  * @returns {Promise<Object>} - API response with session data
  */
-const createPurchaseSession = (creditAmount) => {
+const createPurchaseSession = (creditAmount, context = "pricing") => {
   return new Promise((resolve, reject) => {
     const url = `${_API}/purchase`;
-    const data = { creditAmount };
+    const data = { creditAmount, context };
 
     http
       .post(url, data)

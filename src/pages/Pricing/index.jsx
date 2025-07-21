@@ -56,8 +56,10 @@ const Pricing = () => {
     }
 
     try {
-      const result = await dispatch(createPurchaseSession(creditAmount)).unwrap();
-      
+      const result = await dispatch(
+        createPurchaseSession({ creditAmount })
+      ).unwrap();
+
       // Redirect to Stripe checkout
       if (result.data.url) {
         window.location.href = result.data.url;
@@ -72,12 +74,12 @@ const Pricing = () => {
 
   const handleCustomPurchase = () => {
     const amount = parseInt(customAmount);
-    
+
     if (!amount || amount <= 0 || amount > 100000) {
       setIsCustomAmountValid(false);
       return;
     }
-    
+
     setIsCustomAmountValid(true);
     handlePurchase(amount);
   };
@@ -97,7 +99,10 @@ const Pricing = () => {
           <Typography variant="h2" className="text-gray-900 mb-4">
             {t("pricing.title")}
           </Typography>
-          <Typography variant="lead" className="text-gray-600 max-w-3xl mx-auto">
+          <Typography
+            variant="lead"
+            className="text-gray-600 max-w-3xl mx-auto"
+          >
             {t("pricing.subtitle")}
           </Typography>
         </div>
@@ -158,15 +163,13 @@ const Pricing = () => {
           <Typography variant="h4" className="text-center mb-8">
             {t("pricing.suggestedPackages")}
           </Typography>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {suggestedPackages.map((pkg, index) => (
               <Card
                 key={index}
                 className={`border-2 ${
-                  pkg.popular
-                    ? "border-blue-500 shadow-lg"
-                    : "border-gray-200"
+                  pkg.popular ? "border-blue-500 shadow-lg" : "border-gray-200"
                 }`}
               >
                 {pkg.popular && (
@@ -176,7 +179,7 @@ const Pricing = () => {
                     </Typography>
                   </CardHeader>
                 )}
-                
+
                 <CardBody className="text-center">
                   <FaCoins className="text-4xl text-yellow-500 mx-auto mb-4" />
                   <Typography variant="h4" className="mb-2">
@@ -197,7 +200,9 @@ const Pricing = () => {
                     className="flex items-center justify-center gap-2"
                   >
                     <FaCreditCard />
-                    {isCreatingSession ? t("pricing.processing") : t("pricing.buyNow")}
+                    {isCreatingSession
+                      ? t("pricing.processing")
+                      : t("pricing.buyNow")}
                   </Button>
                 </CardBody>
               </Card>
@@ -212,7 +217,7 @@ const Pricing = () => {
               <Typography variant="h5" className="text-center mb-6">
                 {t("pricing.customAmount")}
               </Typography>
-              
+
               <div className="space-y-4">
                 <Input
                   type="number"
@@ -223,19 +228,23 @@ const Pricing = () => {
                   max="100000"
                   error={!isCustomAmountValid}
                 />
-                
+
                 {!isCustomAmountValid && (
                   <Alert color="red" className="text-sm">
                     {t("pricing.invalidAmount")}
                   </Alert>
                 )}
-                
+
                 {customAmount && isCustomAmountValid && (
-                  <Typography variant="small" className="text-center text-gray-600">
-                    {t("pricing.total")}: {formatPrice(parseInt(customAmount) * 0.01)}
+                  <Typography
+                    variant="small"
+                    className="text-center text-gray-600"
+                  >
+                    {t("pricing.total")}:{" "}
+                    {formatPrice(parseInt(customAmount) * 0.01)}
                   </Typography>
                 )}
-                
+
                 <Button
                   color="blue"
                   size="lg"
@@ -245,7 +254,9 @@ const Pricing = () => {
                   className="flex items-center justify-center gap-2"
                 >
                   <FaCreditCard />
-                  {isCreatingSession ? t("pricing.processing") : t("pricing.buyNow")}
+                  {isCreatingSession
+                    ? t("pricing.processing")
+                    : t("pricing.buyNow")}
                 </Button>
               </div>
             </CardBody>
@@ -256,7 +267,8 @@ const Pricing = () => {
         {user && (
           <div className="text-center mt-8">
             <Typography variant="small" className="text-gray-600">
-              {t("pricing.currentBalance")}: {user.creditsBalance || 0} {t("pricing.credits")}
+              {t("pricing.currentBalance")}: {user.creditsBalance || 0}{" "}
+              {t("pricing.credits")}
             </Typography>
           </div>
         )}

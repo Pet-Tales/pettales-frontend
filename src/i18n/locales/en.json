@@ -559,6 +559,8 @@
     "creditCost": "Credit Cost",
     "currentBalance": "Current Balance",
     "insufficientCredits": "Insufficient Credits",
+    "buyMore": "Buy more",
+    "formDataRestored": "Form data restored from previous session",
     "creating": "Creating...",
     "createSuccess": "Book created successfully! Generation has started.",
     "styles": {
@@ -890,6 +892,7 @@
     "buyNow": "Buy Now",
     "processing": "Processing...",
     "customAmount": "Custom Amount",
+    "enterAmount": "Enter amount",
     "enterCredits": "Enter number of credits",
     "invalidAmount": "Please enter a valid amount between 1 and 100,000",
     "total": "Total",
@@ -926,6 +929,11 @@
       "refund": "Refund"
     },
     "relatedBook": "Related Book",
-    "showingTransactions": "Showing {{start}}-{{end}} of {{total}} transactions"
+    "showingTransactions": "Showing {{start}}-{{end}} of {{total}} transactions",
+    "purchaseCredits": "Purchase Credits",
+    "selectPackage": "Select a Package",
+    "exactAmount": "Exact Amount Needed",
+    "insufficientCreditsMessage": "You need {{required}} credits but only have {{current}}. You need {{shortfall}} more credits.",
+    "paymentCancelled": "Payment was cancelled. You can try again anytime."
   }
 }
