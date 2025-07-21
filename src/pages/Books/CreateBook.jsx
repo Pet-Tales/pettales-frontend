@@ -27,9 +27,9 @@ import CreditPurchaseModal from "@/components/Credits/CreditPurchaseModal";
 
 // Credit costs for different book types
 const CREDIT_COSTS = {
-  12: 250, // 12-page book
-  16: 300, // 16-page book
-  24: 350, // 24-page book
+  12: 400, // 12-page book
+  16: 450, // 16-page book
+  24: 500, // 24-page book
 };
 
 const CreateBook = () => {

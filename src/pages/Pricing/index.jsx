@@ -28,9 +28,9 @@ const Pricing = () => {
 
   // Credit costs for different book types
   const creditCosts = {
-    book12: 250,
-    book16: 300,
-    book24: 350,
+    book12: 400,
+    book16: 450,
+    book24: 500,
     regeneration: 16,
   };
 
