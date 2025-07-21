@@ -91,27 +91,15 @@
     "verifyingMessage": "Por favor espera mientras verificamos tu dirección de correo electrónico.",
     "welcomeTitle": "¡Bienvenido a PetTalesAI!",
     "verifiedMessage": "Tu correo electrónico ha sido verificado y ahora has iniciado sesión.",
-    "redirectingMessage": "Redirigiendo al panel de control en {{count}} segundos...",
-    "goToDashboard": "Ir al Panel de Control Ahora",
+    "redirectingMessage": "Redirigiendo a tus libros en {{count}} segundos...",
+    "goToDashboard": "Ir a Mis Libros Ahora",
     "backToHome": "Volver al Inicio",
     "verificationFailed": "Verificación fallida",
     "verificationFailedMessage": "El enlace de verificación es inválido o ha expirado.",
     "createNewAccount": "Crear nueva cuenta",
     "backToLogin": "Volver al inicio de sesión"
   },
-  "dashboard": {
-    "welcomeTitle": "Bienvenido a PetTalesAI",
-    "welcomeMessage": "Comienza a crear historias mágicas con tus queridas mascotas.",
-    "createCharacters": "Crear Personajes",
-    "createCharactersDesc": "Agrega tus mascotas como personajes en tus historias.",
-    "generateStories": "Generar Historias",
-    "generateStoriesDesc": "Crea libros infantiles personalizados con IA.",
-    "viewMyBooks": "Ver Mis Libros",
-    "viewBooksDesc": "Navega y gestiona tus historias creadas.",
-    "getStarted": "Comenzar",
-    "createStory": "Crear Historia",
-    "viewBooks": "Ver Libros"
-  },
+
   "home": {
     "title": "PetTalesAI",
     "subtitle": "Crea historias mágicas con tus queridas mascotas"

@@ -90,27 +90,15 @@
     "verifyingMessage": "Please wait while we verify your email address.",
     "welcomeTitle": "Welcome to PetTalesAI!",
     "verifiedMessage": "Your email has been verified and you're now logged in.",
-    "redirectingMessage": "Redirecting to dashboard in {{count}} seconds...",
-    "goToDashboard": "Go to Dashboard Now",
+    "redirectingMessage": "Redirecting to your books in {{count}} seconds...",
+    "goToDashboard": "Go to My Books Now",
     "backToHome": "Back to Home",
     "verificationFailed": "Verification failed",
     "verificationFailedMessage": "The verification link is invalid or has expired.",
     "createNewAccount": "Create new account",
     "backToLogin": "Back to login"
   },
-  "dashboard": {
-    "welcomeTitle": "Welcome to PetTalesAI",
-    "welcomeMessage": "Start creating magical stories with your beloved pets.",
-    "createCharacters": "Create Characters",
-    "createCharactersDesc": "Add your pets as characters in your stories.",
-    "generateStories": "Generate Stories",
-    "generateStoriesDesc": "Create personalized children's books with AI.",
-    "viewMyBooks": "View My Books",
-    "viewBooksDesc": "Browse and manage your created stories.",
-    "getStarted": "Get Started",
-    "createStory": "Create Story",
-    "viewBooks": "View Books"
-  },
+
   "home": {
     "title": "PetTalesAI",
     "subtitle": "Create magical stories with your beloved pets"

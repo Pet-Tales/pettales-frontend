@@ -3,7 +3,7 @@ import ProtectedRoute from "@/components/ProtectedRoute";
 import Error404 from "@/pages/Error/404";
 import Error500 from "@/pages/Error/500";
 import Home from "@/pages/Home";
-import Dashboard from "@/pages/Dashboard";
+
 import MyBooks from "@/pages/MyBooks";
 import Characters from "@/pages/Characters";
 import CreateCharacter from "@/pages/Characters/CreateCharacter";
@@ -58,14 +58,6 @@ const Routes = [
       {
         path: "/reset-password",
         element: <ResetPassword />,
-      },
-      {
-        path: "/dashboard",
-        element: (
-          <ProtectedRoute>
-            <Dashboard />
-          </ProtectedRoute>
-        ),
       },
       {
         path: "/my-books",

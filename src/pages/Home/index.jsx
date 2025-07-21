@@ -104,7 +104,7 @@ const Home = () => {
 
   const handleGetStarted = () => {
     if (isAuthenticated) {
-      navigate("/dashboard");
+      navigate("/my-books");
     } else {
       navigate("/signup");
     }

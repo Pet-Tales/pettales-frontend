@@ -95,7 +95,7 @@ export const getFallbackPath = (isAuthenticated, currentPath = "") => {
     return "/characters";
   }
 
-  return "/dashboard";
+  return "/my-books";
 };
 
 /**

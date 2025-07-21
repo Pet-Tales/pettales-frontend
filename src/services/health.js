@@ -4,7 +4,7 @@ import logger from "@/utils/logger";
 
 const _API = "/health"; // prefix url for schedule api
 
-// get the leaves for dashboard
+// get the server health status
 const checkServer = () => {
   return new Promise((resolve, reject) => {
     http
