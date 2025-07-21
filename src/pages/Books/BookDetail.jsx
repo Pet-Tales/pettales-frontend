@@ -45,6 +45,10 @@ import { useErrorTranslation } from "@/utils/errorMapper";
 import { toast } from "react-toastify";
 import logger from "@/utils/logger";
 import { smartNavigateBack, getFallbackPath } from "@/utils/navigationUtils";
+import {
+  downloadBookPDF,
+  generateBookPdfFilename,
+} from "@/utils/downloadUtils";
 
 const BookDetail = () => {
   const { t } = useValidatedTranslation();
@@ -330,6 +334,24 @@ const BookDetail = () => {
     return new Date(dateString).toLocaleDateString();
   };
 
+  // Handle PDF download
+  const handleDownloadPDF = async () => {
+    try {
+      if (!currentBook?.pdfUrl) {
+        toast.error(t("books.noPdfAvailable"));
+        return;
+      }
+
+      const filename = generateBookPdfFilename(currentBook);
+      await downloadBookPDF(currentBook.id, filename);
+      toast.success(t("books.downloadStarted"));
+    } catch (error) {
+      logger.error("PDF download error:", error);
+      const errorMessage = error.message || t("books.downloadFailed");
+      toast.error(errorMessage);
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="min-h-screen flex justify-center items-center">
@@ -406,7 +428,7 @@ const BookDetail = () => {
                   variant="outlined"
                   size="sm"
                   className="flex items-center gap-2"
-                  onClick={() => window.open(currentBook.pdfUrl, "_blank")}
+                  onClick={handleDownloadPDF}
                 >
                   <FaDownload className="h-4 w-4" />
                   {t("books.download")}

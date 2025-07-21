@@ -25,6 +25,12 @@ import {
 } from "react-icons/fa";
 import BookStatusBadge from "./BookStatusBadge";
 import DeleteConfirmationModal from "./DeleteConfirmationModal";
+import {
+  downloadBookPDF,
+  generateBookPdfFilename,
+} from "@/utils/downloadUtils";
+import { toast } from "react-toastify";
+import logger from "@/utils/logger";
 
 const BookCard = ({ book, onDelete, onTogglePublic, onRetry }) => {
   const { t } = useValidatedTranslation();
@@ -34,6 +40,25 @@ const BookCard = ({ book, onDelete, onTogglePublic, onRetry }) => {
 
   const handleCardClick = () => {
     navigate(`/books/${book.id}`);
+  };
+
+  // Handle PDF download
+  const handleDownloadPDF = async (event) => {
+    event.stopPropagation();
+    try {
+      if (!book.pdfUrl) {
+        toast.error(t("books.noPdfAvailable"));
+        return;
+      }
+
+      const filename = generateBookPdfFilename(book);
+      await downloadBookPDF(book.id, filename);
+      toast.success(t("books.downloadStarted"));
+    } catch (error) {
+      logger.error("PDF download error:", error);
+      const errorMessage = error.message || t("books.downloadFailed");
+      toast.error(errorMessage);
+    }
   };
 
   const handleMenuAction = (action, event) => {
@@ -48,9 +73,7 @@ const BookCard = ({ book, onDelete, onTogglePublic, onRetry }) => {
         setShowDeleteModal(true);
         break;
       case "download":
-        if (book.pdfUrl) {
-          window.open(book.pdfUrl, "_blank");
-        }
+        handleDownloadPDF(event);
         break;
       case "toggle-public":
         onTogglePublic?.(book.id);
@@ -217,10 +240,7 @@ const BookCard = ({ book, onDelete, onTogglePublic, onRetry }) => {
                   size="sm"
                   variant="filled"
                   className="flex-1"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    window.open(book.pdfUrl, "_blank");
-                  }}
+                  onClick={handleDownloadPDF}
                 >
                   {t("books.download")}
                 </Button>
