@@ -134,7 +134,7 @@ const VerifyEmail = () => {
       const timer = setInterval(() => {
         setCountdown((prev) => {
           if (prev <= 1) {
-            navigate("/dashboard");
+            navigate("/my-books");
             return 0;
           }
           return prev - 1;
@@ -189,7 +189,7 @@ const VerifyEmail = () => {
             </p>
             <div className="mt-6 space-y-3">
               <button
-                onClick={() => navigate("/dashboard")}
+                onClick={() => navigate("/my-books")}
                 className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
                 {t("verifyEmail.goToDashboard")}
