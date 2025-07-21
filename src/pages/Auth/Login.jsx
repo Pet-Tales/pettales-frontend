@@ -92,7 +92,7 @@ const Login = () => {
       if (redirectPath) {
         navigate(redirectPath);
       } else {
-        navigate("/");
+        navigate("/my-books");
       }
     } else if (login.rejected.match(result)) {
       // The error will be displayed by the auth slice's error handling
