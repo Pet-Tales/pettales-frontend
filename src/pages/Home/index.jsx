@@ -495,7 +495,7 @@ const Home = () => {
             </Typography>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
             {/* Step 1 */}
             <div className="text-center">
               <div className="relative mb-6">
@@ -504,8 +504,6 @@ const Home = () => {
                     1
                   </Typography>
                 </div>
-                {/* Step connector line */}
-                <div className="hidden lg:block absolute top-10 left-full w-full h-0.5 bg-gray-300 -translate-y-0.5"></div>
               </div>
               <div className="aspect-square bg-gray-200 rounded-lg flex items-center justify-center mb-4 border-2 border-dashed border-gray-300">
                 <FaUsers className="h-12 w-12 text-gray-400" />
@@ -526,7 +524,6 @@ const Home = () => {
                     2
                   </Typography>
                 </div>
-                <div className="hidden lg:block absolute top-10 left-full w-full h-0.5 bg-gray-300 -translate-y-0.5"></div>
               </div>
               <div className="aspect-square bg-gray-200 rounded-lg flex items-center justify-center mb-4 border-2 border-dashed border-gray-300">
                 <FaBook className="h-12 w-12 text-gray-400" />
@@ -547,7 +544,6 @@ const Home = () => {
                     3
                   </Typography>
                 </div>
-                <div className="hidden lg:block absolute top-10 left-full w-full h-0.5 bg-gray-300 -translate-y-0.5"></div>
               </div>
               <div className="aspect-square bg-gray-200 rounded-lg flex items-center justify-center mb-4 border-2 border-dashed border-gray-300">
                 <FaStar className="h-12 w-12 text-gray-400" />
@@ -577,6 +573,26 @@ const Home = () => {
               </Typography>
               <Typography className="text-gray-600 text-sm">
                 {t("landing.howItWorks.step4.description")}
+              </Typography>
+            </div>
+
+            {/* Step 5 */}
+            <div className="text-center">
+              <div className="relative mb-6">
+                <div className="w-20 h-20 bg-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Typography variant="h4" className="text-white font-bold">
+                    5
+                  </Typography>
+                </div>
+              </div>
+              <div className="aspect-square bg-gray-200 rounded-lg flex items-center justify-center mb-4 border-2 border-dashed border-gray-300">
+                <FaPrint className="h-12 w-12 text-gray-400" />
+              </div>
+              <Typography variant="h6" className="text-gray-900 mb-2">
+                {t("landing.howItWorks.step5.title")}
+              </Typography>
+              <Typography className="text-gray-600 text-sm">
+                {t("landing.howItWorks.step5.description")}
               </Typography>
             </div>
           </div>

@@ -161,6 +161,10 @@
         "title": "Download & Share",
         "description": "Get your PDF and share your magical story with family and friends"
       },
+      "step5": {
+        "title": "Order Physical Book",
+        "description": "Transform your digital story into a beautiful printed book delivered to your door"
+      },
       "cta": "Start Creating Now"
     },
     "socialProof": {
