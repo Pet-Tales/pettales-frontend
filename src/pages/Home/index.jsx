@@ -641,7 +641,7 @@ const Home = () => {
                   className="hover:shadow-lg transition-shadow duration-300 cursor-pointer"
                   onClick={() => navigate(`/books/${book.id}`)}
                 >
-                  <div className="relative aspect-4-3-container rounded-t-lg !max-w-none">
+                  <div className="relative aspect-1-1-container rounded-t-lg !max-w-none">
                     {book.frontCoverImageUrl ? (
                       <img
                         src={book.frontCoverImageUrl}

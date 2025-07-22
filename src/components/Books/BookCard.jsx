@@ -137,7 +137,7 @@ const BookCard = ({
     <>
       <Card className="w-full cursor-pointer hover:shadow-lg transition-shadow duration-300 flex flex-col h-full">
         <div onClick={handleCardClick} className="flex flex-col h-full">
-          <div className="relative aspect-4-3-container rounded-t-lg !max-w-none">
+          <div className="relative aspect-1-1-container rounded-t-lg !max-w-none">
             {book.frontCoverImageUrl ? (
               <img
                 src={book.frontCoverImageUrl}

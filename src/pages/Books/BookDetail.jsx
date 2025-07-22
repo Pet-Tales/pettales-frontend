@@ -820,7 +820,7 @@ const BookDetail = () => {
                                 </Button>
                               )}
                           </div>
-                          <div className="aspect-4-3-container rounded-lg">
+                          <div className="aspect-1-1-container rounded-lg">
                             <img
                               src={currentBook.frontCoverImageUrl}
                               alt={t("books.frontCoverAlt")}
@@ -851,7 +851,7 @@ const BookDetail = () => {
                                 </Button>
                               )}
                           </div>
-                          <div className="aspect-4-3-container rounded-lg">
+                          <div className="aspect-1-1-container rounded-lg">
                             <img
                               src={currentBook.backCoverImageUrl}
                               alt={t("books.backCoverAlt")}
@@ -899,7 +899,7 @@ const BookDetail = () => {
                               </div>
                               <div className="grid grid-cols-2 gap-4">
                                 {pageGroup.illustration_page && (
-                                  <div className="aspect-4-3-container rounded">
+                                  <div className="aspect-1-1-container rounded">
                                     <img
                                       src={
                                         pageGroup.illustration_page
