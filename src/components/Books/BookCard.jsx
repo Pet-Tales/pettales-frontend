@@ -32,7 +32,13 @@ import {
 import { toast } from "react-toastify";
 import logger from "@/utils/logger";
 
-const BookCard = ({ book, onDelete, onTogglePublic, onRetry }) => {
+const BookCard = ({
+  book,
+  onDelete,
+  onTogglePublic,
+  onRetry,
+  isOwner = true,
+}) => {
   const { t } = useValidatedTranslation();
   const navigate = useNavigate();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -52,10 +58,38 @@ const BookCard = ({ book, onDelete, onTogglePublic, onRetry }) => {
       }
 
       const filename = generateBookPdfFilename(book);
-      await downloadBookPDF(book.id, filename);
-      toast.success(t("books.downloadStarted"));
+      const result = await downloadBookPDF(book.id, filename);
+
+      if (result.success && result.downloaded) {
+        toast.success(t("books.downloadStarted"));
+      } else if (result.requiresPayment) {
+        if (result.isGuest) {
+          // Guest user - redirect to Stripe checkout
+          window.location.href = result.checkoutUrl;
+        } else {
+          // This shouldn't happen as authenticated users get different handling
+          toast.error(result.message || t("books.paymentRequired"));
+        }
+      }
     } catch (error) {
       logger.error("PDF download error:", error);
+
+      // Handle insufficient credits error
+      if (
+        error.status === 402 &&
+        error.data?.error === "INSUFFICIENT_CREDITS"
+      ) {
+        const { required, available, shortfall } = error.data.data;
+        toast.error(
+          `${t("books.insufficientCredits")} ${t(
+            "books.creditsRequired"
+          )}: ${required}, ${t("books.creditsAvailable")}: ${available}, ${t(
+            "books.creditsShortfall"
+          )}: ${shortfall}`
+        );
+        return;
+      }
+
       const errorMessage = error.message || t("books.downloadFailed");
       toast.error(errorMessage);
     }
@@ -242,7 +276,7 @@ const BookCard = ({ book, onDelete, onTogglePublic, onRetry }) => {
                   className="flex-1"
                   onClick={handleDownloadPDF}
                 >
-                  {t("books.download")}
+                  {isOwner ? t("books.download") : t("books.downloadPaid")}
                 </Button>
               )}
             </div>

@@ -36,14 +36,21 @@ export const downloadFile = async (url, filename) => {
 import { API_BASE_URL } from "@/utils/constants";
 
 /**
- * Download a book PDF using the API endpoint (bypasses CORS issues)
+ * Download a book PDF using the API endpoint (handles payment flow)
  * @param {string} bookId - The book ID
  * @param {string} filename - The desired filename for the downloaded file
+ * @param {string} sessionId - Optional Stripe session ID for guest users
+ * @returns {Promise<Object>} - Result object with success status and any payment info
  */
-export const downloadBookPDF = async (bookId, filename) => {
+export const downloadBookPDF = async (bookId, filename, sessionId = null) => {
   try {
     const baseUrl = API_BASE_URL || "http://127.0.0.1:3000";
-    const url = `${baseUrl}/api/books/${bookId}/download-pdf`;
+    let url = `${baseUrl}/api/books/${bookId}/download-pdf`;
+
+    // Add session_id as query parameter if provided
+    if (sessionId) {
+      url += `?session_id=${encodeURIComponent(sessionId)}`;
+    }
 
     // Fetch the PDF through our API endpoint
     const response = await fetch(url, {
@@ -54,16 +61,36 @@ export const downloadBookPDF = async (bookId, filename) => {
     if (!response.ok) {
       // Try to parse error message from response
       let errorMessage = `HTTP error! status: ${response.status}`;
+      let errorData = null;
       try {
-        const errorData = await response.json();
+        errorData = await response.json();
         errorMessage = errorData.message || errorMessage;
       } catch (e) {
         // If response is not JSON, use default error message
       }
-      throw new Error(errorMessage);
+
+      const error = new Error(errorMessage);
+      error.status = response.status;
+      error.data = errorData;
+      throw error;
     }
 
-    // Get the blob
+    // Check if response is JSON (payment required) or binary (PDF file)
+    const contentType = response.headers.get("content-type");
+
+    if (contentType && contentType.includes("application/json")) {
+      // Payment required response
+      const data = await response.json();
+      return {
+        success: false,
+        requiresPayment: data.requiresPayment,
+        isGuest: data.isGuest,
+        checkoutUrl: data.checkoutUrl,
+        message: data.message,
+      };
+    }
+
+    // PDF file response - proceed with download
     const blob = await response.blob();
 
     // Create a temporary URL for the blob
@@ -79,6 +106,11 @@ export const downloadBookPDF = async (bookId, filename) => {
     // Clean up
     document.body.removeChild(link);
     window.URL.revokeObjectURL(blobUrl);
+
+    return {
+      success: true,
+      downloaded: true,
+    };
   } catch (error) {
     console.error("PDF download failed:", error);
     throw error;
