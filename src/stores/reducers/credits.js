@@ -6,9 +6,12 @@ import logger from "@/utils/logger";
 // Async thunks
 export const createPurchaseSession = createAsyncThunk(
   "credits/createPurchaseSession",
-  async (creditAmount, { rejectWithValue }) => {
+  async ({ creditAmount, context = "pricing" }, { rejectWithValue }) => {
     try {
-      const response = await CreditService.createPurchaseSession(creditAmount);
+      const response = await CreditService.createPurchaseSession(
+        creditAmount,
+        context
+      );
       return response.data;
     } catch (error) {
       logger.error("Failed to create purchase session:", error);

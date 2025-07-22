@@ -110,7 +110,7 @@ const IllustrationSelector = ({
                 }`}
                 onClick={() => handleSelect(url)}
               >
-                <div className="aspect-4-3-container rounded-lg">
+                <div className="aspect-1-1-container rounded-lg">
                   <img
                     src={url}
                     alt={t("books.illustrationOption", { number: index + 1 })}
@@ -159,7 +159,7 @@ const IllustrationSelector = ({
               <Typography variant="h6" className="mb-4">
                 {t("books.preview")}
               </Typography>
-              <div className="aspect-4-3-container max-w-md mx-auto rounded-lg">
+              <div className="aspect-1-1-container max-w-md mx-auto rounded-lg">
                 <img
                   src={selectedUrl}
                   alt={t("books.selectedIllustration")}

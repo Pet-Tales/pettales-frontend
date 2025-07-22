@@ -351,7 +351,7 @@ const PTAINavBar = () => {
                   onClick={() => navigate("/credits/history")}
                 >
                   <Typography variant="small" className="font-normal">
-                    {t("navbar.histories")}
+                    {t("credits.historyTitle")}
                   </Typography>
                 </MenuItem>
                 <div className="flex outline-0 cursor-pointer">

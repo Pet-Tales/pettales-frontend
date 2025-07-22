@@ -156,7 +156,7 @@ const Gallery = () => {
   const BookCard = ({ book, showUseTemplate = false }) => (
     <Card className="w-full hover:shadow-lg transition-shadow duration-300 flex flex-col h-full">
       <div className="flex flex-col h-full">
-        <div className="relative aspect-4-3-container rounded-t-lg !max-w-none">
+        <div className="relative aspect-1-1-container rounded-t-lg !max-w-none">
           {book.frontCoverImageUrl ? (
             <img
               src={book.frontCoverImageUrl}

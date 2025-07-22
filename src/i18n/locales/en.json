@@ -90,27 +90,15 @@
     "verifyingMessage": "Please wait while we verify your email address.",
     "welcomeTitle": "Welcome to PetTalesAI!",
     "verifiedMessage": "Your email has been verified and you're now logged in.",
-    "redirectingMessage": "Redirecting to dashboard in {{count}} seconds...",
-    "goToDashboard": "Go to Dashboard Now",
+    "redirectingMessage": "Redirecting to your books in {{count}} seconds...",
+    "goToDashboard": "Go to My Books Now",
     "backToHome": "Back to Home",
     "verificationFailed": "Verification failed",
     "verificationFailedMessage": "The verification link is invalid or has expired.",
     "createNewAccount": "Create new account",
     "backToLogin": "Back to login"
   },
-  "dashboard": {
-    "welcomeTitle": "Welcome to PetTalesAI",
-    "welcomeMessage": "Start creating magical stories with your beloved pets.",
-    "createCharacters": "Create Characters",
-    "createCharactersDesc": "Add your pets as characters in your stories.",
-    "generateStories": "Generate Stories",
-    "generateStoriesDesc": "Create personalized children's books with AI.",
-    "viewMyBooks": "View My Books",
-    "viewBooksDesc": "Browse and manage your created stories.",
-    "getStarted": "Get Started",
-    "createStory": "Create Story",
-    "viewBooks": "View Books"
-  },
+
   "home": {
     "title": "PetTalesAI",
     "subtitle": "Create magical stories with your beloved pets"
@@ -172,6 +160,10 @@
       "step4": {
         "title": "Download & Share",
         "description": "Get your PDF and share your magical story with family and friends"
+      },
+      "step5": {
+        "title": "Order Physical Book",
+        "description": "Transform your digital story into a beautiful printed book delivered to your door"
       },
       "cta": "Start Creating Now"
     },
@@ -495,6 +487,7 @@
     "view": "View",
     "delete": "Delete",
     "download": "Download",
+    "downloadPaid": "Download ($1.00)",
     "retry": "Retry",
     "makePublic": "Make Public",
     "makePrivate": "Make Private",
@@ -567,6 +560,8 @@
     "creditCost": "Credit Cost",
     "currentBalance": "Current Balance",
     "insufficientCredits": "Insufficient Credits",
+    "buyMore": "Buy more",
+    "formDataRestored": "Form data restored from previous session",
     "creating": "Creating...",
     "createSuccess": "Book created successfully! Generation has started.",
     "styles": {
@@ -620,6 +615,15 @@
     "regeneratePDF": "Regenerate PDF",
     "regeneratingPDF": "Regenerating PDF...",
     "pdfRegenerateSuccess": "PDF regenerated successfully",
+    "noPdfAvailable": "No PDF available for download",
+    "downloadStarted": "Download started successfully",
+    "downloadFailed": "Failed to download PDF",
+    "paymentRequired": "Payment required for PDF download",
+    "insufficientCredits": "Insufficient credits for PDF download.",
+    "creditsRequired": "Credits required",
+    "creditsAvailable": "Available",
+    "creditsShortfall": "Shortfall",
+    "paymentCancelled": "Payment was cancelled",
     "useAsTemplate": "Use as Template",
     "freeRegenerations": "Free Regenerations",
     "illustration": "illustration",
@@ -898,6 +902,7 @@
     "buyNow": "Buy Now",
     "processing": "Processing...",
     "customAmount": "Custom Amount",
+    "enterAmount": "Enter amount",
     "enterCredits": "Enter number of credits",
     "invalidAmount": "Please enter a valid amount between 1 and 100,000",
     "total": "Total",
@@ -934,6 +939,11 @@
       "refund": "Refund"
     },
     "relatedBook": "Related Book",
-    "showingTransactions": "Showing {{start}}-{{end}} of {{total}} transactions"
+    "showingTransactions": "Showing {{start}}-{{end}} of {{total}} transactions",
+    "purchaseCredits": "Purchase Credits",
+    "selectPackage": "Select a Package",
+    "exactAmount": "Exact Amount Needed",
+    "insufficientCreditsMessage": "You need {{required}} credits but only have {{current}}. You need {{shortfall}} more credits.",
+    "paymentCancelled": "Payment was cancelled. You can try again anytime."
   }
 }
