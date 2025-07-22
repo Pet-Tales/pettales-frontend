@@ -161,6 +161,10 @@
         "title": "Download & Share",
         "description": "Get your PDF and share your magical story with family and friends"
       },
+      "step5": {
+        "title": "Order Physical Book",
+        "description": "Transform your digital story into a beautiful printed book delivered to your door"
+      },
       "cta": "Start Creating Now"
     },
     "socialProof": {
@@ -483,6 +487,7 @@
     "view": "View",
     "delete": "Delete",
     "download": "Download",
+    "downloadPaid": "Download ($1.00)",
     "retry": "Retry",
     "makePublic": "Make Public",
     "makePrivate": "Make Private",
@@ -555,6 +560,8 @@
     "creditCost": "Credit Cost",
     "currentBalance": "Current Balance",
     "insufficientCredits": "Insufficient Credits",
+    "buyMore": "Buy more",
+    "formDataRestored": "Form data restored from previous session",
     "creating": "Creating...",
     "createSuccess": "Book created successfully! Generation has started.",
     "styles": {
@@ -608,6 +615,15 @@
     "regeneratePDF": "Regenerate PDF",
     "regeneratingPDF": "Regenerating PDF...",
     "pdfRegenerateSuccess": "PDF regenerated successfully",
+    "noPdfAvailable": "No PDF available for download",
+    "downloadStarted": "Download started successfully",
+    "downloadFailed": "Failed to download PDF",
+    "paymentRequired": "Payment required for PDF download",
+    "insufficientCredits": "Insufficient credits for PDF download.",
+    "creditsRequired": "Credits required",
+    "creditsAvailable": "Available",
+    "creditsShortfall": "Shortfall",
+    "paymentCancelled": "Payment was cancelled",
     "useAsTemplate": "Use as Template",
     "freeRegenerations": "Free Regenerations",
     "illustration": "illustration",
@@ -886,6 +902,7 @@
     "buyNow": "Buy Now",
     "processing": "Processing...",
     "customAmount": "Custom Amount",
+    "enterAmount": "Enter amount",
     "enterCredits": "Enter number of credits",
     "invalidAmount": "Please enter a valid amount between 1 and 100,000",
     "total": "Total",
@@ -922,6 +939,11 @@
       "refund": "Refund"
     },
     "relatedBook": "Related Book",
-    "showingTransactions": "Showing {{start}}-{{end}} of {{total}} transactions"
+    "showingTransactions": "Showing {{start}}-{{end}} of {{total}} transactions",
+    "purchaseCredits": "Purchase Credits",
+    "selectPackage": "Select a Package",
+    "exactAmount": "Exact Amount Needed",
+    "insufficientCreditsMessage": "You need {{required}} credits but only have {{current}}. You need {{shortfall}} more credits.",
+    "paymentCancelled": "Payment was cancelled. You can try again anytime."
   }
 }

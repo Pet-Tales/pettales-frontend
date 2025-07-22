@@ -25,8 +25,20 @@ import {
 } from "react-icons/fa";
 import BookStatusBadge from "./BookStatusBadge";
 import DeleteConfirmationModal from "./DeleteConfirmationModal";
+import {
+  downloadBookPDF,
+  generateBookPdfFilename,
+} from "@/utils/downloadUtils";
+import { toast } from "react-toastify";
+import logger from "@/utils/logger";
 
-const BookCard = ({ book, onDelete, onTogglePublic, onRetry }) => {
+const BookCard = ({
+  book,
+  onDelete,
+  onTogglePublic,
+  onRetry,
+  isOwner = true,
+}) => {
   const { t } = useValidatedTranslation();
   const navigate = useNavigate();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -34,6 +46,53 @@ const BookCard = ({ book, onDelete, onTogglePublic, onRetry }) => {
 
   const handleCardClick = () => {
     navigate(`/books/${book.id}`);
+  };
+
+  // Handle PDF download
+  const handleDownloadPDF = async (event) => {
+    event.stopPropagation();
+    try {
+      if (!book.pdfUrl) {
+        toast.error(t("books.noPdfAvailable"));
+        return;
+      }
+
+      const filename = generateBookPdfFilename(book);
+      const result = await downloadBookPDF(book.id, filename);
+
+      if (result.success && result.downloaded) {
+        toast.success(t("books.downloadStarted"));
+      } else if (result.requiresPayment) {
+        if (result.isGuest) {
+          // Guest user - redirect to Stripe checkout
+          window.location.href = result.checkoutUrl;
+        } else {
+          // This shouldn't happen as authenticated users get different handling
+          toast.error(result.message || t("books.paymentRequired"));
+        }
+      }
+    } catch (error) {
+      logger.error("PDF download error:", error);
+
+      // Handle insufficient credits error
+      if (
+        error.status === 402 &&
+        error.data?.error === "INSUFFICIENT_CREDITS"
+      ) {
+        const { required, available, shortfall } = error.data.data;
+        toast.error(
+          `${t("books.insufficientCredits")} ${t(
+            "books.creditsRequired"
+          )}: ${required}, ${t("books.creditsAvailable")}: ${available}, ${t(
+            "books.creditsShortfall"
+          )}: ${shortfall}`
+        );
+        return;
+      }
+
+      const errorMessage = error.message || t("books.downloadFailed");
+      toast.error(errorMessage);
+    }
   };
 
   const handleMenuAction = (action, event) => {
@@ -48,9 +107,7 @@ const BookCard = ({ book, onDelete, onTogglePublic, onRetry }) => {
         setShowDeleteModal(true);
         break;
       case "download":
-        if (book.pdfUrl) {
-          window.open(book.pdfUrl, "_blank");
-        }
+        handleDownloadPDF(event);
         break;
       case "toggle-public":
         onTogglePublic?.(book.id);
@@ -80,7 +137,7 @@ const BookCard = ({ book, onDelete, onTogglePublic, onRetry }) => {
     <>
       <Card className="w-full cursor-pointer hover:shadow-lg transition-shadow duration-300 flex flex-col h-full">
         <div onClick={handleCardClick} className="flex flex-col h-full">
-          <div className="relative aspect-4-3-container rounded-t-lg !max-w-none">
+          <div className="relative aspect-1-1-container rounded-t-lg !max-w-none">
             {book.frontCoverImageUrl ? (
               <img
                 src={book.frontCoverImageUrl}
@@ -217,12 +274,9 @@ const BookCard = ({ book, onDelete, onTogglePublic, onRetry }) => {
                   size="sm"
                   variant="filled"
                   className="flex-1"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    window.open(book.pdfUrl, "_blank");
-                  }}
+                  onClick={handleDownloadPDF}
                 >
-                  {t("books.download")}
+                  {isOwner ? t("books.download") : t("books.downloadPaid")}
                 </Button>
               )}
             </div>

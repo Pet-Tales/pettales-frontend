@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import { useValidatedTranslation } from "@/hooks/useValidatedTranslation";
 import {
   Typography,
@@ -45,12 +45,17 @@ import { useErrorTranslation } from "@/utils/errorMapper";
 import { toast } from "react-toastify";
 import logger from "@/utils/logger";
 import { smartNavigateBack, getFallbackPath } from "@/utils/navigationUtils";
+import {
+  downloadBookPDF,
+  generateBookPdfFilename,
+} from "@/utils/downloadUtils";
 
 const BookDetail = () => {
   const { t } = useValidatedTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { id } = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const translateError = useErrorTranslation();
 
   const { currentBook, isLoading } = useSelector((state) => state.books);
@@ -73,6 +78,10 @@ const BookDetail = () => {
   // PDF regeneration states
   const [isRegeneratingPDF, setIsRegeneratingPDF] = useState(false);
 
+  // Payment success download trigger
+  const [pendingPaymentDownload, setPendingPaymentDownload] = useState(false);
+  const [paymentSessionId, setPaymentSessionId] = useState(null);
+
   // Load book data
   useEffect(() => {
     if (id) {
@@ -89,6 +98,76 @@ const BookDetail = () => {
       loadBookPages();
     }
   }, [currentBook]);
+
+  // Handle payment success URL parameters
+  useEffect(() => {
+    const payment = searchParams.get("payment");
+    const download = searchParams.get("download");
+    const sessionId = searchParams.get("session_id");
+
+    // Handle payment cancellation immediately
+    if (payment === "cancelled") {
+      setSearchParams({});
+      toast.info(t("books.paymentCancelled"));
+      return;
+    }
+
+    // Handle payment success - set flag to trigger download when book loads
+    if (payment === "success" && download === "pdf" && sessionId) {
+      logger.info(
+        "Payment success detected, will trigger download when book loads"
+      );
+      setSearchParams({});
+      setPendingPaymentDownload(true);
+      setPaymentSessionId(sessionId);
+    }
+  }, [searchParams, setSearchParams, t]);
+
+  // Trigger download when book is loaded and payment was successful
+  useEffect(() => {
+    if (pendingPaymentDownload && currentBook && currentBook.pdfUrl) {
+      logger.info(
+        "Book loaded after payment success, triggering PDF download for book:",
+        currentBook.id
+      );
+
+      setPendingPaymentDownload(false);
+
+      // Trigger PDF download after successful payment
+      const triggerDownload = async () => {
+        try {
+          const filename = generateBookPdfFilename(currentBook);
+          logger.info("Starting post-payment PDF download:", filename);
+
+          const result = await downloadBookPDF(
+            currentBook.id,
+            filename,
+            paymentSessionId
+          );
+
+          if (result.success && result.downloaded) {
+            toast.success(t("books.downloadStarted"));
+            logger.info("Post-payment PDF download completed successfully");
+          } else {
+            logger.error("Post-payment PDF download failed:", result);
+            toast.error(t("books.downloadFailed"));
+          }
+        } catch (error) {
+          logger.error("Post-payment PDF download error:", error);
+          toast.error(t("books.downloadFailed"));
+        }
+      };
+
+      // Small delay to ensure page is fully loaded
+      setTimeout(triggerDownload, 1000);
+    }
+  }, [
+    pendingPaymentDownload,
+    currentBook,
+    paymentSessionId,
+    setPendingPaymentDownload,
+    t,
+  ]);
 
   const loadBookPages = async () => {
     try {
@@ -330,6 +409,52 @@ const BookDetail = () => {
     return new Date(dateString).toLocaleDateString();
   };
 
+  // Handle PDF download
+  const handleDownloadPDF = async () => {
+    try {
+      if (!currentBook?.pdfUrl) {
+        toast.error(t("books.noPdfAvailable"));
+        return;
+      }
+
+      const filename = generateBookPdfFilename(currentBook);
+      const result = await downloadBookPDF(currentBook.id, filename);
+
+      if (result.success && result.downloaded) {
+        toast.success(t("books.downloadStarted"));
+      } else if (result.requiresPayment) {
+        if (result.isGuest) {
+          // Guest user - redirect to Stripe checkout
+          window.location.href = result.checkoutUrl;
+        } else {
+          // This shouldn't happen as authenticated users get different handling
+          toast.error(result.message || t("books.paymentRequired"));
+        }
+      }
+    } catch (error) {
+      logger.error("PDF download error:", error);
+
+      // Handle insufficient credits error
+      if (
+        error.status === 402 &&
+        error.data?.error === "INSUFFICIENT_CREDITS"
+      ) {
+        const { required, available, shortfall } = error.data.data;
+        toast.error(
+          `${t("books.insufficientCredits")} ${t(
+            "books.creditsRequired"
+          )}: ${required}, ${t("books.creditsAvailable")}: ${available}, ${t(
+            "books.creditsShortfall"
+          )}: ${shortfall}`
+        );
+        return;
+      }
+
+      const errorMessage = error.message || t("books.downloadFailed");
+      toast.error(errorMessage);
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="min-h-screen flex justify-center items-center">
@@ -406,10 +531,10 @@ const BookDetail = () => {
                   variant="outlined"
                   size="sm"
                   className="flex items-center gap-2"
-                  onClick={() => window.open(currentBook.pdfUrl, "_blank")}
+                  onClick={handleDownloadPDF}
                 >
                   <FaDownload className="h-4 w-4" />
-                  {t("books.download")}
+                  {isOwner ? t("books.download") : t("books.downloadPaid")}
                 </Button>
               )}
               {canUseAsTemplate && (
@@ -695,7 +820,7 @@ const BookDetail = () => {
                                 </Button>
                               )}
                           </div>
-                          <div className="aspect-4-3-container rounded-lg">
+                          <div className="aspect-1-1-container rounded-lg">
                             <img
                               src={currentBook.frontCoverImageUrl}
                               alt={t("books.frontCoverAlt")}
@@ -726,7 +851,7 @@ const BookDetail = () => {
                                 </Button>
                               )}
                           </div>
-                          <div className="aspect-4-3-container rounded-lg">
+                          <div className="aspect-1-1-container rounded-lg">
                             <img
                               src={currentBook.backCoverImageUrl}
                               alt={t("books.backCoverAlt")}
@@ -774,7 +899,7 @@ const BookDetail = () => {
                               </div>
                               <div className="grid grid-cols-2 gap-4">
                                 {pageGroup.illustration_page && (
-                                  <div className="aspect-4-3-container rounded">
+                                  <div className="aspect-1-1-container rounded">
                                     <img
                                       src={
                                         pageGroup.illustration_page
