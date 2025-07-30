@@ -49,6 +49,20 @@ const OrderReviewConfirmation = ({
     return methods[level] || level;
   };
 
+  // Get shipping method estimated days
+  const getShippingMethodEstimatedDays = (level) => {
+    const estimatedDays = {
+      MAIL: t("printOrder.shipping.methods.mail.estimatedDays"),
+      PRIORITY_MAIL: t(
+        "printOrder.shipping.methods.priorityMail.estimatedDays"
+      ),
+      GROUND: t("printOrder.shipping.methods.ground.estimatedDays"),
+      EXPEDITED: t("printOrder.shipping.methods.expedited.estimatedDays"),
+      EXPRESS: t("printOrder.shipping.methods.express.estimatedDays"),
+    };
+    return estimatedDays[level] || "";
+  };
+
   // Check if user has sufficient credits
   const hasSufficientCredits = currentBalance >= costData.total_cost_credits;
 
@@ -163,19 +177,22 @@ const OrderReviewConfirmation = ({
                 <div>{orderData.shippingAddress.email}</div>
               </div>
             </div>
-            <div>
-              <Typography variant="small" className="font-medium mb-2">
-                {t("printOrder.shipping.method")}:
-              </Typography>
-              <div className="flex items-center gap-2">
-                <Typography variant="small">
+            <div className="space-y-3">
+              <div>
+                <Typography variant="small" className="font-medium mb-1">
+                  {t("printOrder.shipping.method")}:
+                </Typography>
+                <Typography variant="small" className="text-gray-600">
                   {getShippingMethodName(orderData.shippingLevel)}
                 </Typography>
-                <Chip
-                  size="sm"
-                  value={t("printOrder.shipping.methods.estimatedDays")}
-                  className="bg-gray-200 text-gray-700"
-                />
+              </div>
+              <div>
+                <Typography variant="small" className="font-medium mb-1">
+                  {t("printOrder.shipping.estimatedDelivery")}:
+                </Typography>
+                <Typography variant="small" className="text-gray-600">
+                  {getShippingMethodEstimatedDays(orderData.shippingLevel)}
+                </Typography>
               </div>
             </div>
           </div>
@@ -200,22 +217,33 @@ const OrderReviewConfirmation = ({
               <Typography variant="small">
                 {formatPrice(
                   (() => {
-                    const basePrintingCost =
+                    // Calculate printing cost (line items + fulfillment)
+                    const lineItemCost = parseFloat(
                       costData.cost_breakdown?.line_items?.[0]
-                        ?.total_cost_incl_tax || 0;
-                    const baseShippingCost =
-                      costData.cost_breakdown?.shipping?.total_cost_incl_tax ||
-                      0;
-                    const totalBaseCost = basePrintingCost + baseShippingCost;
-                    const markupAmount = costData.markup_amount_usd || 0;
+                        ?.total_cost_incl_tax || 0
+                    );
+                    const fulfillmentCost = parseFloat(
+                      costData.cost_breakdown?.fulfillment
+                        ?.total_cost_incl_tax || 0
+                    );
+                    const basePrintingCost = lineItemCost + fulfillmentCost;
 
-                    // Distribute markup proportionally to printing cost
+                    const baseShippingCost = parseFloat(
+                      costData.cost_breakdown?.shipping?.total_cost_incl_tax ||
+                        0
+                    );
+                    const totalBaseCost = basePrintingCost + baseShippingCost;
+                    const finalTotalCost = parseFloat(
+                      costData.total_cost_usd || 0
+                    );
+
+                    // Calculate proportional final costs
                     const printingProportion =
                       totalBaseCost > 0 ? basePrintingCost / totalBaseCost : 0;
-                    const printingWithMarkup =
-                      basePrintingCost + markupAmount * printingProportion;
+                    const finalPrintingCost =
+                      finalTotalCost * printingProportion;
 
-                    return Math.ceil(printingWithMarkup / 0.01);
+                    return Math.ceil(finalPrintingCost / 0.01);
                   })()
                 )}
               </Typography>
@@ -228,22 +256,33 @@ const OrderReviewConfirmation = ({
               <Typography variant="small">
                 {formatPrice(
                   (() => {
-                    const basePrintingCost =
+                    // Calculate shipping cost
+                    const lineItemCost = parseFloat(
                       costData.cost_breakdown?.line_items?.[0]
-                        ?.total_cost_incl_tax || 0;
-                    const baseShippingCost =
-                      costData.cost_breakdown?.shipping?.total_cost_incl_tax ||
-                      0;
-                    const totalBaseCost = basePrintingCost + baseShippingCost;
-                    const markupAmount = costData.markup_amount_usd || 0;
+                        ?.total_cost_incl_tax || 0
+                    );
+                    const fulfillmentCost = parseFloat(
+                      costData.cost_breakdown?.fulfillment
+                        ?.total_cost_incl_tax || 0
+                    );
+                    const basePrintingCost = lineItemCost + fulfillmentCost;
 
-                    // Distribute markup proportionally to shipping cost
+                    const baseShippingCost = parseFloat(
+                      costData.cost_breakdown?.shipping?.total_cost_incl_tax ||
+                        0
+                    );
+                    const totalBaseCost = basePrintingCost + baseShippingCost;
+                    const finalTotalCost = parseFloat(
+                      costData.total_cost_usd || 0
+                    );
+
+                    // Calculate proportional final costs
                     const shippingProportion =
                       totalBaseCost > 0 ? baseShippingCost / totalBaseCost : 0;
-                    const shippingWithMarkup =
-                      baseShippingCost + markupAmount * shippingProportion;
+                    const finalShippingCost =
+                      finalTotalCost * shippingProportion;
 
-                    return Math.ceil(shippingWithMarkup / 0.01);
+                    return Math.ceil(finalShippingCost / 0.01);
                   })()
                 )}
               </Typography>

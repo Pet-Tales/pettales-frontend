@@ -17,6 +17,7 @@ import {
   FaEye,
   FaTimes,
   FaExclamationTriangle,
+  FaSync,
 } from "react-icons/fa";
 import { toast } from "react-toastify";
 
@@ -30,6 +31,7 @@ const OrdersPage = () => {
   // State management
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
   const [statusFilter, setStatusFilter] = useState("");
   const [pagination, setPagination] = useState({
     page: 1,
@@ -38,9 +40,26 @@ const OrdersPage = () => {
     pages: 0,
   });
 
-  // Load orders on component mount and when filters change
+  // Load orders and refresh statuses on initial mount
   useEffect(() => {
-    loadOrders();
+    const loadAndRefresh = async () => {
+      await loadOrders();
+      // After orders are loaded, refresh their statuses
+      if (!refreshing) {
+        setTimeout(() => {
+          handleRefreshAllStatuses();
+        }, 500);
+      }
+    };
+
+    loadAndRefresh();
+  }, []); // Only run on initial mount
+
+  // Load orders when filters change (but don't auto-refresh statuses)
+  useEffect(() => {
+    if (statusFilter !== "" || pagination.page !== 1) {
+      loadOrders();
+    }
   }, [statusFilter, pagination.page]);
 
   // Load orders from API
@@ -90,6 +109,43 @@ const OrdersPage = () => {
     } catch (error) {
       logger.error("Failed to cancel order:", error);
       toast.error(error.message || t("orders.errors.cancelOrder"));
+    }
+  };
+
+  // Refresh all order statuses
+  const handleRefreshAllStatuses = async () => {
+    try {
+      setRefreshing(true);
+
+      // Get all order IDs from current orders
+      const orderIds = orders.map((order) => order._id);
+
+      if (orderIds.length === 0) {
+        toast.info(t("orders.noOrdersToRefresh"));
+        return;
+      }
+
+      // Refresh status for each order
+      const refreshPromises = orderIds.map(async (orderId) => {
+        try {
+          await PrintOrderService.getPrintOrderStatus(orderId);
+        } catch (error) {
+          logger.error(`Failed to refresh status for order ${orderId}:`, error);
+          // Don't throw here, we want to continue with other orders
+        }
+      });
+
+      await Promise.allSettled(refreshPromises);
+
+      // Reload orders to get updated statuses
+      await loadOrders();
+
+      toast.success(t("orders.success.statusesRefreshed"));
+    } catch (error) {
+      logger.error("Failed to refresh order statuses:", error);
+      toast.error(error.message || t("orders.errors.refreshStatuses"));
+    } finally {
+      setRefreshing(false);
     }
   };
 
@@ -182,6 +238,20 @@ const OrdersPage = () => {
             {t("orders.subtitle")}
           </Typography>
         </div>
+        <Button
+          variant="outlined"
+          size="sm"
+          className="flex items-center gap-2"
+          onClick={handleRefreshAllStatuses}
+          disabled={refreshing || orders.length === 0}
+        >
+          {refreshing ? (
+            <Spinner className="h-4 w-4" />
+          ) : (
+            <FaSync className="h-4 w-4" />
+          )}
+          {t("orders.refreshAll")}
+        </Button>
       </div>
 
       {/* Filters */}
@@ -200,7 +270,9 @@ const OrdersPage = () => {
                 <Option value="">{t("orders.allStatuses")}</Option>
                 <Option value="created">{t("orders.status.created")}</Option>
                 <Option value="unpaid">{t("orders.status.unpaid")}</Option>
-                <Option value="in_production">{t("orders.status.inProduction")}</Option>
+                <Option value="in_production">
+                  {t("orders.status.inProduction")}
+                </Option>
                 <Option value="shipped">{t("orders.status.shipped")}</Option>
                 <Option value="rejected">{t("orders.status.rejected")}</Option>
                 <Option value="canceled">{t("orders.status.canceled")}</Option>
@@ -242,7 +314,10 @@ const OrdersPage = () => {
             const StatusIcon = statusDisplay.icon;
 
             return (
-              <Card key={order._id} className="hover:shadow-md transition-shadow">
+              <Card
+                key={order._id}
+                className="hover:shadow-md transition-shadow"
+              >
                 <CardBody>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
@@ -268,10 +343,14 @@ const OrdersPage = () => {
                             {t("orders.quantity")}: {order.quantity}
                           </span>
                           <span>
-                            {t("orders.total")}: {formatPrice(order.total_cost_credits)}
+                            {t("orders.total")}:{" "}
+                            {formatPrice(order.total_cost_credits)}
                           </span>
                         </div>
-                        <Typography variant="small" className="text-gray-500 mt-1">
+                        <Typography
+                          variant="small"
+                          className="text-gray-500 mt-1"
+                        >
                           {t("orders.ordered")}: {formatDate(order.created_at)}
                         </Typography>
                       </div>
@@ -288,7 +367,8 @@ const OrdersPage = () => {
                         />
                         {order.tracking_info?.tracking_id && (
                           <Typography variant="small" className="text-gray-600">
-                            {t("orders.tracking")}: {order.tracking_info.tracking_id}
+                            {t("orders.tracking")}:{" "}
+                            {order.tracking_info.tracking_id}
                           </Typography>
                         )}
                       </div>
@@ -333,18 +413,25 @@ const OrdersPage = () => {
               variant="outlined"
               size="sm"
               disabled={pagination.page === 1}
-              onClick={() => setPagination(prev => ({ ...prev, page: prev.page - 1 }))}
+              onClick={() =>
+                setPagination((prev) => ({ ...prev, page: prev.page - 1 }))
+              }
             >
               {t("common.previous")}
             </Button>
             <Typography variant="small" className="px-4">
-              {t("common.pageOf", { current: pagination.page, total: pagination.pages })}
+              {t("common.pageOf", {
+                current: pagination.page,
+                total: pagination.pages,
+              })}
             </Typography>
             <Button
               variant="outlined"
               size="sm"
               disabled={pagination.page === pagination.pages}
-              onClick={() => setPagination(prev => ({ ...prev, page: prev.page + 1 }))}
+              onClick={() =>
+                setPagination((prev) => ({ ...prev, page: prev.page + 1 }))
+              }
             >
               {t("common.next")}
             </Button>

@@ -9,9 +9,13 @@ class PrintOrderService {
    */
   async calculateCost(orderData) {
     try {
-      const response = await axios.post(`${API_URL}/calculate-cost`, orderData, {
-        withCredentials: true,
-      });
+      const response = await axios.post(
+        `${API_URL}/calculate-cost`,
+        orderData,
+        {
+          withCredentials: true,
+        }
+      );
       return response.data;
     } catch (error) {
       throw this.handleError(error);
@@ -92,13 +96,15 @@ class PrintOrderService {
   /**
    * Get available shipping options for a location
    */
-  async getShippingOptions(shippingAddress) {
+  async getShippingOptions(requestData) {
     try {
-      const response = await axios.post(`${API_URL}/shipping-options`, {
-        shippingAddress,
-      }, {
-        withCredentials: true,
-      });
+      const response = await axios.post(
+        `${API_URL}/shipping-options`,
+        requestData,
+        {
+          withCredentials: true,
+        }
+      );
       return response.data;
     } catch (error) {
       throw this.handleError(error);

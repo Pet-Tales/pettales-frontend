@@ -25,12 +25,14 @@
     "change": "Change",
     "remove": "Remove",
     "retry": "Retry",
-    "preview": "Preview"
+    "preview": "Preview",
+    "credits": "credits"
   },
   "navbar": {
     "home": "Home",
     "myBooks": "My Books",
     "characters": "Characters",
+    "myOrders": "My Orders",
     "gallery": "Gallery",
     "pricing": "Pricing",
     "howItWork": "How it works",
@@ -988,6 +990,7 @@
       "email": "Email Address",
       "address": "Shipping Address",
       "method": "Shipping Method",
+      "estimatedDelivery": "Estimated Delivery",
       "selectMethod": "Select Shipping Method",
       "selectMethodDescription": "Choose your preferred shipping speed and review the total cost.",
       "methods": {
@@ -1063,6 +1066,8 @@
     "browseBooks": "Browse My Books",
     "filterByStatus": "Filter by Status",
     "allStatuses": "All Statuses",
+    "refreshAll": "Refresh All",
+    "noOrdersToRefresh": "No orders to refresh",
     "orderNumber": "Order #",
     "quantity": "Qty",
     "total": "Total",
@@ -1085,8 +1090,56 @@
     "success": {
       "canceled": "Order canceled successfully"
     },
+    "success": {
+      "statusesRefreshed": "Order statuses refreshed successfully"
+    },
     "errors": {
       "loadOrders": "Failed to load orders",
+      "cancelOrder": "Failed to cancel order",
+      "refreshStatuses": "Failed to refresh order statuses"
+    }
+  },
+  "orderDetail": {
+    "title": "Order Details",
+    "orderNumber": "Order Number",
+    "orderStatus": "Order Status",
+    "refreshStatus": "Refresh Status",
+    "cancelOrder": "Cancel Order",
+    "confirmCancel": "Are you sure you want to cancel this order? This action cannot be undone.",
+    "bookInformation": "Book Information",
+    "orderSummary": "Order Summary",
+    "shippingInformation": "Shipping Information",
+    "trackingInformation": "Tracking Information",
+    "printingCost": "Printing Cost",
+    "totalCredits": "Total Credits",
+    "quantity": "Quantity",
+    "pages": "Pages",
+    "ordered": "Ordered",
+    "shipped": "Shipped",
+    "shippingMethod": "Shipping Method",
+    "trackingNumber": "Tracking Number",
+    "trackingNotAvailable": "Tracking number not yet available",
+    "carrier": "Carrier",
+    "trackingLinks": "Tracking Links",
+    "trackPackage": "Track Package",
+    "unknownBook": "Unknown Book",
+    "status": {
+      "created": "Created",
+      "submitted": "Submitted",
+      "inProduction": "In Production",
+      "shipped": "Shipped",
+      "delivered": "Delivered",
+      "cancelled": "Cancelled",
+      "rejected": "Rejected"
+    },
+    "success": {
+      "statusRefreshed": "Order status refreshed successfully",
+      "orderCancelled": "Order cancelled successfully"
+    },
+    "errors": {
+      "loadOrder": "Failed to load order details",
+      "orderNotFound": "Order not found",
+      "refreshStatus": "Failed to refresh order status",
       "cancelOrder": "Failed to cancel order"
     }
   }

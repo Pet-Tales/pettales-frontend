@@ -388,6 +388,7 @@ const PrintOrderPage = () => {
               onNext={handleNext}
               onBack={handleBack}
               loading={submitting}
+              onCostDataUpdate={setCostData}
             />
           )}
 

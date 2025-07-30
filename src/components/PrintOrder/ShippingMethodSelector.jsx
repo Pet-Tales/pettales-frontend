@@ -23,6 +23,7 @@ const ShippingMethodSelector = ({
   onNext,
   onBack,
   loading,
+  onCostDataUpdate,
 }) => {
   const { t } = useValidatedTranslation();
   const [shippingOptions, setShippingOptions] = useState([]);
@@ -76,9 +77,10 @@ const ShippingMethodSelector = ({
     const loadShippingOptions = async () => {
       try {
         setLoadingOptions(true);
-        const response = await PrintOrderService.getShippingOptions(
-          orderData.shippingAddress
-        );
+        const response = await PrintOrderService.getShippingOptions({
+          shippingAddress: orderData.shippingAddress,
+          bookId: bookId,
+        });
 
         if (response.success) {
           setShippingOptions(response.data);
@@ -96,7 +98,7 @@ const ShippingMethodSelector = ({
     };
 
     loadShippingOptions();
-  }, [orderData.shippingAddress]);
+  }, [orderData.shippingAddress, bookId]);
 
   // Handle shipping method change
   const handleShippingMethodChange = async (shippingLevel) => {
@@ -116,6 +118,10 @@ const ShippingMethodSelector = ({
 
       if (costResponse.success) {
         setCurrentCostData(costResponse.data);
+        // Update parent component's cost data
+        if (onCostDataUpdate) {
+          onCostDataUpdate(costResponse.data);
+        }
       } else {
         throw new Error(costResponse.message);
       }
@@ -189,26 +195,36 @@ const ShippingMethodSelector = ({
                   <Typography variant="small">
                     {formatPrice(
                       (() => {
-                        const basePrintingCost =
+                        // Calculate printing cost (line items + fulfillment)
+                        const lineItemCost = parseFloat(
                           currentCostData.cost_breakdown?.line_items?.[0]
-                            ?.total_cost_incl_tax || 0;
-                        const baseShippingCost =
+                            ?.total_cost_incl_tax || 0
+                        );
+                        const fulfillmentCost = parseFloat(
+                          currentCostData.cost_breakdown?.fulfillment
+                            ?.total_cost_incl_tax || 0
+                        );
+                        const basePrintingCost = lineItemCost + fulfillmentCost;
+
+                        const baseShippingCost = parseFloat(
                           currentCostData.cost_breakdown?.shipping
-                            ?.total_cost_incl_tax || 0;
+                            ?.total_cost_incl_tax || 0
+                        );
                         const totalBaseCost =
                           basePrintingCost + baseShippingCost;
-                        const markupAmount =
-                          currentCostData.markup_amount_usd || 0;
+                        const finalTotalCost = parseFloat(
+                          currentCostData.total_cost_usd || 0
+                        );
 
-                        // Distribute markup proportionally to printing cost
+                        // Calculate proportional final costs
                         const printingProportion =
                           totalBaseCost > 0
                             ? basePrintingCost / totalBaseCost
                             : 0;
-                        const printingWithMarkup =
-                          basePrintingCost + markupAmount * printingProportion;
+                        const finalPrintingCost =
+                          finalTotalCost * printingProportion;
 
-                        return Math.ceil(printingWithMarkup / 0.01);
+                        return Math.ceil(finalPrintingCost / 0.01);
                       })()
                     )}
                   </Typography>
@@ -223,27 +239,37 @@ const ShippingMethodSelector = ({
                     ) : (
                       formatPrice(
                         (() => {
-                          const basePrintingCost =
+                          // Calculate shipping cost
+                          const lineItemCost = parseFloat(
                             currentCostData.cost_breakdown?.line_items?.[0]
-                              ?.total_cost_incl_tax || 0;
-                          const baseShippingCost =
+                              ?.total_cost_incl_tax || 0
+                          );
+                          const fulfillmentCost = parseFloat(
+                            currentCostData.cost_breakdown?.fulfillment
+                              ?.total_cost_incl_tax || 0
+                          );
+                          const basePrintingCost =
+                            lineItemCost + fulfillmentCost;
+
+                          const baseShippingCost = parseFloat(
                             currentCostData.cost_breakdown?.shipping
-                              ?.total_cost_incl_tax || 0;
+                              ?.total_cost_incl_tax || 0
+                          );
                           const totalBaseCost =
                             basePrintingCost + baseShippingCost;
-                          const markupAmount =
-                            currentCostData.markup_amount_usd || 0;
+                          const finalTotalCost = parseFloat(
+                            currentCostData.total_cost_usd || 0
+                          );
 
-                          // Distribute markup proportionally to shipping cost
+                          // Calculate proportional final costs
                           const shippingProportion =
                             totalBaseCost > 0
                               ? baseShippingCost / totalBaseCost
                               : 0;
-                          const shippingWithMarkup =
-                            baseShippingCost +
-                            markupAmount * shippingProportion;
+                          const finalShippingCost =
+                            finalTotalCost * shippingProportion;
 
-                          return Math.ceil(shippingWithMarkup / 0.01);
+                          return Math.ceil(finalShippingCost / 0.01);
                         })()
                       )
                     )}

@@ -25,12 +25,14 @@
     "change": "Cambiar",
     "remove": "Quitar",
     "retry": "Reintentar",
-    "preview": "Vista Previa"
+    "preview": "Vista Previa",
+    "credits": "créditos"
   },
   "navbar": {
     "home": "Inicio",
     "myBooks": "Mis Libros",
     "characters": "Personajes",
+    "myOrders": "Mis Pedidos",
     "gallery": "Galería",
     "pricing": "Precios",
     "howItWork": "Cómo Funciona",
@@ -943,5 +945,177 @@
     "exactAmount": "Cantidad Exacta Necesaria",
     "insufficientCreditsMessage": "Necesitas {{required}} créditos pero solo tienes {{current}}. Necesitas {{shortfall}} créditos más.",
     "paymentCancelled": "El pago fue cancelado. Puedes intentar de nuevo en cualquier momento."
+  },
+  "printOrder": {
+    "title": "Imprimir y Enviar Tu Libro",
+    "subtitle": "Ordena copias físicas de \"{{title}}\"",
+    "steps": {
+      "shipping": "Detalles",
+      "shippingDesc": "Ingresa tu dirección de envío y selecciona la cantidad",
+      "review": "Método de Envío",
+      "reviewDesc": "Selecciona tu método de envío preferido",
+      "confirm": "Revisar",
+      "confirmDesc": "Revisa los detalles de tu orden y confirma"
+    },
+    "quantity": "Cantidad",
+    "pages": "páginas",
+    "book": "Libro",
+    "bookFormat": "Formato",
+    "format": {
+      "saddle": "Cosido a Caballo"
+    },
+    "calculateCost": "Calcular Costo",
+    "reviewOrder": "Revisar Orden",
+    "confirmOrder": "Confirmar Orden",
+    "submitting": "Procesando Orden...",
+    "orderSummary": "Resumen de la Orden",
+    "printingCost": "Costo de Impresión",
+    "shippingCost": "Costo de Envío",
+    "markup": "Tarifa de Servicio",
+    "total": "Total",
+    "shipping": {
+      "title": "Información de Envío",
+      "description": "Por favor proporciona tu dirección de envío y selecciona el número de copias que te gustaría ordenar.",
+      "name": "Nombre Completo",
+      "street1": "Dirección",
+      "street2": "Apartamento, suite, etc. (opcional)",
+      "city": "Ciudad",
+      "state": "Estado/Provincia",
+      "postcode": "Código Postal",
+      "country": "País",
+      "phone": "Número de Teléfono",
+      "email": "Dirección de Email",
+      "address": "Dirección de Envío",
+      "method": "Método de Envío",
+      "estimatedDelivery": "Entrega Estimada",
+      "selectMethod": "Seleccionar Método de Envío",
+      "selectMethodDescription": "Elige tu velocidad de envío preferida y revisa el costo total.",
+      "methods": {
+        "mail": {
+          "name": "Correo Estándar",
+          "description": "Método de envío más lento. El seguimiento puede no estar disponible.",
+          "estimatedDays": "7-14 días hábiles"
+        },
+        "priorityMail": {
+          "name": "Correo Prioritario",
+          "description": "Envío más rápido con seguimiento incluido.",
+          "estimatedDays": "3-5 días hábiles"
+        },
+        "ground": {
+          "name": "Terrestre",
+          "description": "Envío terrestre estándar con seguimiento.",
+          "estimatedDays": "5-7 días hábiles"
+        },
+        "expedited": {
+          "name": "Expedito",
+          "description": "Envío más rápido para entrega urgente.",
+          "estimatedDays": "2-3 días hábiles"
+        },
+        "express": {
+          "name": "Express",
+          "description": "El envío más rápido disponible.",
+          "estimatedDays": "1-2 días hábiles"
+        },
+        "estimatedDays": "ENTREGA ESTIMADA"
+      }
+    },
+    "review": {
+      "title": "Revisar y Confirmar Orden",
+      "description": "Por favor revisa todos los detalles antes de confirmar tu orden.",
+      "bookDetails": "Detalles del Libro",
+      "shippingDetails": "Detalles de Envío",
+      "costBreakdown": "Desglose de Costos"
+    },
+    "success": {
+      "orderCreated": "¡Orden creada exitosamente!"
+    },
+    "errors": {
+      "unauthorized": "Solo puedes imprimir tus propios libros.",
+      "bookNotCompleted": "El libro debe estar completado antes de imprimir.",
+      "loadBook": "Error al cargar información del libro.",
+      "calculateCost": "Error al calcular costo de envío.",
+      "recalculateCost": "Error al recalcular costo.",
+      "createOrder": "Error al crear orden de impresión.",
+      "insufficientCredits": "Necesitas {{required}} créditos pero solo tienes {{available}} créditos disponibles.",
+      "creditUpdateFailed": "Error al actualizar saldo de créditos después del pago"
+    }
+  },
+  "orders": {
+    "title": "Mis Órdenes de Impresión",
+    "subtitle": "Rastrea tus órdenes de libros físicos",
+    "noOrders": "Aún No Hay Órdenes de Impresión",
+    "noOrdersDescription": "Aún no has realizado ninguna orden de impresión. Explora tus libros para comenzar.",
+    "browseBooks": "Explorar Mis Libros",
+    "filterByStatus": "Filtrar por Estado",
+    "allStatuses": "Todos los Estados",
+    "refreshAll": "Actualizar Todo",
+    "noOrdersToRefresh": "No hay órdenes para actualizar",
+    "orderNumber": "Número de Orden",
+    "quantity": "Cantidad",
+    "total": "Total",
+    "ordered": "Ordenado",
+    "viewDetails": "Ver Detalles",
+    "cancel": "Cancelar",
+    "status": {
+      "created": "Creado",
+      "submitted": "Enviado",
+      "in_production": "En Producción",
+      "shipped": "Enviado",
+      "delivered": "Entregado",
+      "cancelled": "Cancelado",
+      "rejected": "Rechazado"
+    },
+    "success": {
+      "statusesRefreshed": "Estados de órdenes actualizados exitosamente"
+    },
+    "errors": {
+      "loadOrders": "Error al cargar órdenes",
+      "cancelOrder": "Error al cancelar orden",
+      "refreshStatuses": "Error al actualizar estados de órdenes"
+    }
+  },
+  "orderDetail": {
+    "title": "Detalles del Pedido",
+    "orderNumber": "Número de Pedido",
+    "orderStatus": "Estado del Pedido",
+    "refreshStatus": "Actualizar Estado",
+    "cancelOrder": "Cancelar Pedido",
+    "confirmCancel": "¿Estás seguro de que quieres cancelar este pedido? Esta acción no se puede deshacer.",
+    "bookInformation": "Información del Libro",
+    "orderSummary": "Resumen del Pedido",
+    "shippingInformation": "Información de Envío",
+    "trackingInformation": "Información de Seguimiento",
+    "printingCost": "Costo de Impresión",
+    "totalCredits": "Total de Créditos",
+    "quantity": "Cantidad",
+    "pages": "Páginas",
+    "ordered": "Pedido",
+    "shipped": "Enviado",
+    "shippingMethod": "Método de Envío",
+    "trackingNumber": "Número de Seguimiento",
+    "trackingNotAvailable": "Número de seguimiento aún no disponible",
+    "carrier": "Transportista",
+    "trackingLinks": "Enlaces de Seguimiento",
+    "trackPackage": "Rastrear Paquete",
+    "unknownBook": "Libro Desconocido",
+    "status": {
+      "created": "Creado",
+      "submitted": "Enviado",
+      "inProduction": "En Producción",
+      "shipped": "Enviado",
+      "delivered": "Entregado",
+      "cancelled": "Cancelado",
+      "rejected": "Rechazado"
+    },
+    "success": {
+      "statusRefreshed": "Estado del pedido actualizado exitosamente",
+      "orderCancelled": "Pedido cancelado exitosamente"
+    },
+    "errors": {
+      "loadOrder": "Error al cargar detalles del pedido",
+      "orderNotFound": "Pedido no encontrado",
+      "refreshStatus": "Error al actualizar estado del pedido",
+      "cancelOrder": "Error al cancelar pedido"
+    }
   }
 }
