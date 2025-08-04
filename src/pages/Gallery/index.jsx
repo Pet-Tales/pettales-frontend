@@ -9,6 +9,8 @@ import {
   Card,
   CardBody,
   CardFooter,
+  Select,
+  Option,
 } from "@material-tailwind/react";
 import { FaSearch, FaBook, FaUser, FaEye } from "react-icons/fa";
 import GalleryService from "@/services/galleryService";
@@ -32,6 +34,7 @@ const Gallery = () => {
     limit: 12,
   });
   const [searchQuery, setSearchQuery] = useState("");
+  const [searchType, setSearchType] = useState("all");
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [isLoadingFeatured, setIsLoadingFeatured] = useState(false);
@@ -42,14 +45,14 @@ const Gallery = () => {
     loadFeaturedBooks();
   }, []);
 
-  // Load books when search query changes
+  // Load books when search query or search type changes
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       loadBooks(true); // Reset books list
     }, 500); // Debounce search
 
     return () => clearTimeout(timeoutId);
-  }, [searchQuery]);
+  }, [searchQuery, searchType]);
 
   // Infinite scroll logic
   const handleScroll = useCallback(() => {
@@ -99,7 +102,8 @@ const Gallery = () => {
       const response = await GalleryService.getPublicBooks(
         page,
         12,
-        searchQuery
+        searchQuery,
+        searchType
       );
       const { books: newBooks, pagination: newPagination } = response.data.data;
 
@@ -151,6 +155,17 @@ const Gallery = () => {
 
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString();
+  };
+
+  const getSearchPlaceholder = () => {
+    switch (searchType) {
+      case "user":
+        return t("gallery.searchByUser");
+      case "title_description":
+        return t("gallery.searchByTitle");
+      default:
+        return t("gallery.searchBooks");
+    }
   };
 
   const BookCard = ({ book, showUseTemplate = false }) => (
@@ -247,13 +262,33 @@ const Gallery = () => {
           </Typography>
 
           {/* Search */}
-          <div className="max-w-md mx-auto">
-            <Input
-              icon={<FaSearch />}
-              label={t("gallery.searchBooks")}
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
+          <div className="max-w-2xl mx-auto">
+            <div className="flex flex-col sm:flex-row gap-4">
+              {/* Search Type Selector */}
+              <div className="w-full sm:w-48">
+                <Select
+                  value={searchType}
+                  onChange={(value) => setSearchType(value)}
+                  label={t("gallery.searchType.all")}
+                >
+                  <Option value="all">{t("gallery.searchType.all")}</Option>
+                  <Option value="title_description">
+                    {t("gallery.searchType.titleDescription")}
+                  </Option>
+                  <Option value="user">{t("gallery.searchType.user")}</Option>
+                </Select>
+              </div>
+
+              {/* Search Input */}
+              <div className="flex-1">
+                <Input
+                  icon={<FaSearch />}
+                  label={getSearchPlaceholder()}
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+              </div>
+            </div>
           </div>
         </div>
 
