@@ -58,11 +58,9 @@ const BookCard = ({
       }
 
       const filename = generateBookPdfFilename(book);
-      const result = await downloadBookPDF(book.id, filename);
+      const result = await downloadBookPDF(book.id, filename, null, true); // Show save dialog
 
-      if (result.success && result.downloaded) {
-        toast.success(t("books.downloadStarted"));
-      } else if (result.requiresPayment) {
+      if (result.requiresPayment) {
         if (result.isGuest) {
           // Guest user - redirect to Stripe checkout
           window.location.href = result.checkoutUrl;
@@ -73,6 +71,12 @@ const BookCard = ({
       }
     } catch (error) {
       logger.error("PDF download error:", error);
+
+      // Handle user cancellation
+      if (error.message === "Download cancelled by user") {
+        // Don't show error message for user cancellation
+        return;
+      }
 
       // Handle insufficient credits error
       if (

@@ -21,6 +21,7 @@ import {
   FaDog,
   FaSync,
   FaCopy,
+  FaPrint,
 } from "react-icons/fa";
 
 import BookStatusBadge from "@/components/Books/BookStatusBadge";
@@ -142,11 +143,11 @@ const BookDetail = () => {
           const result = await downloadBookPDF(
             currentBook.id,
             filename,
-            paymentSessionId
+            paymentSessionId,
+            true // Show save dialog
           );
 
           if (result.success && result.downloaded) {
-            toast.success(t("books.downloadStarted"));
             logger.info("Post-payment PDF download completed successfully");
           } else {
             logger.error("Post-payment PDF download failed:", result);
@@ -154,6 +155,11 @@ const BookDetail = () => {
           }
         } catch (error) {
           logger.error("Post-payment PDF download error:", error);
+          // Handle user cancellation
+          if (error.message === "Download cancelled by user") {
+            // Don't show error message for user cancellation
+            return;
+          }
           toast.error(t("books.downloadFailed"));
         }
       };
@@ -212,6 +218,11 @@ const BookDetail = () => {
   const handleUseAsTemplate = () => {
     // Navigate to book creation page with template parameter
     navigate(`/books/create?template=${id}`);
+  };
+
+  const handlePrintOrder = () => {
+    // Navigate to print order page
+    navigate(`/books/${id}/print-order`);
   };
 
   const handleRetry = async () => {
@@ -418,11 +429,14 @@ const BookDetail = () => {
       }
 
       const filename = generateBookPdfFilename(currentBook);
-      const result = await downloadBookPDF(currentBook.id, filename);
+      const result = await downloadBookPDF(
+        currentBook.id,
+        filename,
+        null,
+        true
+      ); // Show save dialog
 
-      if (result.success && result.downloaded) {
-        toast.success(t("books.downloadStarted"));
-      } else if (result.requiresPayment) {
+      if (result.requiresPayment) {
         if (result.isGuest) {
           // Guest user - redirect to Stripe checkout
           window.location.href = result.checkoutUrl;
@@ -433,6 +447,12 @@ const BookDetail = () => {
       }
     } catch (error) {
       logger.error("PDF download error:", error);
+
+      // Handle user cancellation
+      if (error.message === "Download cancelled by user") {
+        // Don't show error message for user cancellation
+        return;
+      }
 
       // Handle insufficient credits error
       if (
@@ -489,6 +509,8 @@ const BookDetail = () => {
   const canDelete = isOwner;
   const canUseAsTemplate =
     currentBook && currentBook.generationStatus === "completed";
+  const canPrintOrder =
+    currentBook && currentBook.generationStatus === "completed" && isOwner;
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -546,6 +568,17 @@ const BookDetail = () => {
                 >
                   <FaCopy className="h-4 w-4" />
                   {t("books.useAsTemplate")}
+                </Button>
+              )}
+              {canPrintOrder && (
+                <Button
+                  variant="outlined"
+                  size="sm"
+                  className="flex items-center gap-2"
+                  onClick={handlePrintOrder}
+                >
+                  <FaPrint className="h-4 w-4" />
+                  {t("books.printOrder")}
                 </Button>
               )}
               {canDownload && isOwner && (

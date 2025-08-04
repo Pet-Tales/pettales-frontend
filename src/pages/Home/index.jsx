@@ -339,25 +339,28 @@ const Home = () => {
               </div>
             </div>
 
-            {/* Hero Image/Video Placeholder */}
-            <div className="relative">
-              <div className="aspect-video bg-gray-200 rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300">
-                <div className="text-center">
-                  <FaPlay className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-                  <Typography variant="h6" className="text-gray-500">
-                    {t("landing.hero.videoPlaceholder")}
-                  </Typography>
-                </div>
+            {/* Hero Image */}
+            <img
+              src="/landing.png"
+              alt="PetTalesAI - Create magical stories with your pets"
+              className="w-full h-full"
+            />
+            {/* <div className="relative">
+              <div className="aspect-video rounded-lg overflow-hidden shadow-lg">
+                <img
+                  src="/landing.png"
+                  alt="PetTalesAI - Create magical stories with your pets"
+                  className="w-full h-full object-cover"
+                />
               </div>
 
-              {/* Floating Elements */}
               <div className="absolute -top-4 -right-4 bg-yellow-400 text-white p-3 rounded-full shadow-lg">
                 <FaStar className="h-6 w-6" />
               </div>
               <div className="absolute -bottom-4 -left-4 bg-pink-400 text-white p-3 rounded-full shadow-lg">
                 <FaHeart className="h-6 w-6" />
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </section>

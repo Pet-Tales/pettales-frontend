@@ -9,9 +9,15 @@ const _API = "/api/gallery";
  * @param {number} page - Page number (1-based)
  * @param {number} limit - Number of books per page
  * @param {string} search - Search query
+ * @param {string} searchType - Search type ('all', 'title_description', 'user')
  * @returns {Promise} - Promise resolving to public books data
  */
-const getPublicBooks = (page = 1, limit = 12, search = "") => {
+const getPublicBooks = (
+  page = 1,
+  limit = 12,
+  search = "",
+  searchType = "all"
+) => {
   return new Promise((resolve, reject) => {
     const params = new URLSearchParams({
       page: page.toString(),
@@ -19,6 +25,9 @@ const getPublicBooks = (page = 1, limit = 12, search = "") => {
     });
     if (search && search.trim()) {
       params.append("search", search.trim());
+    }
+    if (searchType && searchType !== "all") {
+      params.append("searchType", searchType);
     }
 
     const url = `${_API}?${params.toString()}`;
