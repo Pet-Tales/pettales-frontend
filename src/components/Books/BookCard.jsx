@@ -61,13 +61,8 @@ const BookCard = ({
       const result = await downloadBookPDF(book.id, filename, null, true); // Show save dialog
 
       if (result.requiresPayment) {
-        if (result.isGuest) {
-          // Guest user - redirect to Stripe checkout
-          window.location.href = result.checkoutUrl;
-        } else {
-          // This shouldn't happen as authenticated users get different handling
-          toast.error(result.message || t("books.paymentRequired"));
-        }
+        // Both guest and authenticated users now redirect to Stripe checkout
+        window.location.href = result.checkoutUrl;
       }
     } catch (error) {
       logger.error("PDF download error:", error);
@@ -78,21 +73,8 @@ const BookCard = ({
         return;
       }
 
-      // Handle insufficient credits error
-      if (
-        error.status === 402 &&
-        error.data?.error === "INSUFFICIENT_CREDITS"
-      ) {
-        const { required, available, shortfall } = error.data.data;
-        toast.error(
-          `${t("books.insufficientCredits")} ${t(
-            "books.creditsRequired"
-          )}: ${required}, ${t("books.creditsAvailable")}: ${available}, ${t(
-            "books.creditsShortfall"
-          )}: ${shortfall}`
-        );
-        return;
-      }
+      // Note: Insufficient credits error handling removed since authenticated users
+      // now get redirected to Stripe checkout instead of getting credit errors
 
       const errorMessage = error.message || t("books.downloadFailed");
       toast.error(errorMessage);

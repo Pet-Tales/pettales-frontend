@@ -22,6 +22,7 @@ import {
   FaSync,
   FaCopy,
   FaPrint,
+  FaCheckCircle,
 } from "react-icons/fa";
 
 import BookStatusBadge from "@/components/Books/BookStatusBadge";
@@ -45,6 +46,7 @@ import BookService from "@/services/bookService";
 import { useErrorTranslation } from "@/utils/errorMapper";
 import { toast } from "react-toastify";
 import logger from "@/utils/logger";
+import { API_BASE_URL } from "@/utils/constants";
 import { smartNavigateBack, getFallbackPath } from "@/utils/navigationUtils";
 import {
   downloadBookPDF,
@@ -82,6 +84,7 @@ const BookDetail = () => {
   // Payment success download trigger
   const [pendingPaymentDownload, setPendingPaymentDownload] = useState(false);
   const [paymentSessionId, setPaymentSessionId] = useState(null);
+  const [showPaymentSuccessModal, setShowPaymentSuccessModal] = useState(false);
 
   // Load book data
   useEffect(() => {
@@ -124,48 +127,19 @@ const BookDetail = () => {
     }
   }, [searchParams, setSearchParams, t]);
 
-  // Trigger download when book is loaded and payment was successful
+  // Show payment success modal when book is loaded and payment was successful
   useEffect(() => {
     if (pendingPaymentDownload && currentBook && currentBook.pdfUrl) {
       logger.info(
-        "Book loaded after payment success, triggering PDF download for book:",
+        "Book loaded after payment success, showing download modal for book:",
         currentBook.id
       );
 
       setPendingPaymentDownload(false);
+      setShowPaymentSuccessModal(true);
 
-      // Trigger PDF download after successful payment
-      const triggerDownload = async () => {
-        try {
-          const filename = generateBookPdfFilename(currentBook);
-          logger.info("Starting post-payment PDF download:", filename);
-
-          const result = await downloadBookPDF(
-            currentBook.id,
-            filename,
-            paymentSessionId,
-            true // Show save dialog
-          );
-
-          if (result.success && result.downloaded) {
-            logger.info("Post-payment PDF download completed successfully");
-          } else {
-            logger.error("Post-payment PDF download failed:", result);
-            toast.error(t("books.downloadFailed"));
-          }
-        } catch (error) {
-          logger.error("Post-payment PDF download error:", error);
-          // Handle user cancellation
-          if (error.message === "Download cancelled by user") {
-            // Don't show error message for user cancellation
-            return;
-          }
-          toast.error(t("books.downloadFailed"));
-        }
-      };
-
-      // Small delay to ensure page is fully loaded
-      setTimeout(triggerDownload, 1000);
+      // Show success message
+      toast.success(t("books.paymentSuccessful"));
     }
   }, [
     pendingPaymentDownload,
@@ -437,13 +411,8 @@ const BookDetail = () => {
       ); // Show save dialog
 
       if (result.requiresPayment) {
-        if (result.isGuest) {
-          // Guest user - redirect to Stripe checkout
-          window.location.href = result.checkoutUrl;
-        } else {
-          // This shouldn't happen as authenticated users get different handling
-          toast.error(result.message || t("books.paymentRequired"));
-        }
+        // Both guest and authenticated users now redirect to Stripe checkout
+        window.location.href = result.checkoutUrl;
       }
     } catch (error) {
       logger.error("PDF download error:", error);
@@ -454,24 +423,106 @@ const BookDetail = () => {
         return;
       }
 
-      // Handle insufficient credits error
-      if (
-        error.status === 402 &&
-        error.data?.error === "INSUFFICIENT_CREDITS"
-      ) {
-        const { required, available, shortfall } = error.data.data;
-        toast.error(
-          `${t("books.insufficientCredits")} ${t(
-            "books.creditsRequired"
-          )}: ${required}, ${t("books.creditsAvailable")}: ${available}, ${t(
-            "books.creditsShortfall"
-          )}: ${shortfall}`
-        );
-        return;
-      }
+      // Note: Insufficient credits error handling removed since authenticated users
+      // now get redirected to Stripe checkout instead of getting credit errors
 
       const errorMessage = error.message || t("books.downloadFailed");
       toast.error(errorMessage);
+    }
+  };
+
+  // Handle post-payment PDF download from modal (with session ID)
+  const handlePaymentSuccessDownload = async () => {
+    try {
+      if (!currentBook?.pdfUrl) {
+        toast.error(t("books.noPdfAvailable"));
+        return;
+      }
+
+      const filename = generateBookPdfFilename(currentBook);
+      logger.info("Starting post-payment PDF download:", filename);
+
+      // First, try to get the file handle while we still have user gesture context
+      let fileHandle = null;
+      if ("showSaveFilePicker" in window) {
+        try {
+          fileHandle = await window.showSaveFilePicker({
+            suggestedName: filename || "book.pdf",
+            types: [
+              {
+                description: "PDF files",
+                accept: {
+                  "application/pdf": [".pdf"],
+                },
+              },
+            ],
+          });
+        } catch (fsError) {
+          if (fsError.name === "AbortError") {
+            // User cancelled the save dialog
+            setShowPaymentSuccessModal(false);
+            setPaymentSessionId(null);
+            return;
+          }
+          // If File System Access API fails, we'll fall back to regular download
+          console.warn(
+            "File System Access API failed, will use fallback:",
+            fsError
+          );
+        }
+      }
+
+      // Now fetch the PDF
+      const baseUrl = API_BASE_URL || "http://127.0.0.1:3000";
+      let url = `${baseUrl}/api/books/${currentBook.id}/download-pdf`;
+      if (paymentSessionId) {
+        url += `?session_id=${encodeURIComponent(paymentSessionId)}`;
+      }
+
+      const response = await fetch(url, {
+        method: "GET",
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const blob = await response.blob();
+
+      // If we have a file handle, use it
+      if (fileHandle) {
+        const writable = await fileHandle.createWritable();
+        await writable.write(blob);
+        await writable.close();
+
+        logger.info(
+          "Post-payment PDF download completed successfully with native save dialog"
+        );
+        setShowPaymentSuccessModal(false);
+        setPaymentSessionId(null);
+        return;
+      }
+
+      // Fallback to regular download
+      const blobUrl = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = blobUrl;
+      link.download = filename || "book.pdf";
+
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(blobUrl);
+
+      logger.info(
+        "Post-payment PDF download completed successfully with fallback method"
+      );
+      setShowPaymentSuccessModal(false);
+      setPaymentSessionId(null);
+    } catch (error) {
+      logger.error("Post-payment PDF download error:", error);
+      toast.error(t("books.downloadFailed"));
     }
   };
 
@@ -1029,6 +1080,47 @@ const BookDetail = () => {
         pageCount={currentBook.pageCount}
         regenerationsUsed={currentBook.regenerationsUsed || 0}
       />
+
+      {/* Payment Success Modal */}
+      {showPaymentSuccessModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4 shadow-xl">
+            <div className="text-center">
+              <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100 mb-4">
+                <FaCheckCircle className="h-6 w-6 text-green-600" />
+              </div>
+              <h3 className="text-lg font-medium text-gray-900 mb-2">
+                {t("books.paymentSuccessTitle")}
+              </h3>
+              <p className="text-sm text-gray-500 mb-6">
+                {t("books.paymentSuccessMessage")}
+              </p>
+              <div className="flex gap-3">
+                <Button
+                  variant="outlined"
+                  size="sm"
+                  className="flex-1"
+                  onClick={() => {
+                    setShowPaymentSuccessModal(false);
+                    setPaymentSessionId(null);
+                  }}
+                >
+                  {t("common.cancel")}
+                </Button>
+                <Button
+                  variant="filled"
+                  size="sm"
+                  className="flex-1 flex bg-green-600 hover:bg-green-700 justify-center"
+                  onClick={handlePaymentSuccessDownload}
+                >
+                  <FaDownload className="h-4 w-4 mr-2" />
+                  <span>{t("books.downloadNow")}</span>
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -47,7 +47,7 @@ const OrdersPage = () => {
       // After orders are loaded, refresh their statuses
       if (!refreshing) {
         setTimeout(() => {
-          handleRefreshAllStatuses();
+          handleRefreshAllStatuses(false); // Don't show toast on automatic refresh
         }, 500);
       }
     };
@@ -113,7 +113,7 @@ const OrdersPage = () => {
   };
 
   // Refresh all order statuses
-  const handleRefreshAllStatuses = async () => {
+  const handleRefreshAllStatuses = async (showToastOnEmpty = true) => {
     try {
       setRefreshing(true);
 
@@ -121,7 +121,9 @@ const OrdersPage = () => {
       const orderIds = orders.map((order) => order._id);
 
       if (orderIds.length === 0) {
-        toast.info(t("orders.noOrdersToRefresh"));
+        if (showToastOnEmpty) {
+          toast.info(t("orders.noOrdersToRefresh"));
+        }
         return;
       }
 
