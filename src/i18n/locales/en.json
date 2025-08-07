@@ -25,12 +25,14 @@
     "change": "Change",
     "remove": "Remove",
     "retry": "Retry",
-    "preview": "Preview"
+    "preview": "Preview",
+    "credits": "credits"
   },
   "navbar": {
     "home": "Home",
     "myBooks": "My Books",
     "characters": "Characters",
+    "myOrders": "My Orders",
     "gallery": "Gallery",
     "pricing": "Pricing",
     "howItWork": "How it works",
@@ -488,6 +490,7 @@
     "delete": "Delete",
     "download": "Download",
     "downloadPaid": "Download ($1.00)",
+    "downloadPaidPdf": "Download Your PDF",
     "retry": "Retry",
     "makePublic": "Make Public",
     "makePrivate": "Make Private",
@@ -616,15 +619,20 @@
     "regeneratingPDF": "Regenerating PDF...",
     "pdfRegenerateSuccess": "PDF regenerated successfully",
     "noPdfAvailable": "No PDF available for download",
-    "downloadStarted": "Download started successfully",
+    "downloadStarted": "Download initiated - choose your save location",
     "downloadFailed": "Failed to download PDF",
     "paymentRequired": "Payment required for PDF download",
+    "paymentSuccessful": "Payment successful! Click the button below to download your PDF.",
+    "paymentSuccessTitle": "Payment Successful!",
+    "paymentSuccessMessage": "Your payment has been processed successfully. Click the button below to download your PDF with a custom filename.",
+    "downloadNow": "Download PDF",
     "insufficientCredits": "Insufficient credits for PDF download.",
     "creditsRequired": "Credits required",
     "creditsAvailable": "Available",
     "creditsShortfall": "Shortfall",
     "paymentCancelled": "Payment was cancelled",
     "useAsTemplate": "Use as Template",
+    "printOrder": "Print & Ship",
     "freeRegenerations": "Free Regenerations",
     "illustration": "illustration",
     "regenerationWarning": {
@@ -648,6 +656,13 @@
     "title": "Public Gallery",
     "description": "Discover amazing stories created by our community and use them as templates for your own books",
     "searchBooks": "Search books...",
+    "searchByTitle": "Search by title or description...",
+    "searchByUser": "Search by author name...",
+    "searchType": {
+      "all": "All",
+      "titleDescription": "Title/Description",
+      "user": "Author"
+    },
     "featuredBooks": "Featured Books",
     "allBooks": "All Books",
     "searchResults": "Search Results",
@@ -926,8 +941,8 @@
     "contactSupport": "If you were charged but didn't receive credits, please contact our support team.",
     "tryAgain": "Try Again",
     "backToHome": "Back to Home",
-    "historyTitle": "Credit History",
-    "historySubtitle": "View all your credit transactions and purchases",
+    "historyTitle": "Account History",
+    "historySubtitle": "View all your account transactions and purchases",
     "currentBalance": "Current Balance",
     "transactionHistory": "Transaction History",
     "loadingHistory": "Loading transaction history...",
@@ -945,5 +960,199 @@
     "exactAmount": "Exact Amount Needed",
     "insufficientCreditsMessage": "You need {{required}} credits but only have {{current}}. You need {{shortfall}} more credits.",
     "paymentCancelled": "Payment was cancelled. You can try again anytime."
+  },
+  "printOrder": {
+    "title": "Print & Ship Your Book",
+    "subtitle": "Order physical copies of \"{{title}}\"",
+    "steps": {
+      "shipping": "Details",
+      "shippingDesc": "Enter your shipping address and select quantity",
+      "review": "Shipping Method",
+      "reviewDesc": "Select your preferred shipping method",
+      "confirm": "Review",
+      "confirmDesc": "Review your order details and confirm"
+    },
+    "quantity": "Quantity",
+    "pages": "pages",
+    "book": "Book",
+    "bookFormat": "Format",
+    "format": {
+      "saddle": "Saddle Stitch"
+    },
+    "calculateCost": "Calculate Cost",
+    "reviewOrder": "Review Order",
+    "confirmOrder": "Confirm Order",
+    "submitting": "Placing Order...",
+    "orderSummary": "Order Summary",
+    "printingCost": "Printing Cost",
+    "shippingCost": "Shipping Cost",
+    "markup": "Service Fee",
+    "total": "Total",
+    "shipping": {
+      "title": "Shipping Information",
+      "description": "Please provide your shipping address and select the number of copies you'd like to order.",
+      "name": "Full Name",
+      "street1": "Street Address",
+      "street2": "Apartment, suite, etc. (optional)",
+      "city": "City",
+      "state": "State/Province",
+      "postcode": "Postal Code",
+      "country": "Country",
+      "phone": "Phone Number",
+      "email": "Email Address",
+      "address": "Shipping Address",
+      "method": "Shipping Method",
+      "estimatedDelivery": "Estimated Delivery",
+      "selectMethod": "Select Shipping Method",
+      "selectMethodDescription": "Choose your preferred shipping speed and review the total cost.",
+      "methods": {
+        "mail": {
+          "name": "Standard Mail",
+          "description": "Slowest shipping method. Tracking may not be available.",
+          "estimatedDays": "7-14 business days"
+        },
+        "priorityMail": {
+          "name": "Priority Mail",
+          "description": "Priority mail shipping with tracking.",
+          "estimatedDays": "3-7 business days"
+        },
+        "ground": {
+          "name": "Ground Shipping",
+          "description": "Courier-based ground transportation.",
+          "estimatedDays": "3-5 business days"
+        },
+        "expedited": {
+          "name": "Expedited Shipping",
+          "description": "2nd day delivery via air mail.",
+          "estimatedDays": "2-3 business days"
+        },
+        "express": {
+          "name": "Express Shipping",
+          "description": "Overnight delivery. Fastest option available.",
+          "estimatedDays": "1-2 business days"
+        },
+        "estimatedDays": "Estimated Delivery"
+      }
+    },
+    "review": {
+      "title": "Review Your Order",
+      "description": "Please review all details before confirming your order.",
+      "bookDetails": "Book Details",
+      "shippingDetails": "Shipping Details",
+      "costBreakdown": "Cost Breakdown",
+      "currentBalance": "Current Credit Balance",
+      "balanceAfter": "Balance After Order",
+      "terms": "By placing this order, you agree to our terms and conditions. Orders cannot be modified or cancelled once in production."
+    },
+    "success": {
+      "orderCreated": "Your print order has been placed successfully!"
+    },
+    "errors": {
+      "unauthorized": "You can only print your own books.",
+      "bookNotCompleted": "Book must be completed before printing.",
+      "loadBook": "Failed to load book information.",
+      "calculateCost": "Failed to calculate shipping cost.",
+      "recalculateCost": "Failed to recalculate cost.",
+      "createOrder": "Failed to create print order.",
+      "insufficientCredits": "You need {{required}} credits but only have {{available}} credits available.",
+      "creditUpdateFailed": "Failed to update credit balance after payment"
+    },
+    "validation": {
+      "nameRequired": "Full name is required",
+      "street1Required": "Street address is required",
+      "cityRequired": "City is required",
+      "postcodeRequired": "Postal code is required",
+      "countryRequired": "Country is required",
+      "stateRequired": "State is required for US addresses",
+      "phoneRequired": "Phone number is required",
+      "phoneInvalid": "Please enter a valid phone number",
+      "emailRequired": "Email address is required",
+      "emailInvalid": "Please enter a valid email address"
+    }
+  },
+  "orders": {
+    "title": "My Print Orders",
+    "subtitle": "Track your physical book orders",
+    "noOrders": "No Print Orders Yet",
+    "noOrdersDescription": "You haven't placed any print orders yet. Browse your books to get started.",
+    "browseBooks": "Browse My Books",
+    "filterByStatus": "Filter by Status",
+    "allStatuses": "All Statuses",
+    "refreshAll": "Refresh All",
+    "noOrdersToRefresh": "No orders to refresh",
+    "orderNumber": "Order #",
+    "quantity": "Qty",
+    "total": "Total",
+    "ordered": "Ordered",
+    "tracking": "Tracking",
+    "viewDetails": "View Details",
+    "cancel": "Cancel",
+    "confirmCancel": "Are you sure you want to cancel this order?",
+    "status": {
+      "created": "Created",
+      "unpaid": "Unpaid",
+      "paymentInProgress": "Payment Processing",
+      "productionDelayed": "Production Delayed",
+      "productionReady": "Production Ready",
+      "inProduction": "In Production",
+      "shipped": "Shipped",
+      "rejected": "Rejected",
+      "canceled": "Canceled"
+    },
+    "success": {
+      "canceled": "Order canceled successfully"
+    },
+    "success": {
+      "statusesRefreshed": "Order statuses refreshed successfully"
+    },
+    "errors": {
+      "loadOrders": "Failed to load orders",
+      "cancelOrder": "Failed to cancel order",
+      "refreshStatuses": "Failed to refresh order statuses"
+    }
+  },
+  "orderDetail": {
+    "title": "Order Details",
+    "orderNumber": "Order Number",
+    "orderStatus": "Order Status",
+    "refreshStatus": "Refresh Status",
+    "cancelOrder": "Cancel Order",
+    "confirmCancel": "Are you sure you want to cancel this order? This action cannot be undone.",
+    "bookInformation": "Book Information",
+    "orderSummary": "Order Summary",
+    "shippingInformation": "Shipping Information",
+    "trackingInformation": "Tracking Information",
+    "printingCost": "Printing Cost",
+    "totalCredits": "Total Credits",
+    "quantity": "Quantity",
+    "pages": "Pages",
+    "ordered": "Ordered",
+    "shipped": "Shipped",
+    "shippingMethod": "Shipping Method",
+    "trackingNumber": "Tracking Number",
+    "trackingNotAvailable": "Tracking number not yet available",
+    "carrier": "Carrier",
+    "trackingLinks": "Tracking Links",
+    "trackPackage": "Track Package",
+    "unknownBook": "Unknown Book",
+    "status": {
+      "created": "Created",
+      "submitted": "Submitted",
+      "inProduction": "In Production",
+      "shipped": "Shipped",
+      "delivered": "Delivered",
+      "cancelled": "Cancelled",
+      "rejected": "Rejected"
+    },
+    "success": {
+      "statusRefreshed": "Order status refreshed successfully",
+      "orderCancelled": "Order cancelled successfully"
+    },
+    "errors": {
+      "loadOrder": "Failed to load order details",
+      "orderNotFound": "Order not found",
+      "refreshStatus": "Failed to refresh order status",
+      "cancelOrder": "Failed to cancel order"
+    }
   }
 }

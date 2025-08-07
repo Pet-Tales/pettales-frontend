@@ -9,6 +9,8 @@ import {
   Card,
   CardBody,
   CardFooter,
+  Select,
+  Option,
 } from "@material-tailwind/react";
 import { FaSearch, FaBook, FaUser, FaEye } from "react-icons/fa";
 import GalleryService from "@/services/galleryService";
@@ -23,7 +25,6 @@ const Gallery = () => {
   const { isAuthenticated } = useSelector((state) => state.auth);
 
   const [books, setBooks] = useState([]);
-  const [featuredBooks, setFeaturedBooks] = useState([]);
   const [pagination, setPagination] = useState({
     currentPage: 1,
     totalPages: 1,
@@ -32,24 +33,19 @@ const Gallery = () => {
     limit: 12,
   });
   const [searchQuery, setSearchQuery] = useState("");
+  const [searchType, setSearchType] = useState("all");
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
-  const [isLoadingFeatured, setIsLoadingFeatured] = useState(false);
   const [hasScrolledToBottom, setHasScrolledToBottom] = useState(false);
 
-  // Load featured books on component mount
-  useEffect(() => {
-    loadFeaturedBooks();
-  }, []);
-
-  // Load books when search query changes
+  // Load books when search query or search type changes
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       loadBooks(true); // Reset books list
     }, 500); // Debounce search
 
     return () => clearTimeout(timeoutId);
-  }, [searchQuery]);
+  }, [searchQuery, searchType]);
 
   // Infinite scroll logic
   const handleScroll = useCallback(() => {
@@ -71,19 +67,7 @@ const Gallery = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [handleScroll]);
 
-  const loadFeaturedBooks = async () => {
-    try {
-      setIsLoadingFeatured(true);
-      const response = await GalleryService.getFeaturedBooks(6);
-      setFeaturedBooks(response.data.data.books);
-    } catch (error) {
-      logger.error("Load featured books error:", error);
-      const errorMessage = translateError(error?.data?.message || error);
-      toast.error(errorMessage);
-    } finally {
-      setIsLoadingFeatured(false);
-    }
-  };
+
 
   const loadBooks = async (reset = false) => {
     try {
@@ -99,7 +83,8 @@ const Gallery = () => {
       const response = await GalleryService.getPublicBooks(
         page,
         12,
-        searchQuery
+        searchQuery,
+        searchType
       );
       const { books: newBooks, pagination: newPagination } = response.data.data;
 
@@ -151,6 +136,17 @@ const Gallery = () => {
 
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString();
+  };
+
+  const getSearchPlaceholder = () => {
+    switch (searchType) {
+      case "user":
+        return t("gallery.searchByUser");
+      case "title_description":
+        return t("gallery.searchByTitle");
+      default:
+        return t("gallery.searchBooks");
+    }
   };
 
   const BookCard = ({ book, showUseTemplate = false }) => (
@@ -247,35 +243,35 @@ const Gallery = () => {
           </Typography>
 
           {/* Search */}
-          <div className="max-w-md mx-auto">
-            <Input
-              icon={<FaSearch />}
-              label={t("gallery.searchBooks")}
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
+          <div className="max-w-2xl mx-auto">
+            <div className="flex flex-col sm:flex-row gap-4">
+              {/* Search Type Selector */}
+              <div className="w-full sm:w-48">
+                <Select
+                  value={searchType}
+                  onChange={(value) => setSearchType(value)}
+                  label={t("gallery.searchType.all")}
+                >
+                  <Option value="all">{t("gallery.searchType.all")}</Option>
+                  <Option value="title_description">
+                    {t("gallery.searchType.titleDescription")}
+                  </Option>
+                  <Option value="user">{t("gallery.searchType.user")}</Option>
+                </Select>
+              </div>
+
+              {/* Search Input */}
+              <div className="flex-1">
+                <Input
+                  icon={<FaSearch />}
+                  label={getSearchPlaceholder()}
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+              </div>
+            </div>
           </div>
         </div>
-
-        {/* Featured Books */}
-        {!searchQuery && featuredBooks.length > 0 && (
-          <div className="mb-12">
-            <Typography variant="h4" className="text-gray-900 mb-6">
-              {t("gallery.featuredBooks")}
-            </Typography>
-            {isLoadingFeatured ? (
-              <div className="flex justify-center py-8">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                {featuredBooks.map((book) => (
-                  <BookCard key={book.id} book={book} showUseTemplate={true} />
-                ))}
-              </div>
-            )}
-          </div>
-        )}
 
         {/* All Books */}
         <div>

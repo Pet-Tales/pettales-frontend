@@ -11,6 +11,9 @@ import EditCharacter from "@/pages/Characters/EditCharacter";
 import CharacterDetails from "@/pages/Characters/CharacterDetails";
 import CreateBook from "@/pages/Books/CreateBook";
 import BookDetail from "@/pages/Books/BookDetail";
+import PrintOrder from "@/pages/PrintOrder";
+import Orders from "@/pages/Orders";
+import OrderDetail from "@/pages/Orders/OrderDetail";
 import Gallery from "@/pages/Gallery";
 import Profile from "@/pages/Profile";
 import Pricing from "@/pages/Pricing";
@@ -78,6 +81,30 @@ const Routes = [
       {
         path: "/books/:id",
         element: <BookDetail />,
+      },
+      {
+        path: "/books/:id/print-order",
+        element: (
+          <ProtectedRoute>
+            <PrintOrder />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/my-orders",
+        element: (
+          <ProtectedRoute>
+            <Orders />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/my-orders/:orderId",
+        element: (
+          <ProtectedRoute>
+            <OrderDetail />
+          </ProtectedRoute>
+        ),
       },
       {
         path: "/gallery",

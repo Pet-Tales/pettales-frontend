@@ -38,6 +38,12 @@ const MENU_ITEMS = [
     subRoute: ["/characters"],
   },
   {
+    labelKey: "navbar.myOrders",
+    path: "/my-orders",
+    isAuthRequired: true,
+    subRoute: ["/my-orders"],
+  },
+  {
     labelKey: "navbar.gallery",
     path: "/gallery",
     isAuthRequired: false,
