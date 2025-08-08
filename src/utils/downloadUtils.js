@@ -74,21 +74,26 @@ import { API_BASE_URL } from "@/utils/constants";
  * @param {string} filename - The desired filename for the downloaded file (optional, used as suggestion)
  * @param {string} sessionId - Optional Stripe session ID for guest users
  * @param {boolean} showSaveDialog - Whether to show browser's save dialog (default: true)
+ * @param {string|null} charityId - Optional charity ID selected by user
  * @returns {Promise<Object>} - Result object with success status and any payment info
  */
 export const downloadBookPDF = async (
   bookId,
   filename,
   sessionId = null,
-  showSaveDialog = true
+  showSaveDialog = true,
+  charityId = null
 ) => {
   try {
     const baseUrl = API_BASE_URL || "http://127.0.0.1:3000";
     let url = `${baseUrl}/api/books/${bookId}/download-pdf`;
 
-    // Add session_id as query parameter if provided
-    if (sessionId) {
-      url += `?session_id=${encodeURIComponent(sessionId)}`;
+    const params = new URLSearchParams();
+    if (sessionId) params.set("session_id", sessionId);
+    if (charityId) params.set("charity_id", charityId);
+    const query = params.toString();
+    if (query) {
+      url += `?${query}`;
     }
 
     // Fetch the PDF through our API endpoint
@@ -118,13 +123,14 @@ export const downloadBookPDF = async (
     const contentType = response.headers.get("content-type");
 
     if (contentType && contentType.includes("application/json")) {
-      // Payment required response
+      // Payment required or pre-check response (e.g., charity selection required)
       const data = await response.json();
       return {
         success: false,
         requiresPayment: data.requiresPayment,
         isGuest: data.isGuest,
         checkoutUrl: data.checkoutUrl,
+        charityRequired: data.charityRequired,
         message: data.message,
       };
     }

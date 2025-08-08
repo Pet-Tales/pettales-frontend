@@ -1154,5 +1154,14 @@
       "refreshStatus": "Failed to refresh order status",
       "cancelOrder": "Failed to cancel order"
     }
+  },
+  "charity": {
+    "selectTitle": "Choose a charity to receive your $1 donation",
+    "confirmButton": "Continue to donate $1",
+    "required": "Please select a charity to continue",
+    "noneAvailable": "No charities are currently available.",
+    "loadError": "Failed to load charities. Please try again.",
+    "checkoutFailed": "Failed to start checkout. Please try again.",
+    "thankYouBanner": "Thank you for your donation! Your $1 will be directed to the selected charity."
   }
 }
