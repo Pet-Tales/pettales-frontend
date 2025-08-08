@@ -3,6 +3,9 @@ import ProtectedRoute from "@/components/ProtectedRoute";
 import Error404 from "@/pages/Error/404";
 import Error500 from "@/pages/Error/500";
 import Home from "@/pages/Home";
+import CharitiesAdmin from "@/pages/Admin/Charities";
+import AdminLayout from "@/pages/Admin/AdminLayout";
+import AdminDashboardHome from "@/pages/Admin/Dashboard";
 
 import MyBooks from "@/pages/MyBooks";
 import Characters from "@/pages/Characters";
@@ -181,6 +184,19 @@ const Routes = [
       {
         path: "*", // go to 404 error page when cannot find route
         element: <Error404 />,
+      },
+      // Admin root
+      {
+        path: "/admin",
+        element: (
+          <ProtectedRoute>
+            <AdminLayout />
+          </ProtectedRoute>
+        ),
+        children: [
+          { path: "", element: <AdminDashboardHome /> },
+          { path: "charities", element: <CharitiesAdmin /> },
+        ],
       },
     ],
   },

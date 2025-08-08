@@ -240,6 +240,15 @@ const PTAINavBar = () => {
           })}
         </div>
 
+        {isAuthenticated && user?.role === "admin" && (
+          <button
+            className={`cursor-pointer self-center text-custom-black hover:text-custom-light-yellow`}
+            onClick={() => navigate("/admin")}
+          >
+            Admin
+          </button>
+        )}
+
         {/* Desktop Right Side Elements */}
         <div className="hidden laptop:flex gap-4 items-center">
           {/* Credit Balance Display */}
@@ -325,6 +334,16 @@ const PTAINavBar = () => {
                   </p>
                   <hr className="my-2  w-1/3 border-blue-gray-50" />
                 </div>
+                {user?.role === "admin" && (
+                  <MenuItem
+                    className="flex gap-2"
+                    onClick={() => navigate("/admin")}
+                  >
+                    <Typography variant="small" className="font-normal">
+                      Admin Dashboard
+                    </Typography>
+                  </MenuItem>
+                )}
                 <MenuItem
                   className="flex gap-2"
                   onClick={() => navigate("/profile")}

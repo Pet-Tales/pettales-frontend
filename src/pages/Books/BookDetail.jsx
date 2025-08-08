@@ -52,6 +52,7 @@ import {
   downloadBookPDF,
   generateBookPdfFilename,
 } from "@/utils/downloadUtils";
+import CharitySelectionModal from "@/components/Books/CharitySelectionModal";
 
 const BookDetail = () => {
   const { t } = useValidatedTranslation();
@@ -395,6 +396,10 @@ const BookDetail = () => {
   };
 
   // Handle PDF download
+  const [showCharityModal, setShowCharityModal] = useState(false);
+  const [pendingCheckoutCharityId, setPendingCheckoutCharityId] =
+    useState(null);
+
   const handleDownloadPDF = async () => {
     try {
       if (!currentBook?.pdfUrl) {
@@ -407,27 +412,47 @@ const BookDetail = () => {
         currentBook.id,
         filename,
         null,
-        true
+        true,
+        null
       ); // Show save dialog
 
       if (result.requiresPayment) {
-        // Both guest and authenticated users now redirect to Stripe checkout
+        if (result.charityRequired) {
+          setShowCharityModal(true);
+          return;
+        }
         window.location.href = result.checkoutUrl;
       }
     } catch (error) {
       logger.error("PDF download error:", error);
 
-      // Handle user cancellation
       if (error.message === "Download cancelled by user") {
-        // Don't show error message for user cancellation
         return;
       }
 
-      // Note: Insufficient credits error handling removed since authenticated users
-      // now get redirected to Stripe checkout instead of getting credit errors
-
       const errorMessage = error.message || t("books.downloadFailed");
       toast.error(errorMessage);
+    }
+  };
+
+  const handleCharityConfirm = async (charityId) => {
+    try {
+      setPendingCheckoutCharityId(charityId);
+      setShowCharityModal(false);
+      const filename = generateBookPdfFilename(currentBook);
+      const result = await downloadBookPDF(
+        currentBook.id,
+        filename,
+        null,
+        true,
+        charityId
+      );
+      if (result.requiresPayment && result.checkoutUrl) {
+        window.location.href = result.checkoutUrl;
+      }
+    } catch (error) {
+      logger.error("Charity selection checkout failed:", error);
+      toast.error(t("charity.checkoutFailed"));
     }
   };
 
@@ -1080,10 +1105,17 @@ const BookDetail = () => {
         pageCount={currentBook.pageCount}
         regenerationsUsed={currentBook.regenerationsUsed || 0}
       />
+      {/* Charity Selection Modal */}
+      <CharitySelectionModal
+        open={showCharityModal}
+        onClose={() => setShowCharityModal(false)}
+        onConfirm={handleCharityConfirm}
+        bookId={currentBook?.id}
+      />
 
       {/* Payment Success Modal */}
       {showPaymentSuccessModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-40">
           <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4 shadow-xl">
             <div className="text-center">
               <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100 mb-4">

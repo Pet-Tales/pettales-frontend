@@ -58,10 +58,14 @@ const BookCard = ({
       }
 
       const filename = generateBookPdfFilename(book);
-      const result = await downloadBookPDF(book.id, filename, null, true); // Show save dialog
+      const result = await downloadBookPDF(book.id, filename, null, true, null); // Show save dialog
 
       if (result.requiresPayment) {
-        // Both guest and authenticated users now redirect to Stripe checkout
+        if (result.charityRequired) {
+          // Redirect user to book detail page to complete charity selection
+          navigate(`/books/${book.id}`);
+          return;
+        }
         window.location.href = result.checkoutUrl;
       }
     } catch (error) {
