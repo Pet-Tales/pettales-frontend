@@ -428,7 +428,7 @@ const ShippingAddressForm = ({
           ) : (
             <FaArrowRight className="h-4 w-4" />
           )}
-          {loading ? t("common.calculating") : t("printOrder.calculateCost")}
+          {loading ? t("common.loading") : t("common.next")}
         </Button>
       </div>
     </form>

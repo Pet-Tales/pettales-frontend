@@ -72,7 +72,7 @@ const ShippingMethodSelector = ({
     },
   ];
 
-  // Load shipping options on component mount
+  // Load shipping options on component mount and auto-select first option, then calculate cost
   useEffect(() => {
     const loadShippingOptions = async () => {
       try {
@@ -82,11 +82,29 @@ const ShippingMethodSelector = ({
           bookId: bookId,
         });
 
-        if (response.success) {
-          setShippingOptions(response.data);
+        let options = [];
+        const optionsApiSucceeded = !!response.success;
+        if (optionsApiSucceeded) {
+          options = response.data;
+          setShippingOptions(options);
         } else {
-          // Fallback to default options
-          setShippingOptions(defaultShippingOptions);
+          // Fallback to default options (no API data)
+          options = defaultShippingOptions;
+          setShippingOptions(options);
+        }
+
+        // If options came from API, select first valid option by default and calculate cost
+        if (optionsApiSucceeded && options.length) {
+          const availableLevels = new Set(options.map((o) => o.level));
+          const selectedLevel =
+            orderData.shippingLevel &&
+            availableLevels.has(orderData.shippingLevel)
+              ? orderData.shippingLevel
+              : options[0]?.level;
+
+          if (selectedLevel) {
+            await handleShippingMethodChange(selectedLevel);
+          }
         }
       } catch (error) {
         logger.error("Failed to load shipping options:", error);
@@ -98,17 +116,18 @@ const ShippingMethodSelector = ({
     };
 
     loadShippingOptions();
+    // We intentionally exclude handleShippingMethodChange from deps to avoid loop
+    // Only re-run when address or book changes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [orderData.shippingAddress, bookId]);
 
-  // Handle shipping method change
+  // Handle shipping method change: set selection and calculate cost
   const handleShippingMethodChange = async (shippingLevel) => {
     try {
       setRecalculatingCost(true);
-
-      // Update order data
+      // Update order data immediately for UI selection
       updateOrderData({ shippingLevel });
 
-      // Recalculate cost with new shipping method
       const costResponse = await PrintOrderService.calculateCost({
         bookId: bookId,
         quantity: orderData.quantity,
@@ -118,15 +137,12 @@ const ShippingMethodSelector = ({
 
       if (costResponse.success) {
         setCurrentCostData(costResponse.data);
-        // Update parent component's cost data
-        if (onCostDataUpdate) {
-          onCostDataUpdate(costResponse.data);
-        }
+        if (onCostDataUpdate) onCostDataUpdate(costResponse.data);
       } else {
         throw new Error(costResponse.message);
       }
     } catch (error) {
-      logger.error("Failed to recalculate cost:", error);
+      logger.error("Failed to calculate cost:", error);
       toast.error(error.message || t("printOrder.errors.recalculateCost"));
     } finally {
       setRecalculatingCost(false);
@@ -158,7 +174,7 @@ const ShippingMethodSelector = ({
         </Typography>
       </div>
 
-      {/* Order Summary */}
+      {/* Order Summary (costs will be calculated on the next step) */}
       <Card className="bg-gray-50">
         <CardBody>
           <Typography variant="h6" className="mb-4">
@@ -185,7 +201,7 @@ const ShippingMethodSelector = ({
                 {book.pageCount}
               </Typography>
             </div>
-            {currentCostData && (
+            {currentCostData ? (
               <>
                 <hr className="my-2" />
                 <div className="flex justify-between">
@@ -195,7 +211,6 @@ const ShippingMethodSelector = ({
                   <Typography variant="small">
                     {formatPrice(
                       (() => {
-                        // Calculate printing cost (line items + fulfillment)
                         const lineItemCost = parseFloat(
                           currentCostData.cost_breakdown?.line_items?.[0]
                             ?.total_cost_incl_tax || 0
@@ -205,7 +220,6 @@ const ShippingMethodSelector = ({
                             ?.total_cost_incl_tax || 0
                         );
                         const basePrintingCost = lineItemCost + fulfillmentCost;
-
                         const baseShippingCost = parseFloat(
                           currentCostData.cost_breakdown?.shipping
                             ?.total_cost_incl_tax || 0
@@ -215,15 +229,12 @@ const ShippingMethodSelector = ({
                         const finalTotalCost = parseFloat(
                           currentCostData.total_cost_usd || 0
                         );
-
-                        // Calculate proportional final costs
                         const printingProportion =
                           totalBaseCost > 0
                             ? basePrintingCost / totalBaseCost
                             : 0;
                         const finalPrintingCost =
                           finalTotalCost * printingProportion;
-
                         return Math.ceil(finalPrintingCost / 0.01);
                       })()
                     )}
@@ -239,7 +250,6 @@ const ShippingMethodSelector = ({
                     ) : (
                       formatPrice(
                         (() => {
-                          // Calculate shipping cost
                           const lineItemCost = parseFloat(
                             currentCostData.cost_breakdown?.line_items?.[0]
                               ?.total_cost_incl_tax || 0
@@ -250,7 +260,6 @@ const ShippingMethodSelector = ({
                           );
                           const basePrintingCost =
                             lineItemCost + fulfillmentCost;
-
                           const baseShippingCost = parseFloat(
                             currentCostData.cost_breakdown?.shipping
                               ?.total_cost_incl_tax || 0
@@ -260,15 +269,12 @@ const ShippingMethodSelector = ({
                           const finalTotalCost = parseFloat(
                             currentCostData.total_cost_usd || 0
                           );
-
-                          // Calculate proportional final costs
                           const shippingProportion =
                             totalBaseCost > 0
                               ? baseShippingCost / totalBaseCost
                               : 0;
                           const finalShippingCost =
                             finalTotalCost * shippingProportion;
-
                           return Math.ceil(finalShippingCost / 0.01);
                         })()
                       )
@@ -287,6 +293,14 @@ const ShippingMethodSelector = ({
                       formatPrice(currentCostData.total_cost_credits)
                     )}
                   </Typography>
+                </div>
+              </>
+            ) : (
+              <>
+                <hr className="my-2" />
+                <div className="flex items-center gap-2 text-gray-600">
+                  <Spinner className="h-4 w-4" />
+                  <Typography variant="small">{t("common.loading")}</Typography>
                 </div>
               </>
             )}
@@ -331,9 +345,6 @@ const ShippingMethodSelector = ({
                     {option.description}
                   </Typography>
                 </div>
-                {recalculatingCost && isSelected && (
-                  <Spinner className="h-5 w-5" />
-                )}
               </CardBody>
             </Card>
           );
@@ -346,7 +357,7 @@ const ShippingMethodSelector = ({
           variant="outlined"
           className="flex items-center gap-2"
           onClick={onBack}
-          disabled={loading || recalculatingCost}
+          disabled={loading}
         >
           <FaArrowLeft className="h-4 w-4" />
           {t("common.back")}
