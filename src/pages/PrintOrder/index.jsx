@@ -62,7 +62,7 @@ const PrintOrderPage = () => {
       phone_number: "",
       email: user?.email || "",
     },
-    shippingLevel: "GROUND",
+    shippingLevel: "",
   });
   const [costData, setCostData] = useState(null);
 
@@ -208,7 +208,7 @@ const PrintOrderPage = () => {
       // Validate shipping address and calculate cost
       await handleShippingSubmit();
     } else if (currentStep === 1) {
-      // Move to confirmation step
+      // Move to confirmation step (cost already calculated on this step)
       setCurrentStep(2);
     }
   };
@@ -227,25 +227,12 @@ const PrintOrderPage = () => {
       setSubmitting(true);
       setApiError(null); // Clear any previous errors
 
-      // Calculate cost
-      const costResponse = await PrintOrderService.calculateCost({
-        bookId,
-        quantity: orderData.quantity,
-        shippingAddress: orderData.shippingAddress,
-        shippingLevel: orderData.shippingLevel,
-      });
-
-      if (!costResponse.success) {
-        throw new Error(costResponse.message);
-      }
-
-      setCostData(costResponse.data);
+      // Do NOT calculate cost here. Proceed to shipping method selection where
+      // available options will be fetched and cost will be calculated for a valid option.
       setCurrentStep(1);
     } catch (error) {
-      logger.error("Failed to calculate cost:", error);
-
-      // Set the API error to display in the form
-      setApiError(error.message || t("printOrder.errors.calculateCost"));
+      logger.error("Failed to proceed to shipping methods:", error);
+      setApiError(error.message || t("errors.genericError"));
     } finally {
       setSubmitting(false);
     }
