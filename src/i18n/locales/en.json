@@ -491,6 +491,7 @@
     "download": "Download",
     "downloadPaid": "Download ($1.00)",
     "downloadPaidPdf": "Download Your PDF",
+    "downloading": "Downloading...",
     "retry": "Retry",
     "makePublic": "Make Public",
     "makePrivate": "Make Private",
