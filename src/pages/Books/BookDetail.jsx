@@ -399,9 +399,11 @@ const BookDetail = () => {
   const [showCharityModal, setShowCharityModal] = useState(false);
   const [pendingCheckoutCharityId, setPendingCheckoutCharityId] =
     useState(null);
+  const [isDownloading, setIsDownloading] = useState(false);
 
   const handleDownloadPDF = async () => {
     try {
+      setIsDownloading(true);
       if (!currentBook?.pdfUrl) {
         toast.error(t("books.noPdfAvailable"));
         return;
@@ -432,6 +434,8 @@ const BookDetail = () => {
 
       const errorMessage = error.message || t("books.downloadFailed");
       toast.error(errorMessage);
+    } finally {
+      setIsDownloading(false);
     }
   };
 
@@ -630,9 +634,14 @@ const BookDetail = () => {
                   size="sm"
                   className="flex items-center gap-2"
                   onClick={handleDownloadPDF}
+                  disabled={isDownloading}
                 >
                   <FaDownload className="h-4 w-4" />
-                  {isOwner ? t("books.download") : t("books.downloadPaid")}
+                  {isDownloading
+                    ? t("books.downloading")
+                    : isOwner
+                    ? t("books.download")
+                    : t("books.downloadPaid")}
                 </Button>
               )}
               {canUseAsTemplate && (
