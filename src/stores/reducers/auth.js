@@ -20,23 +20,34 @@ export const setAxiosStore = (storeInstance) => {
   store = storeInstance;
 };
 
-axios.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    // If we get a 401 from auth endpoints and we think we're authenticated, clear the auth state
-    if (error.response?.status === 401 && store) {
+// Helper to clear auth on 401 when user was previously authenticated
+const handleUnauthorizedIfAuthenticated = (error) => {
+  try {
+    if (error?.response?.status === 401 && store) {
       const state = store.getState();
-      const isAuthEndpoint = error.config?.url?.includes("/api/auth/");
-
-      if (state.auth.isAuthenticated && isAuthEndpoint) {
-        logger.info("Session expired on auth endpoint, clearing auth state");
-        // Clear localStorage and Redux state
+      if (state?.auth?.isAuthenticated) {
+        logger.info(
+          "401 received - clearing auth state (likely expired session)"
+        );
         setStoredUser(null);
         store.dispatch(clearAuth());
       }
     }
-    return Promise.reject(error);
+  } catch (e) {
+    // no-op
   }
+  return Promise.reject(error);
+};
+
+axios.interceptors.response.use(
+  (response) => response,
+  (error) => handleUnauthorizedIfAuthenticated(error)
+);
+
+// Also attach the same interceptor to the shared axios instance used for API calls
+http.interceptors.response.use(
+  (response) => response,
+  (error) => handleUnauthorizedIfAuthenticated(error)
 );
 
 // Helper functions for localStorage
@@ -287,7 +298,8 @@ const authSlice = createSlice({
       state.user = null;
       state.isAuthenticated = false;
       state.error = null;
-      state.hasAttemptedAuth = false;
+      // Mark that we've already handled auth once to avoid re-validation loops
+      state.hasAttemptedAuth = true;
       state.isValidatingSession = false;
       // Clear localStorage
       setStoredUser(null);

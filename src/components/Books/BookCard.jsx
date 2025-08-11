@@ -43,6 +43,7 @@ const BookCard = ({
   const navigate = useNavigate();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
 
   const handleCardClick = () => {
     navigate(`/books/${book.id}`);
@@ -51,6 +52,7 @@ const BookCard = ({
   // Handle PDF download
   const handleDownloadPDF = async (event) => {
     event.stopPropagation();
+    setIsDownloading(true);
     try {
       if (!book.pdfUrl) {
         toast.error(t("books.noPdfAvailable"));
@@ -58,10 +60,14 @@ const BookCard = ({
       }
 
       const filename = generateBookPdfFilename(book);
-      const result = await downloadBookPDF(book.id, filename, null, true); // Show save dialog
+      const result = await downloadBookPDF(book.id, filename, null, true, null); // Show save dialog
 
       if (result.requiresPayment) {
-        // Both guest and authenticated users now redirect to Stripe checkout
+        if (result.charityRequired) {
+          // Redirect user to book detail page to complete charity selection
+          navigate(`/books/${book.id}`);
+          return;
+        }
         window.location.href = result.checkoutUrl;
       }
     } catch (error) {
@@ -78,6 +84,8 @@ const BookCard = ({
 
       const errorMessage = error.message || t("books.downloadFailed");
       toast.error(errorMessage);
+    } finally {
+      setIsDownloading(false);
     }
   };
 
@@ -261,8 +269,13 @@ const BookCard = ({
                   variant="filled"
                   className="flex-1"
                   onClick={handleDownloadPDF}
+                  disabled={isDownloading}
                 >
-                  {isOwner ? t("books.download") : t("books.downloadPaid")}
+                  {isDownloading
+                    ? t("books.downloading")
+                    : isOwner
+                    ? t("books.download")
+                    : t("books.downloadPaid")}
                 </Button>
               )}
             </div>

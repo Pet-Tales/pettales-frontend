@@ -492,6 +492,7 @@
     "download": "Descargar",
     "downloadPaid": "Descargar ($1.00)",
     "downloadPaidPdf": "Descargar Tu PDF",
+    "downloading": "Descargando...",
     "retry": "Reintentar",
     "makePublic": "Hacer Público",
     "makePrivate": "Hacer Privado",
@@ -1129,5 +1130,14 @@
       "refreshStatus": "Error al actualizar estado del pedido",
       "cancelOrder": "Error al cancelar pedido"
     }
+  },
+  "charity": {
+    "selectTitle": "Elige una organización benéfica para recibir tu donación de $1",
+    "confirmButton": "Continuar y donar $1",
+    "required": "Por favor selecciona una organización para continuar",
+    "noneAvailable": "No hay organizaciones disponibles actualmente.",
+    "loadError": "Error al cargar organizaciones. Intenta de nuevo.",
+    "checkoutFailed": "No se pudo iniciar el pago. Intenta de nuevo.",
+    "thankYouBanner": "¡Gracias por tu donación! Tu $1 se enviará a la organización seleccionada."
   }
 }
