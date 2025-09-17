@@ -663,7 +663,6 @@ const BookDetail = () => {
                 >
                   <FaDownload className="h-4 w-4" />
                   {isDownloading
-                  {isDownloading
   ? t("books.downloading")
   : `Download (${formatMoney(downloadPriceFor(currentBook.pageCount, currency), currency)})`}
                 </Button>
