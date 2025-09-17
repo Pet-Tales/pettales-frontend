@@ -287,7 +287,7 @@ const Home = () => {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-<section className="relative bg-gradient-to-br from-emerald-50 to-green-100 py-20 px-4 sm:px-6 lg:px-8">
+<section className="relative bg-gradient-to-br from-light-green-50 to-light-green-100 py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             {/* Hero Content */}
@@ -306,8 +306,8 @@ const Home = () => {
                 <Button
                   size="lg"
                   variant="filled"
-                  className="!bg-none !bg-emerald-700 hover:!bg-emerald-800 !text-white flex items-center justify-center gap-2"
-                  onClick={handleGetStarted}}
+                  className="!bg-green-900 hover:!bg-green-900/90 !text-white shadow-md flex items-center justify-center gap-2"
+                  onClick={handleGetStarted}
                 >
                   <FaBook className="h-5 w-5" />
                   {t("landing.hero.primaryCta")}
@@ -315,7 +315,7 @@ const Home = () => {
                 <Button
                   size="lg"
                   variant="outlined"
-                  className="border-emerald-900 text-emerald-900 hover:bg-emerald-50 flex items-center justify-center gap-2"
+                  className="border-green-900 text-green-900 hover:bg-light-green-50 flex items-center justify-center gap-2"
                   onClick={handleViewGallery}
                 >
                   <FaArrowRight className="h-4 w-4" />
@@ -503,7 +503,7 @@ const Home = () => {
             {/* Step 1 */}
             <div className="text-center">
               <div className="relative mb-6">
-                <div className="w-20 h-20 bg-emerald-700 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div className="w-20 h-20 bg-green-700 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Typography variant="h4" className="text-white font-bold">
                     1
                   </Typography>
@@ -529,7 +529,7 @@ const Home = () => {
             {/* Step 2 */}
             <div className="text-center">
               <div className="relative mb-6">
-                <div className="w-20 h-20 bg-emerald-700 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div className="w-20 h-20 bg-green-700 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Typography variant="h4" className="text-white font-bold">
                     2
                   </Typography>
@@ -555,7 +555,7 @@ const Home = () => {
             {/* Step 3 */}
             <div className="text-center">
               <div className="relative mb-6">
-                <div className="w-20 h-20 bg-emerald-700 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div className="w-20 h-20 bg-green-700 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Typography variant="h4" className="text-white font-bold">
                     3
                   </Typography>
@@ -581,7 +581,7 @@ const Home = () => {
             {/* Step 4 */}
             <div className="text-center">
               <div className="relative mb-6">
-                <div className="w-20 h-20 bg-emerald-700 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div className="w-20 h-20 bg-green-700 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Typography variant="h4" className="text-white font-bold">
                     4
                   </Typography>
@@ -607,7 +607,7 @@ const Home = () => {
             {/* Step 5 */}
             <div className="text-center">
               <div className="relative mb-6">
-                <div className="w-20 h-20 bg-emerald-700 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div className="w-20 h-20 bg-green-700 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Typography variant="h4" className="text-white font-bold">
                     5
                   </Typography>
@@ -635,7 +635,7 @@ const Home = () => {
           <div className="text-center mt-12">
             <Button
               size="lg"
-              className="bg-emerald-900 hover:bg-emerald-900/90 text-white shadow-md""
+              className="bg-emerald-900 hover:bg-emerald-900/90 text-white shadow-md"
               onClick={handleGetStarted}
             >
               {t("landing.howItWorks.cta")}
@@ -665,7 +665,7 @@ const Home = () => {
           {/* Featured Books */}
           {isLoadingFeatured ? (
             <div className="flex justify-center py-8">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-700"></div>
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-700"></div>
             </div>
           ) : featuredBooks.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
@@ -749,7 +749,7 @@ const Home = () => {
             <Button
               size="lg"
               variant="outlined"
-              className="border-emerald-900 text-emerald-900 hover:bg-emerald-50"
+              className="border-green-900 text-green-900 hover:bg-light-green-50"
               onClick={handleViewGallery}
             >
               {t("landing.socialProof.viewGalleryCta")}
@@ -784,7 +784,7 @@ const Home = () => {
             <Accordion open={openFaq === 1}>
               <AccordionHeader
                 onClick={() => handleFaqOpen(1)}
-                className="text-left hover:text-emerald-700 transition-colors"
+                className="text-left hover:text-green-700 transition-colors"
               >
                 {t("landing.faq.question1")}
               </AccordionHeader>
@@ -797,7 +797,7 @@ const Home = () => {
             <Accordion open={openFaq === 2}>
               <AccordionHeader
                 onClick={() => handleFaqOpen(2)}
-                className="text-left hover:text-emerald-700 transition-colors"
+                className="text-left hover:text-green-700 transition-colors"
               >
                 {t("landing.faq.question2")}
               </AccordionHeader>
@@ -810,7 +810,7 @@ const Home = () => {
             <Accordion open={openFaq === 3}>
               <AccordionHeader
                 onClick={() => handleFaqOpen(3)}
-                className="text-left hover:text-emerald-700 transition-colors"
+                className="text-left hover:text-green-700 transition-colors"
               >
                 {t("landing.faq.question3")}
               </AccordionHeader>
@@ -823,7 +823,7 @@ const Home = () => {
             <Accordion open={openFaq === 4}>
               <AccordionHeader
                 onClick={() => handleFaqOpen(4)}
-                className="text-left hover:text-emerald-700 transition-colors"
+                className="text-left hover:text-green-700 transition-colors"
               >
                 {t("landing.faq.question4")}
               </AccordionHeader>
