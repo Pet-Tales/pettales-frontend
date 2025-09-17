@@ -54,6 +54,31 @@ import {
 } from "@/utils/downloadUtils";
 import CharitySelectionModal from "@/components/Books/CharitySelectionModal";
 
+// --- pricing helpers (amounts in minor units: pence/cents) ---
+const DOWNLOAD_PRICE_BY_PAGES = {
+  gbp: { 12: 799, 16: 899, 24: 1099 }, // £7.99, £8.99, £10.99   <-- set your actuals
+  usd: { 12: 899, 16: 999, 24: 1299 }, // $8.99, $9.99, $12.99   <-- set your actuals
+};
+
+function detectCurrency() {
+  try {
+    const lang = (navigator.language || "").toLowerCase();
+    return lang.includes("gb") || lang.includes("en-gb") ? "gbp" : "usd";
+  } catch { return "usd"; }
+}
+
+function formatMoney(minor, currency) {
+  const map = { gbp: "GBP", usd: "USD" };
+  return new Intl.NumberFormat(undefined, { style: "currency", currency: map[currency] || "USD" })
+    .format((minor || 0) / 100);
+}
+
+function downloadPriceFor(pageCount, currency) {
+  const table = DOWNLOAD_PRICE_BY_PAGES[currency] || {};
+  return table[pageCount] ?? table[24] ?? 0;
+}
+// --- end helpers ---
+
 const BookDetail = () => {
   const { t } = useValidatedTranslation();
   const dispatch = useDispatch();
@@ -64,7 +89,7 @@ const BookDetail = () => {
 
   const { currentBook, isLoading } = useSelector((state) => state.books);
   const { isAuthenticated, user } = useSelector((state) => state.auth);
-
+  const currency = detectCurrency();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showPageEditor, setShowPageEditor] = useState(false);
   const [selectedPage, setSelectedPage] = useState(null);
@@ -638,10 +663,9 @@ const BookDetail = () => {
                 >
                   <FaDownload className="h-4 w-4" />
                   {isDownloading
-                    ? t("books.downloading")
-                    : isOwner
-                    ? t("books.download")
-                    : t("books.downloadPaid")}
+                  {isDownloading
+  ? t("books.downloading")
+  : `Download (${formatMoney(downloadPriceFor(currentBook.pageCount, currency), currency)})`}
                 </Button>
               )}
               {canUseAsTemplate && (
