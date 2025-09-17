@@ -562,7 +562,7 @@ const Home = () => {
               </div>
          <div className="relative aspect-square overflow-hidden rounded-lg mb-4 ring-1 ring-gray-200">
   <img
-    src="/ai-magic.FILEEXT"
+    src="/ai-magic.jpg.png"
     alt=""
     aria-hidden="true"
     className="h-full w-full object-cover"
