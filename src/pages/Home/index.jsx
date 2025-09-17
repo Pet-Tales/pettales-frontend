@@ -664,7 +664,7 @@ const Home = () => {
           {/* Featured Books */}
           {isLoadingFeatured ? (
             <div className="flex justify-center py-8">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-700"></div>
             </div>
           ) : featuredBooks.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
@@ -1100,14 +1100,14 @@ const Home = () => {
           >
             {t("landing.finalCta.title")}
           </Typography>
-          <Typography variant="lead" className="text-xl text-indigo-100 mb-8">
+          <Typography variant="lead" className="text-xl text-emerald-100 mb-8">
             {t("landing.finalCta.subtitle")}
           </Typography>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button
               size="lg"
-              className="bg-white text-indigo-600 hover:bg-gray-50"
+              className="bg-white text-emerald-700 hover:bg-gray-50"
               onClick={handleGetStarted}
             >
               {t("landing.finalCta.primaryCta")}
