@@ -305,8 +305,9 @@ const Home = () => {
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                 <Button
                   size="lg"
-                  className="!bg-emerald-700 hover:!bg-emerald-800 !text-white flex items-center justify-center gap-2"
-                  onClick={handleGetStarted}
+                  variant="filled"
+                  className="!bg-none !bg-emerald-700 hover:!bg-emerald-800 !text-white flex items-center justify-center gap-2"
+                  onClick={handleGetStarted}}
                 >
                   <FaBook className="h-5 w-5" />
                   {t("landing.hero.primaryCta")}
