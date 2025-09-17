@@ -635,7 +635,7 @@ const Home = () => {
           <div className="text-center mt-12">
             <Button
               size="lg"
-              className="bg-emerald-900 hover:bg-emerald-900/90 text-white shadow-md"
+              className="bg-green-900 hover:bg-green-900/90 text-white shadow-md"
               onClick={handleGetStarted}
             >
               {t("landing.howItWorks.cta")}
@@ -836,7 +836,7 @@ const Home = () => {
             <Accordion open={openFaq === 5}>
               <AccordionHeader
                 onClick={() => handleFaqOpen(5)}
-                className="text-left hover:text-emerald-700 transition-colors"
+                className="text-left hover:text-green-700 transition-colors"
               >
                 {t("landing.faq.question5")}
               </AccordionHeader>
@@ -849,7 +849,7 @@ const Home = () => {
             <Accordion open={openFaq === 6}>
               <AccordionHeader
                 onClick={() => handleFaqOpen(6)}
-                className="text-left hover:text-emerald-700 transition-colors"
+                className="text-left hover:text-green-700 transition-colors"
               >
                 {t("landing.faq.question6")}
               </AccordionHeader>
@@ -862,7 +862,7 @@ const Home = () => {
             <Accordion open={openFaq === 7}>
               <AccordionHeader
                 onClick={() => handleFaqOpen(7)}
-                className="text-left hover:text-emerald-700 transition-colors"
+                className="text-left hover:text-green-700 transition-colors"
               >
                 {t("landing.faq.question7")}
               </AccordionHeader>
@@ -875,7 +875,7 @@ const Home = () => {
             <Accordion open={openFaq === 8}>
               <AccordionHeader
                 onClick={() => handleFaqOpen(8)}
-                className="text-left hover:text-emerald-700 transition-colors"
+                className="text-left hover:text-green-700 transition-colors"
               >
                 {t("landing.faq.question8")}
               </AccordionHeader>
@@ -892,7 +892,7 @@ const Home = () => {
             </Typography>
             <Button
               variant="outlined"
-              className="border-emerald-900 text-emerald-900 hover:bg-emerald-50"
+              className="border-green-900 text-green-900 hover:bg-green-50"
               onClick={() => {
                 const contactSection =
                   document.getElementById("contact-section");
@@ -1078,7 +1078,7 @@ const Home = () => {
 
                   <Button
                     type="submit"
-                    className="w-full bg-emerald-700 hover:bg-emerald-800"
+                    className="w-full bg-green-700 hover:bg-green-800"
                     disabled={isSubmittingContact}
                   >
                     {isSubmittingContact
@@ -1093,7 +1093,7 @@ const Home = () => {
       </section>
 
       {/* Final CTA Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-emerald-700">
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-green-700">
         <div className="max-w-4xl mx-auto text-center">
           <Typography
             variant="h2"
@@ -1101,14 +1101,14 @@ const Home = () => {
           >
             {t("landing.finalCta.title")}
           </Typography>
-          <Typography variant="lead" className="text-xl text-emerald-100 mb-8">
+          <Typography variant="lead" className="text-xl text-green-100 mb-8">
             {t("landing.finalCta.subtitle")}
           </Typography>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button
               size="lg"
-              className="bg-white text-emerald-700 hover:bg-gray-50"
+              className="bg-white text-green-700 hover:bg-gray-50"
               onClick={handleGetStarted}
             >
               {t("landing.finalCta.primaryCta")}
@@ -1116,7 +1116,7 @@ const Home = () => {
             <Button
               size="lg"
               variant="outlined"
-              className="border-white text-white hover:bg-emerald-800"
+              className="border-white text-white hover:bg-green-800"
               onClick={handleViewGallery}
             >
               {t("landing.finalCta.secondaryCta")}
@@ -1140,35 +1140,35 @@ const Home = () => {
               <div className="flex justify-center md:justify-start space-x-4">
                 <a
                   href="#"
-                  className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-emerald-700 transition-colors duration-300"
+                  className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-green-700 transition-colors duration-300"
                   aria-label="Facebook"
                 >
                   <FaFacebook className="h-5 w-5" />
                 </a>
                 <a
                   href="#"
-                  className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-emerald-700 transition-colors duration-300"
+                  className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-green-700 transition-colors duration-300"
                   aria-label="Twitter"
                 >
                   <FaTwitter className="h-5 w-5" />
                 </a>
                 <a
                   href="#"
-                  className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-emerald-700 transition-colors duration-300"
+                  className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-green-700 transition-colors duration-300"
                   aria-label="Instagram"
                 >
                   <FaInstagram className="h-5 w-5" />
                 </a>
                 <a
                   href="#"
-                  className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-emerald-700 transition-colors duration-300"
+                  className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-green-700 transition-colors duration-300"
                   aria-label="LinkedIn"
                 >
                   <FaLinkedin className="h-5 w-5" />
                 </a>
                 <a
                   href="#"
-                  className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-emerald-700 transition-colors duration-300"
+                  className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-green-700 transition-colors duration-300"
                   aria-label="YouTube"
                 >
                   <FaYoutube className="h-5 w-5" />
