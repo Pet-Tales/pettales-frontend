@@ -508,9 +508,15 @@ const Home = () => {
                   </Typography>
                 </div>
               </div>
-              <div className="aspect-square bg-gray-200 rounded-lg flex items-center justify-center mb-4 border-2 border-dashed border-gray-300">
-                <FaUsers className="h-12 w-12 text-gray-400" />
-              </div>
+<div className="relative aspect-square overflow-hidden rounded-lg mb-4 ring-1 ring-gray-200">
+  <img
+    src="/create-character.jpg.png"
+    alt=""              // decorative image → empty alt
+    aria-hidden="true"  // hint to assistive tech
+    className="h-full w-full object-cover"
+    loading="eager"
+  />
+</div>
               <Typography variant="h6" className="text-gray-900 mb-2">
                 {t("landing.howItWorks.step1.title")}
               </Typography>
