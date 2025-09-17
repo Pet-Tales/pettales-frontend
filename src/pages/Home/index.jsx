@@ -305,7 +305,7 @@ const Home = () => {
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                 <Button
                   size="lg"
-                  className="bg-emerald-700 hover:bg-emerald-800 flex items-center justify-center gap-2"
+                  className="bg-emerald-900 hover:bg-emerald-900/90 text-white shadow-md" flex items-center justify-center gap-2"
                   onClick={handleGetStarted}
                 >
                   <FaBook className="h-5 w-5" />
@@ -314,7 +314,7 @@ const Home = () => {
                 <Button
                   size="lg"
                   variant="outlined"
-                  className="border-emerald-700 text-emerald-700 hover:bg-emerald-50 flex items-center justify-center gap-2"
+                  className="border-emerald-900 text-emerald-900 hover:bg-emerald-50 flex items-center justify-center gap-2"
                   onClick={handleViewGallery}
                 >
                   <FaArrowRight className="h-4 w-4" />
@@ -634,7 +634,7 @@ const Home = () => {
           <div className="text-center mt-12">
             <Button
               size="lg"
-              className="bg-emerald-700 hover:bg-emerald-800"
+              className="bg-emerald-900 hover:bg-emerald-900/90 text-white shadow-md""
               onClick={handleGetStarted}
             >
               {t("landing.howItWorks.cta")}
@@ -748,7 +748,7 @@ const Home = () => {
             <Button
               size="lg"
               variant="outlined"
-              className="border-emerald-700 text-emerald-700 hover:bg-emerald-50"
+              className="border-emerald-900 text-emerald-900 hover:bg-emerald-50"
               onClick={handleViewGallery}
             >
               {t("landing.socialProof.viewGalleryCta")}
@@ -891,7 +891,7 @@ const Home = () => {
             </Typography>
             <Button
               variant="outlined"
-              className="border-emerald-700 text-emerald-700 hover:bg-emerald-50"
+              className="border-emerald-900 text-emerald-900 hover:bg-emerald-50"
               onClick={() => {
                 const contactSection =
                   document.getElementById("contact-section");
