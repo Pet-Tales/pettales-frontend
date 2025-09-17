@@ -588,7 +588,7 @@ const Home = () => {
               </div>
            <div className="relative aspect-square overflow-hidden rounded-lg mb-4 ring-1 ring-gray-200">
   <img
-    src="/download-share.FILEEXT"
+    src="/download.jpg.png"
     alt=""
     aria-hidden="true"
     className="h-full w-full object-cover"
@@ -614,7 +614,7 @@ const Home = () => {
               </div>
 <div className="relative aspect-square overflow-hidden rounded-lg mb-4 ring-1 ring-gray-200">
   <img
-    src="/download-share.FILEEXT"
+    src="/order.jpg.png"
     alt=""
     aria-hidden="true"
     className="h-full w-full object-cover"
