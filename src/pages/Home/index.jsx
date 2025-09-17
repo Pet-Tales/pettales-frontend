@@ -305,7 +305,7 @@ const Home = () => {
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                 <Button
                   size="lg"
-                  className="bg-indigo-600 hover:bg-indigo-700 flex items-center justify-center gap-2"
+                  className="bg-emerald-700 hover:bg-emerald-800 flex items-center justify-center gap-2"
                   onClick={handleGetStarted}
                 >
                   <FaBook className="h-5 w-5" />
@@ -314,7 +314,7 @@ const Home = () => {
                 <Button
                   size="lg"
                   variant="outlined"
-                  className="border-indigo-600 text-indigo-600 hover:bg-indigo-50 flex items-center justify-center gap-2"
+                  className="border-emerald-700 text-emerald-700 hover:bg-emerald-50 flex items-center justify-center gap-2"
                   onClick={handleViewGallery}
                 >
                   <FaArrowRight className="h-4 w-4" />
@@ -502,7 +502,7 @@ const Home = () => {
             {/* Step 1 */}
             <div className="text-center">
               <div className="relative mb-6">
-                <div className="w-20 h-20 bg-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div className="w-20 h-20 bg-emerald-700 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Typography variant="h4" className="text-white font-bold">
                     1
                   </Typography>
@@ -528,7 +528,7 @@ const Home = () => {
             {/* Step 2 */}
             <div className="text-center">
               <div className="relative mb-6">
-                <div className="w-20 h-20 bg-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div className="w-20 h-20 bg-emerald-700 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Typography variant="h4" className="text-white font-bold">
                     2
                   </Typography>
@@ -554,7 +554,7 @@ const Home = () => {
             {/* Step 3 */}
             <div className="text-center">
               <div className="relative mb-6">
-                <div className="w-20 h-20 bg-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div className="w-20 h-20 bg-emerald-700 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Typography variant="h4" className="text-white font-bold">
                     3
                   </Typography>
@@ -580,7 +580,7 @@ const Home = () => {
             {/* Step 4 */}
             <div className="text-center">
               <div className="relative mb-6">
-                <div className="w-20 h-20 bg-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div className="w-20 h-20 bg-emerald-700 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Typography variant="h4" className="text-white font-bold">
                     4
                   </Typography>
@@ -606,7 +606,7 @@ const Home = () => {
             {/* Step 5 */}
             <div className="text-center">
               <div className="relative mb-6">
-                <div className="w-20 h-20 bg-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                <div className="w-20 h-20 bg-emerald-700 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Typography variant="h4" className="text-white font-bold">
                     5
                   </Typography>
@@ -634,7 +634,7 @@ const Home = () => {
           <div className="text-center mt-12">
             <Button
               size="lg"
-              className="bg-indigo-600 hover:bg-indigo-700"
+              className="bg-emerald-700 hover:bg-emerald-800"
               onClick={handleGetStarted}
             >
               {t("landing.howItWorks.cta")}
@@ -748,7 +748,7 @@ const Home = () => {
             <Button
               size="lg"
               variant="outlined"
-              className="border-indigo-600 text-indigo-600 hover:bg-indigo-50"
+              className="border-emerald-700 text-emerald-700 hover:bg-emerald-50"
               onClick={handleViewGallery}
             >
               {t("landing.socialProof.viewGalleryCta")}
@@ -783,7 +783,7 @@ const Home = () => {
             <Accordion open={openFaq === 1}>
               <AccordionHeader
                 onClick={() => handleFaqOpen(1)}
-                className="text-left hover:text-indigo-600 transition-colors"
+                className="text-left hover:text-emerald-700 transition-colors"
               >
                 {t("landing.faq.question1")}
               </AccordionHeader>
@@ -796,7 +796,7 @@ const Home = () => {
             <Accordion open={openFaq === 2}>
               <AccordionHeader
                 onClick={() => handleFaqOpen(2)}
-                className="text-left hover:text-indigo-600 transition-colors"
+                className="text-left hover:text-emerald-700 transition-colors"
               >
                 {t("landing.faq.question2")}
               </AccordionHeader>
@@ -809,7 +809,7 @@ const Home = () => {
             <Accordion open={openFaq === 3}>
               <AccordionHeader
                 onClick={() => handleFaqOpen(3)}
-                className="text-left hover:text-indigo-600 transition-colors"
+                className="text-left hover:text-emerald-700 transition-colors"
               >
                 {t("landing.faq.question3")}
               </AccordionHeader>
@@ -822,7 +822,7 @@ const Home = () => {
             <Accordion open={openFaq === 4}>
               <AccordionHeader
                 onClick={() => handleFaqOpen(4)}
-                className="text-left hover:text-indigo-600 transition-colors"
+                className="text-left hover:text-emerald-700 transition-colors"
               >
                 {t("landing.faq.question4")}
               </AccordionHeader>
@@ -835,7 +835,7 @@ const Home = () => {
             <Accordion open={openFaq === 5}>
               <AccordionHeader
                 onClick={() => handleFaqOpen(5)}
-                className="text-left hover:text-indigo-600 transition-colors"
+                className="text-left hover:text-emerald-700 transition-colors"
               >
                 {t("landing.faq.question5")}
               </AccordionHeader>
@@ -848,7 +848,7 @@ const Home = () => {
             <Accordion open={openFaq === 6}>
               <AccordionHeader
                 onClick={() => handleFaqOpen(6)}
-                className="text-left hover:text-indigo-600 transition-colors"
+                className="text-left hover:text-emerald-700 transition-colors"
               >
                 {t("landing.faq.question6")}
               </AccordionHeader>
@@ -861,7 +861,7 @@ const Home = () => {
             <Accordion open={openFaq === 7}>
               <AccordionHeader
                 onClick={() => handleFaqOpen(7)}
-                className="text-left hover:text-indigo-600 transition-colors"
+                className="text-left hover:text-emerald-700 transition-colors"
               >
                 {t("landing.faq.question7")}
               </AccordionHeader>
@@ -874,7 +874,7 @@ const Home = () => {
             <Accordion open={openFaq === 8}>
               <AccordionHeader
                 onClick={() => handleFaqOpen(8)}
-                className="text-left hover:text-indigo-600 transition-colors"
+                className="text-left hover:text-emerald-700 transition-colors"
               >
                 {t("landing.faq.question8")}
               </AccordionHeader>
@@ -891,7 +891,7 @@ const Home = () => {
             </Typography>
             <Button
               variant="outlined"
-              className="border-indigo-600 text-indigo-600 hover:bg-indigo-50"
+              className="border-emerald-700 text-emerald-700 hover:bg-emerald-50"
               onClick={() => {
                 const contactSection =
                   document.getElementById("contact-section");
@@ -1077,7 +1077,7 @@ const Home = () => {
 
                   <Button
                     type="submit"
-                    className="w-full bg-indigo-600 hover:bg-indigo-700"
+                    className="w-full bg-emerald-700 hover:bg-emerald-800"
                     disabled={isSubmittingContact}
                   >
                     {isSubmittingContact
@@ -1092,7 +1092,7 @@ const Home = () => {
       </section>
 
       {/* Final CTA Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-indigo-600">
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-emerald-700">
         <div className="max-w-4xl mx-auto text-center">
           <Typography
             variant="h2"
@@ -1115,7 +1115,7 @@ const Home = () => {
             <Button
               size="lg"
               variant="outlined"
-              className="border-white text-white hover:bg-indigo-700"
+              className="border-white text-white hover:bg-emerald-800"
               onClick={handleViewGallery}
             >
               {t("landing.finalCta.secondaryCta")}
@@ -1139,35 +1139,35 @@ const Home = () => {
               <div className="flex justify-center md:justify-start space-x-4">
                 <a
                   href="#"
-                  className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-indigo-600 transition-colors duration-300"
+                  className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-emerald-700 transition-colors duration-300"
                   aria-label="Facebook"
                 >
                   <FaFacebook className="h-5 w-5" />
                 </a>
                 <a
                   href="#"
-                  className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-indigo-600 transition-colors duration-300"
+                  className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-emerald-700 transition-colors duration-300"
                   aria-label="Twitter"
                 >
                   <FaTwitter className="h-5 w-5" />
                 </a>
                 <a
                   href="#"
-                  className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-indigo-600 transition-colors duration-300"
+                  className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-emerald-700 transition-colors duration-300"
                   aria-label="Instagram"
                 >
                   <FaInstagram className="h-5 w-5" />
                 </a>
                 <a
                   href="#"
-                  className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-indigo-600 transition-colors duration-300"
+                  className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-emerald-700 transition-colors duration-300"
                   aria-label="LinkedIn"
                 >
                   <FaLinkedin className="h-5 w-5" />
                 </a>
                 <a
                   href="#"
-                  className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-indigo-600 transition-colors duration-300"
+                  className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-emerald-700 transition-colors duration-300"
                   aria-label="YouTube"
                 >
                   <FaYoutube className="h-5 w-5" />
