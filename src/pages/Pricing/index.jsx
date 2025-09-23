@@ -11,7 +11,7 @@ import {
   Alert,
 } from "@material-tailwind/react";
 import { FaCreditCard, FaCoins, FaBook, FaImage } from "react-icons/fa";
-import { createPurchaseSession, clearError } from "@/stores/reducers/credits";
+// ⛔ removed: import { createPurchaseSession, clearError } from "@/stores/reducers/credits";
 import { useErrorTranslation } from "@/utils/errorMapper";
 import { toast } from "react-toastify";
 import logger from "@/utils/logger";
@@ -20,11 +20,8 @@ const Pricing = () => {
   const { t } = useValidatedTranslation();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
-  const { isCreatingSession, error } = useSelector((state) => state.credits);
+  // ⛔ removed: const { isCreatingSession, error } = useSelector((state) => state.credits);
   const translateError = useErrorTranslation();
-
-  const [customAmount, setCustomAmount] = useState("");
-  const [isCustomAmountValid, setIsCustomAmountValid] = useState(true);
 
   // Credit costs for different book types
   const creditCosts = {
@@ -41,55 +38,23 @@ const Pricing = () => {
     { credits: 1000, price: 10.0, popular: false },
   ];
 
-  useEffect(() => {
-    if (error) {
-      const errorMessage = translateError(error);
-      toast.error(errorMessage);
-      dispatch(clearError());
-    }
-  }, [error, translateError, dispatch]);
+  // ⛔ removed effect that handled credits slice errors
+  // useEffect(() => {
+  //   if (error) {
+  //     const errorMessage = translateError(error);
+  //     toast.error(errorMessage);
+  //     dispatch(clearError());
+  //   }
+  // }, [error, translateError, dispatch]);
 
-  const handlePurchase = async (creditAmount) => {
-    if (!user) {
-      toast.error(t("pricing.loginRequired"));
-      return;
-    }
+  // ⛔ removed credits purchase handlers
+  // const handlePurchase = async (creditAmount) => { ... }
+  // const handleCustomPurchase = () => { ... }
 
-    try {
-      const result = await dispatch(
-        createPurchaseSession({ creditAmount })
-      ).unwrap();
+  // ⛔ removed: const [customAmount, setCustomAmount] = useState("");
+  // ⛔ removed: const [isCustomAmountValid, setIsCustomAmountValid] = useState(true);
 
-      // Redirect to Stripe checkout
-      if (result.data.url) {
-        window.location.href = result.data.url;
-      } else {
-        toast.error(t("pricing.checkoutError"));
-      }
-    } catch (error) {
-      logger.error("Purchase session creation failed:", error);
-      // Error is handled by useEffect above
-    }
-  };
-
-  const handleCustomPurchase = () => {
-    const amount = parseInt(customAmount);
-
-    if (!amount || amount <= 0 || amount > 100000) {
-      setIsCustomAmountValid(false);
-      return;
-    }
-
-    setIsCustomAmountValid(true);
-    handlePurchase(amount);
-  };
-
-  const formatPrice = (price) => {
-    return new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
-    }).format(price);
-  };
+  // ⛔ removed: const formatPrice = (price) => { ... };
 
   return (
     <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
@@ -158,120 +123,9 @@ const Pricing = () => {
           </Card>
         </div>
 
-        {/* Suggested Packages */}
-        <div className="mb-12">
-          <Typography variant="h4" className="text-center mb-8">
-            {t("pricing.suggestedPackages")}
-          </Typography>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {suggestedPackages.map((pkg, index) => (
-              <Card
-                key={index}
-                className={`border-2 ${
-                  pkg.popular ? "border-blue-500 shadow-lg" : "border-gray-200"
-                }`}
-              >
-                {pkg.popular && (
-                  <CardHeader className="bg-blue-500 text-white text-center py-2">
-                    <Typography variant="small" className="font-bold">
-                      {t("pricing.popular")}
-                    </Typography>
-                  </CardHeader>
-                )}
-
-                <CardBody className="text-center">
-                  <FaCoins className="text-4xl text-yellow-500 mx-auto mb-4" />
-                  <Typography variant="h4" className="mb-2">
-                    {pkg.credits.toLocaleString()}
-                  </Typography>
-                  <Typography variant="small" className="text-gray-600 mb-4">
-                    {t("pricing.credits")}
-                  </Typography>
-                  <Typography variant="h5" className="mb-6 text-green-600">
-                    {formatPrice(pkg.price)}
-                  </Typography>
-                  <Button
-                    color="blue"
-                    size="lg"
-                    fullWidth
-                    onClick={() => handlePurchase(pkg.credits)}
-                    disabled={isCreatingSession}
-                    className="flex items-center justify-center gap-2"
-                  >
-                    <FaCreditCard />
-                    {isCreatingSession
-                      ? t("pricing.processing")
-                      : t("pricing.buyNow")}
-                  </Button>
-                </CardBody>
-              </Card>
-            ))}
-          </div>
-        </div>
-
-        {/* Custom Amount */}
-        <div className="max-w-md mx-auto">
-          <Card className="border border-gray-200">
-            <CardBody>
-              <Typography variant="h5" className="text-center mb-6">
-                {t("pricing.customAmount")}
-              </Typography>
-
-              <div className="space-y-4">
-                <Input
-                  type="number"
-                  label={t("pricing.enterCredits")}
-                  value={customAmount}
-                  onChange={(e) => setCustomAmount(e.target.value)}
-                  min="1"
-                  max="100000"
-                  error={!isCustomAmountValid}
-                />
-
-                {!isCustomAmountValid && (
-                  <Alert color="red" className="text-sm">
-                    {t("pricing.invalidAmount")}
-                  </Alert>
-                )}
-
-                {customAmount && isCustomAmountValid && (
-                  <Typography
-                    variant="small"
-                    className="text-center text-gray-600"
-                  >
-                    {t("pricing.total")}:{" "}
-                    {formatPrice(parseInt(customAmount) * 0.01)}
-                  </Typography>
-                )}
-
-                <Button
-                  color="blue"
-                  size="lg"
-                  fullWidth
-                  onClick={handleCustomPurchase}
-                  disabled={isCreatingSession || !customAmount}
-                  className="flex items-center justify-center gap-2"
-                >
-                  <FaCreditCard />
-                  {isCreatingSession
-                    ? t("pricing.processing")
-                    : t("pricing.buyNow")}
-                </Button>
-              </div>
-            </CardBody>
-          </Card>
-        </div>
-
-        {/* Current Balance */}
-        {user && (
-          <div className="text-center mt-8">
-            <Typography variant="small" className="text-gray-600">
-              {t("pricing.currentBalance")}: {user.creditsBalance || 0}{" "}
-              {t("pricing.credits")}
-            </Typography>
-          </div>
-        )}
+        {/* ⛔ removed Suggested Packages section */}
+        {/* ⛔ removed Custom Amount section */}
+        {/* ⛔ removed Current Balance section */}
       </div>
     </div>
   );
