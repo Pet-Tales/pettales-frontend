@@ -22,11 +22,9 @@ import { toast } from "react-toastify";
 import ShippingAddressForm from "@/components/PrintOrder/ShippingAddressForm";
 import ShippingMethodSelector from "@/components/PrintOrder/ShippingMethodSelector";
 import OrderReviewConfirmation from "@/components/PrintOrder/OrderReviewConfirmation";
-import CreditPurchaseModal from "@/components/Credits/CreditPurchaseModal";
 import BookService from "@/services/bookService";
 import PrintOrderService from "@/services/printOrderService";
 import { smartNavigateBack } from "@/utils/navigationUtils";
-import { fetchCreditBalance, verifyPurchase } from "@/stores/reducers/credits";
 import logger from "@/utils/logger";
 
 const PrintOrderPage = () => {
@@ -38,7 +36,6 @@ const PrintOrderPage = () => {
   const dispatch = useDispatch();
   const [searchParams] = useSearchParams();
   const { user } = useSelector((state) => state.auth);
-  const { creditBalance } = useSelector((state) => state.credits);
 
   console.log("PrintOrder params:", { bookId, user: user?.id });
 
@@ -48,7 +45,6 @@ const PrintOrderPage = () => {
   const [submitting, setSubmitting] = useState(false);
   const [book, setBook] = useState(null);
   const [apiError, setApiError] = useState(null);
-  const [showCreditPurchaseModal, setShowCreditPurchaseModal] = useState(false);
   const [orderData, setOrderData] = useState({
     quantity: 1,
     shippingAddress: {
@@ -70,70 +66,22 @@ const PrintOrderPage = () => {
     {
       icon: FaShippingFast,
       title: t("printOrder.steps.shipping"),
-      // description: t("printOrder.steps.shippingDesc"),
     },
     {
       icon: FaClipboardCheck,
       title: t("printOrder.steps.review"),
-      // description: t("printOrder.steps.reviewDesc"),
     },
     {
       icon: FaCheckCircle,
       title: t("printOrder.steps.confirm"),
-      // description: t("printOrder.steps.confirmDesc"),
     },
   ];
 
-  // Handle credit verification after payment (similar to book creation)
+  // Restore saved order data after redirect (no credits logic)
   useEffect(() => {
     const sessionId = searchParams.get("session_id");
 
     if (sessionId) {
-      // Function to handle credit verification and refresh
-      const handleCreditUpdate = async () => {
-        try {
-          if (sessionId) {
-            // If we have a session ID, verify the purchase (this ensures credits are added)
-            await dispatch(verifyPurchase(sessionId)).unwrap();
-            logger.info("Purchase verified successfully");
-          } else {
-            // Fallback: just refresh credit balance with retry mechanism
-            const refreshCreditsWithRetry = async (
-              retries = 3,
-              delay = 2000
-            ) => {
-              for (let i = 0; i < retries; i++) {
-                try {
-                  await dispatch(fetchCreditBalance()).unwrap();
-                  logger.info(
-                    `Credit balance refreshed successfully on attempt ${i + 1}`
-                  );
-                  break;
-                } catch (error) {
-                  logger.warn(
-                    `Failed to refresh credit balance on attempt ${i + 1}:`,
-                    error
-                  );
-                  if (i === retries - 1) {
-                    throw error;
-                  }
-                  await new Promise((resolve) => setTimeout(resolve, delay));
-                }
-              }
-            };
-
-            await refreshCreditsWithRetry();
-          }
-        } catch (error) {
-          logger.error("Failed to update credits after payment:", error);
-          toast.error(t("printOrder.errors.creditUpdateFailed"));
-        }
-      };
-
-      // Start credit update process
-      handleCreditUpdate();
-
-      // Check if we have saved order data and restore it
       const savedOrderData = localStorage.getItem("printOrderFormData");
       if (savedOrderData) {
         try {
@@ -150,7 +98,7 @@ const PrintOrderPage = () => {
         }
       }
     }
-  }, [searchParams, dispatch, t]);
+  }, [searchParams, t]);
 
   // Load book data on component mount
   useEffect(() => {
@@ -205,10 +153,8 @@ const PrintOrderPage = () => {
   // Handle step navigation
   const handleNext = async () => {
     if (currentStep === 0) {
-      // Validate shipping address and calculate cost
       await handleShippingSubmit();
     } else if (currentStep === 1) {
-      // Move to confirmation step (cost already calculated on this step)
       setCurrentStep(2);
     }
   };
@@ -221,14 +167,10 @@ const PrintOrderPage = () => {
     }
   };
 
-  // Handle shipping address submission
   const handleShippingSubmit = async () => {
     try {
       setSubmitting(true);
-      setApiError(null); // Clear any previous errors
-
-      // Do NOT calculate cost here. Proceed to shipping method selection where
-      // available options will be fetched and cost will be calculated for a valid option.
+      setApiError(null);
       setCurrentStep(1);
     } catch (error) {
       logger.error("Failed to proceed to shipping methods:", error);
@@ -238,7 +180,6 @@ const PrintOrderPage = () => {
     }
   };
 
-  // Handle final order submission
   const handleOrderSubmit = async () => {
     try {
       setSubmitting(true);
@@ -264,7 +205,6 @@ const PrintOrderPage = () => {
     }
   };
 
-  // Update order data
   const updateOrderData = (updates) => {
     setOrderData((prev) => ({
       ...prev,
@@ -274,7 +214,6 @@ const PrintOrderPage = () => {
 
   console.log("Render state:", { loading, book: !!book });
 
-  // Early return for debugging - remove this after testing
   if (!bookId) {
     return (
       <div className="flex justify-center items-center min-h-screen">
@@ -387,24 +326,10 @@ const PrintOrderPage = () => {
               onSubmit={handleOrderSubmit}
               onBack={handleBack}
               loading={submitting}
-              currentBalance={user?.creditsBalance || creditBalance || 0}
-              onShowCreditPurchase={() => setShowCreditPurchaseModal(true)}
             />
           )}
         </CardBody>
       </Card>
-
-      {/* Credit Purchase Modal */}
-      <CreditPurchaseModal
-        isOpen={showCreditPurchaseModal}
-        onClose={() => setShowCreditPurchaseModal(false)}
-        requiredCredits={costData?.total_cost_credits || 0}
-        currentBalance={user?.creditsBalance || creditBalance || 0}
-        onPurchaseStart={() => {
-          // Save order data to localStorage before redirecting to Stripe
-          localStorage.setItem("printOrderFormData", JSON.stringify(orderData));
-        }}
-      />
     </div>
   );
 };
