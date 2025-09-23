@@ -17,20 +17,11 @@ import { FaArrowLeft, FaBook } from "react-icons/fa";
 
 import { createBook } from "@/stores/reducers/books";
 import { fetchCharacters } from "@/stores/reducers/characters";
-import { fetchCreditBalance, verifyPurchase } from "@/stores/reducers/credits";
 import { useErrorTranslation } from "@/utils/errorMapper";
 import { toast } from "react-toastify";
 import logger from "@/utils/logger";
 import GalleryService from "@/services/galleryService";
 import { smartNavigateBack, getFallbackPath } from "@/utils/navigationUtils";
-import CreditPurchaseModal from "@/components/Credits/CreditPurchaseModal";
-
-// Credit costs for different book types
-const CREDIT_COSTS = {
-  12: 400, // 12-page book
-  16: 450, // 16-page book
-  24: 500, // 24-page book
-};
 
 const CreateBook = () => {
   const { t } = useValidatedTranslation();
@@ -44,7 +35,6 @@ const CreateBook = () => {
   const { characters, isLoading: isLoadingCharacters } = useSelector(
     (state) => state.characters
   );
-  const { balance: creditBalance } = useSelector((state) => state.credits);
   const { user } = useSelector((state) => state.auth);
 
   // Get template data from location state (if coming from gallery)
@@ -69,7 +59,6 @@ const CreateBook = () => {
   });
 
   const [errors, setErrors] = useState({});
-  const [showCreditPurchaseModal, setShowCreditPurchaseModal] = useState(false);
 
   // Load characters on component mount
   useEffect(() => {
@@ -114,7 +103,7 @@ const CreateBook = () => {
     if (!language) return "en";
 
     // If it's already a code, return it
-    if (language === "en" || language === "es") return language;
+    if (language === "en" || "es") return language;
 
     // Convert language names to codes
     const languageMap = {
@@ -145,11 +134,6 @@ const CreateBook = () => {
     }
   }, [templateData]);
 
-  // Fetch credit balance when component mounts
-  useEffect(() => {
-    dispatch(fetchCreditBalance());
-  }, [dispatch]);
-
   // Restore form data from localStorage if available
   useEffect(() => {
     const savedFormData = localStorage.getItem("bookCreationFormData");
@@ -169,96 +153,6 @@ const CreateBook = () => {
       }
     }
   }, [templateData, templateDataFromState, t]);
-
-  // Handle payment success/failure from Stripe checkout
-  useEffect(() => {
-    const paymentStatus = searchParams.get("payment");
-    const sessionId = searchParams.get("session_id");
-
-    if (paymentStatus === "success") {
-      // Payment was successful, show success message
-      toast.success(t("credits.purchaseSuccess"));
-
-      // Function to handle credit verification and refresh
-      const handleCreditUpdate = async () => {
-        try {
-          if (sessionId) {
-            // If we have a session ID, verify the purchase (this ensures credits are added)
-            await dispatch(verifyPurchase(sessionId)).unwrap();
-            logger.info("Purchase verified successfully");
-          } else {
-            // Fallback: just refresh credit balance with retry mechanism
-            const refreshCreditsWithRetry = async (
-              retries = 3,
-              delay = 2000
-            ) => {
-              for (let i = 0; i < retries; i++) {
-                try {
-                  await dispatch(fetchCreditBalance()).unwrap();
-                  logger.info(
-                    `Credit balance refreshed successfully on attempt ${i + 1}`
-                  );
-                  break;
-                } catch (error) {
-                  logger.warn(
-                    `Failed to refresh credit balance on attempt ${i + 1}:`,
-                    error
-                  );
-                  if (i < retries - 1) {
-                    await new Promise((resolve) => setTimeout(resolve, delay));
-                  }
-                }
-              }
-            };
-            await refreshCreditsWithRetry();
-          }
-        } catch (error) {
-          logger.error("Failed to update credits after payment:", error);
-          // Fallback to just refreshing balance
-          dispatch(fetchCreditBalance());
-        }
-      };
-
-      // Start credit update process
-      handleCreditUpdate();
-
-      // Check if we have saved form data and auto-submit if form is valid
-      const savedFormData = localStorage.getItem("bookCreationFormData");
-      if (savedFormData) {
-        try {
-          const parsedData = JSON.parse(savedFormData);
-          setFormData(parsedData);
-          localStorage.removeItem("bookCreationFormData");
-
-          // Auto-submit the form after a longer delay to allow credits to be processed
-          setTimeout(() => {
-            const form = document.querySelector("form");
-            if (form) {
-              form.requestSubmit();
-            }
-          }, 3000); // Increased delay to 3 seconds
-        } catch (error) {
-          logger.error(
-            "Failed to restore and submit form after payment:",
-            error
-          );
-        }
-      }
-
-      // Clean up the URL parameters
-      const newUrl = new URL(window.location);
-      newUrl.searchParams.delete("payment");
-      newUrl.searchParams.delete("session_id");
-      window.history.replaceState({}, "", newUrl);
-    } else if (paymentStatus === "cancelled") {
-      toast.info(t("credits.paymentCancelled"));
-
-      // Clean up the URL parameter
-      const newUrl = new URL(window.location);
-      newUrl.searchParams.delete("payment");
-      window.history.replaceState({}, "", newUrl);
-    }
-  }, [searchParams, dispatch, t]);
 
   const handleInputChange = (field, value) => {
     setFormData((prev) => ({
@@ -332,16 +226,6 @@ const CreateBook = () => {
 
     if (formData.characterIds.length === 0) {
       newErrors.characterIds = t("books.validation.charactersRequired");
-    }
-
-    // Check if user has sufficient credits
-    const requiredCredits = CREDIT_COSTS[formData.pageCount];
-    const currentBalance = user?.creditsBalance || creditBalance || 0;
-    if (currentBalance < requiredCredits) {
-      newErrors.credits = t("books.validation.insufficientCredits", {
-        required: requiredCredits,
-        available: currentBalance,
-      });
     }
 
     setErrors(newErrors);
@@ -571,57 +455,6 @@ const CreateBook = () => {
                       </Select>
                     </div>
                   </div>
-
-                  {/* Credit Cost Display */}
-                  <div className="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <Typography
-                          variant="small"
-                          className="font-medium text-blue-900"
-                        >
-                          {t("books.creditCost")}
-                        </Typography>
-                        <Typography variant="small" className="text-blue-700">
-                          {CREDIT_COSTS[formData.pageCount]}{" "}
-                          {t("pricing.credits")}
-                        </Typography>
-                      </div>
-                      <div className="text-right">
-                        <Typography variant="small" className="text-blue-700">
-                          {t("books.currentBalance")}:{" "}
-                          {user?.creditsBalance?.toLocaleString() || 0}
-                        </Typography>
-                        {(user?.creditsBalance || 0) <
-                          CREDIT_COSTS[formData.pageCount] && (
-                          <div className="flex items-center gap-2">
-                            <Typography
-                              variant="small"
-                              className="text-red-600 font-medium"
-                            >
-                              {t("books.insufficientCredits")}
-                            </Typography>
-                            <button
-                              type="button"
-                              onClick={() => setShowCreditPurchaseModal(true)}
-                              className="text-blue-600 hover:text-blue-800 underline text-sm font-medium cursor-pointer"
-                            >
-                              {t("books.buyMore")}
-                            </button>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Credit Error Display */}
-                  {errors.credits && (
-                    <div className="mt-2">
-                      <Typography variant="small" color="red">
-                        {errors.credits}
-                      </Typography>
-                    </div>
-                  )}
                 </div>
 
                 {/* Character Selection */}
@@ -720,21 +553,6 @@ const CreateBook = () => {
           </form>
         )}
       </div>
-
-      {/* Credit Purchase Modal */}
-      <CreditPurchaseModal
-        isOpen={showCreditPurchaseModal}
-        onClose={() => setShowCreditPurchaseModal(false)}
-        requiredCredits={CREDIT_COSTS[formData.pageCount]}
-        currentBalance={user?.creditsBalance || creditBalance || 0}
-        onPurchaseStart={() => {
-          // Save form data to localStorage before redirecting to Stripe
-          localStorage.setItem(
-            "bookCreationFormData",
-            JSON.stringify(formData)
-          );
-        }}
-      />
     </div>
   );
 };
