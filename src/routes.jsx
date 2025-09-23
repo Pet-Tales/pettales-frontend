@@ -20,7 +20,6 @@ import OrderDetail from "@/pages/Orders/OrderDetail";
 import Gallery from "@/pages/Gallery";
 import Profile from "@/pages/Profile";
 import Pricing from "@/pages/Pricing";
-import PurchaseSuccess from "@/pages/Credits/PurchaseSuccess";
 import CreditHistory from "@/pages/Credits/CreditHistory";
 import { PrivacyPolicy, TermsOfService } from "@/pages/Legal";
 import {
@@ -164,10 +163,6 @@ const Routes = [
       {
         path: "/terms-of-service",
         element: <TermsOfService />,
-      },
-      {
-        path: "/credits/success",
-        element: <PurchaseSuccess />,
       },
       {
         path: "/credits/history",
