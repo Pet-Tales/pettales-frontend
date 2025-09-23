@@ -20,7 +20,6 @@ import OrderDetail from "@/pages/Orders/OrderDetail";
 import Gallery from "@/pages/Gallery";
 import Profile from "@/pages/Profile";
 import Pricing from "@/pages/Pricing";
-import CreditHistory from "@/pages/Credits/CreditHistory";
 import { PrivacyPolicy, TermsOfService } from "@/pages/Legal";
 import {
   Login,
@@ -163,14 +162,6 @@ const Routes = [
       {
         path: "/terms-of-service",
         element: <TermsOfService />,
-      },
-      {
-        path: "/credits/history",
-        element: (
-          <ProtectedRoute>
-            <CreditHistory />
-          </ProtectedRoute>
-        ),
       },
       {
         path: "/error/500",
