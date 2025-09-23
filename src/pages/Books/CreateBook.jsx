@@ -103,7 +103,7 @@ const CreateBook = () => {
     if (!language) return "en";
 
     // If it's already a code, return it
-    if (language === "en" || "es") return language;
+    if (language === "en" || language === "es") return language;
 
     // Convert language names to codes
     const languageMap = {
