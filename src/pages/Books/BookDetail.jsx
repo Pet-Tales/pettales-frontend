@@ -40,8 +40,6 @@ import {
   clearCurrentBook,
   setPdfNeedsRegeneration,
 } from "@/stores/reducers/books";
-import { updateCreditsBalance } from "@/stores/reducers/auth";
-import { fetchCreditBalance } from "@/stores/reducers/credits";
 import BookService from "@/services/bookService";
 import { useErrorTranslation } from "@/utils/errorMapper";
 import { toast } from "react-toastify";
@@ -317,12 +315,6 @@ const BookDetail = () => {
       const response = await IllustrationService.regenerateFrontCover(id);
       const newImageUrl = response.data?.newImageUrl;
 
-      // Update credit balance if credits were used
-      if (response.data?.creditsUsed > 0) {
-        dispatch(
-          updateCreditsBalance(user.creditsBalance - response.data.creditsUsed)
-        );
-      }
 
       if (newImageUrl) {
         // Automatically set the new image as the main front cover
@@ -336,9 +328,6 @@ const BookDetail = () => {
 
       // Refresh book data to get updated alternatives and regeneration count
       dispatch(fetchBookById(id));
-
-      // Refresh credit balance to ensure navbar is updated
-      dispatch(fetchCreditBalance());
 
       toast.success(t("books.regenerateSuccess"));
     } catch (error) {
@@ -363,13 +352,6 @@ const BookDetail = () => {
       const response = await IllustrationService.regenerateBackCover(id);
       const newImageUrl = response.data?.newImageUrl;
 
-      // Update credit balance if credits were used
-      if (response.data?.creditsUsed > 0) {
-        dispatch(
-          updateCreditsBalance(user.creditsBalance - response.data.creditsUsed)
-        );
-      }
-
       if (newImageUrl) {
         // Automatically set the new image as the main back cover
         await dispatch(
@@ -382,9 +364,6 @@ const BookDetail = () => {
 
       // Refresh book data to get updated alternatives and regeneration count
       dispatch(fetchBookById(id));
-
-      // Refresh credit balance to ensure navbar is updated
-      dispatch(fetchCreditBalance());
 
       toast.success(t("books.regenerateSuccess"));
     } catch (error) {
