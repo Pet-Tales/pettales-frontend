@@ -23,7 +23,6 @@ import {
   requestPasswordChange,
   updateProfile,
 } from "@/stores/reducers/auth";
-import { fetchCreditBalance } from "@/stores/reducers/credits";
 import AvatarService from "@/services/avatar";
 import logger from "@/utils/logger";
 
@@ -87,10 +86,6 @@ const Profile = () => {
     }
   }, [user]);
 
-  useEffect(() => {
-    // Fetch current credit balance when component mounts
-    dispatch(fetchCreditBalance());
-  }, [dispatch]);
 
   const handleLanguageChange = async (language) => {
     if (language === selectedLanguage) return;
