@@ -404,27 +404,6 @@ const BookDetail = () => {
     }
   };
 
-  const handleCharityConfirm = async (charityId) => {
-    try {
-      setPendingCheckoutCharityId(charityId);
-      setShowCharityModal(false);
-      const filename = generateBookPdfFilename(currentBook);
-      const result = await downloadBookPDF(
-        currentBook.id,
-        filename,
-        null,
-        true,
-        charityId
-      );
-      if (result.requiresPayment && result.checkoutUrl) {
-        window.location.href = result.checkoutUrl;
-      }
-    } catch (error) {
-      logger.error("Charity selection checkout failed:", error);
-      toast.error(t("charity.checkoutFailed"));
-    }
-  };
-
   // Handle post-payment PDF download from modal (with session ID)
   const handlePaymentSuccessDownload = async () => {
     try {
