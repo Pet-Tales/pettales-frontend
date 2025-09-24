@@ -60,8 +60,6 @@ const OrderReviewConfirmation = ({
     return estimatedDays[level] || "";
   };
 
-// Check if user has sufficient credits
-  const hasSufficientCredits = currentBalance >= costData.total_cost_credits;
 
   return (
     <div className="space-y-6">
