@@ -208,35 +208,7 @@ const ShippingMethodSelector = ({
                     {t("printOrder.printingCost")}:
                   </Typography>
                   <Typography variant="small">
-                    {formatPrice(
-                      (() => {
-                        const lineItemCost = parseFloat(
-                          currentCostData.cost_breakdown?.line_items?.[0]
-                            ?.total_cost_incl_tax || 0
-                        );
-                        const fulfillmentCost = parseFloat(
-                          currentCostData.cost_breakdown?.fulfillment
-                            ?.total_cost_incl_tax || 0
-                        );
-                        const basePrintingCost = lineItemCost + fulfillmentCost;
-                        const baseShippingCost = parseFloat(
-                          currentCostData.cost_breakdown?.shipping
-                            ?.total_cost_incl_tax || 0
-                        );
-                        const totalBaseCost =
-                          basePrintingCost + baseShippingCost;
-                        const finalTotalCost = parseFloat(
-                          currentCostData.total_cost_usd || 0
-                        );
-                        const printingProportion =
-                          totalBaseCost > 0
-                            ? basePrintingCost / totalBaseCost
-                            : 0;
-                        const finalPrintingCost =
-                          finalTotalCost * printingProportion;
-                        return finalPrintingCost;
-                      })()
-                    )}
+                    {formatPrice(currentCostData.display_print_cost_usd)}
                   </Typography>
                 </div>
                 <div className="flex justify-between">
