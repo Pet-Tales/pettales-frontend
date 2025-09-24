@@ -71,27 +71,6 @@ const OrderReviewConfirmation = ({
           {t("printOrder.review.description")}
         </Typography>
       </div>
-
-      {/* Credit Balance Warning */}
-      {!hasSufficientCredits && (
-        <Alert
-          icon={<FaExclamationTriangle />}
-          className="border-l-4 border-orange-500 bg-orange-50 text-orange-800"
-        >
-          <Typography variant="small">
-            {t("printOrder.errors.insufficientCredits", {
-              required: costData.total_cost_credits,
-              available: currentBalance,
-            })}{" "}
-            <button
-              onClick={onShowCreditPurchase}
-              className="text-blue-600 hover:text-blue-800 underline font-medium"
-            >
-              {t("credits.buyMore")}
-            </button>
-          </Typography>
-        </Alert>
-      )}
       
       {/* Book Information */}
       <Card>
