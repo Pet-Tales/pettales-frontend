@@ -184,22 +184,22 @@ const PrintOrderPage = () => {
     try {
       setSubmitting(true);
 
-      const orderResponse = await PrintOrderService.createPrintOrder({
+      const checkoutResponse = await PrintOrderService.createPrintOrderCheckout({
         bookId,
         quantity: orderData.quantity,
         shippingAddress: orderData.shippingAddress,
         shippingLevel: orderData.shippingLevel,
       });
 
-      if (!orderResponse.success) {
-        throw new Error(orderResponse.message);
+      if (!checkoutResponse.success) {
+        throw new Error(checkoutResponse.message);
       }
 
-      toast.success(t("printOrder.success.orderCreated"));
-      navigate(`/my-orders/${orderResponse.data.printOrder._id}`);
+      // Redirect to Stripe checkout
+      window.location.href = checkoutResponse.data.checkoutUrl;
     } catch (error) {
-      logger.error("Failed to create order:", error);
-      toast.error(error.message || t("printOrder.errors.createOrder"));
+      logger.error("Failed to create checkout:", error);
+      toast.error(error.message || t("printOrder.errors.createCheckout"));
     } finally {
       setSubmitting(false);
     }
