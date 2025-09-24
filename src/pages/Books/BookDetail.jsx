@@ -62,7 +62,6 @@ const BookDetail = () => {
 
   const { currentBook, isLoading } = useSelector((state) => state.books);
   const { isAuthenticated, user } = useSelector((state) => state.auth);
-  const currency = detectCurrency();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showPageEditor, setShowPageEditor] = useState(false);
   const [selectedPage, setSelectedPage] = useState(null);
