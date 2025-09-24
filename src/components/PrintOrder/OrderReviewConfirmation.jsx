@@ -235,8 +235,8 @@ const OrderReviewConfirmation = ({
         <Button
           className="flex items-center gap-2"
           onClick={onSubmit}
-          disabled={loading || !hasSufficientCredits}
-          color={hasSufficientCredits ? "blue" : "gray"}
+          disabled={loading}
+          color="blue"
         >
           {loading ? (
             <Spinner className="h-4 w-4" />
