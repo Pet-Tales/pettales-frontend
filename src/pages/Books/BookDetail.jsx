@@ -1053,13 +1053,6 @@ const BookDetail = () => {
         pageCount={currentBook.pageCount}
         regenerationsUsed={currentBook.regenerationsUsed || 0}
       />
-      {/* Charity Selection Modal */}
-      <CharitySelectionModal
-        open={showCharityModal}
-        onClose={() => setShowCharityModal(false)}
-        onConfirm={handleCharityConfirm}
-        bookId={currentBook?.id}
-      />
 
       {/* Payment Success Modal */}
       {showPaymentSuccessModal && (
