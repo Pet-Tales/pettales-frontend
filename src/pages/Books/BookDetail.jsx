@@ -374,7 +374,6 @@ const BookDetail = () => {
   };
 
   // Handle PDF download
-  const [showCharityModal, setShowCharityModal] = useState(false);
   const [pendingCheckoutCharityId, setPendingCheckoutCharityId] =
     useState(null);
   const [isDownloading, setIsDownloading] = useState(false);
