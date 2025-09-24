@@ -382,34 +382,21 @@ const BookDetail = () => {
   const handleDownloadPDF = async () => {
     try {
       setIsDownloading(true);
-      if (!currentBook?.pdfUrl) {
-        toast.error(t("books.noPdfAvailable"));
-        return;
-      }
-
-      const filename = generateBookPdfFilename(currentBook);
-      const result = await downloadBookPDF(
-        currentBook.id,
-        filename,
-        null,
-        true,
-        null
-      ); // Show save dialog
-
-      if (result.requiresPayment) {
-        if (result.charityRequired) {
-          setShowCharityModal(true);
-          return;
-        }
-        window.location.href = result.checkoutUrl;
+      
+      const response = await fetch(`${API_BASE_URL}/api/books/${currentBook.id}/download-pdf`, {
+        method: 'GET',
+        credentials: 'include',
+      });
+      
+      const data = await response.json();
+      
+      if (data.checkoutUrl) {
+        window.location.href = data.checkoutUrl;
+      } else {
+        throw new Error(data.message || 'Failed to initiate download');
       }
     } catch (error) {
       logger.error("PDF download error:", error);
-
-      if (error.message === "Download cancelled by user") {
-        return;
-      }
-
       const errorMessage = error.message || t("books.downloadFailed");
       toast.error(errorMessage);
     } finally {
