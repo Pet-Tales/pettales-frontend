@@ -23,11 +23,11 @@ class PrintOrderService {
   }
 
   /**
-   * Create a new print order
+   * Create a new print order checkout session
    */
-  async createPrintOrder(orderData) {
+  async createPrintOrderCheckout(orderData) {
     try {
-      const response = await axios.post(`${API_URL}/create`, orderData, {
+      const response = await axios.post(`${API_URL}/create-checkout`, orderData, {
         withCredentials: true,
       });
       return response.data;
