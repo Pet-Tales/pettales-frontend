@@ -212,40 +212,6 @@ const OrderReviewConfirmation = ({
         </CardBody>
       </Card>
 
-      {/* Current Credit Balance */}
-      <Card className={hasSufficientCredits ? "bg-green-50" : "bg-red-50"}>
-        <CardBody>
-          <div className="flex items-center justify-between">
-            <div>
-              <Typography variant="small" className="font-medium">
-                {t("printOrder.review.currentBalance")}:
-              </Typography>
-              <Typography
-                variant="h6"
-                className={
-                  hasSufficientCredits ? "text-green-600" : "text-red-600"
-                }
-              >
-                {formatPrice(currentBalance)}
-              </Typography>
-            </div>
-            {hasSufficientCredits && (
-              <div className="text-right">
-                <Typography variant="small" className="text-green-600">
-                  {t("printOrder.review.balanceAfter")}:
-                </Typography>
-                <Typography
-                  variant="small"
-                  className="font-medium text-green-600"
-                >
-                  {formatPrice(currentBalance - costData.total_cost_credits)}
-                </Typography>
-              </div>
-            )}
-          </div>
-        </CardBody>
-      </Card>
-
       {/* Terms and Conditions */}
       <Card className="bg-gray-50">
         <CardBody>
