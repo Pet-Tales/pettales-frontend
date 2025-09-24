@@ -189,37 +189,7 @@ const OrderReviewConfirmation = ({
                 {book.pageCount} {t("printOrder.pages")}):
               </Typography>
               <Typography variant="small">
-                {formatPrice(
-                  (() => {
-                    // Calculate printing cost (line items + fulfillment)
-                    const lineItemCost = parseFloat(
-                      costData.cost_breakdown?.line_items?.[0]
-                        ?.total_cost_incl_tax || 0
-                    );
-                    const fulfillmentCost = parseFloat(
-                      costData.cost_breakdown?.fulfillment
-                        ?.total_cost_incl_tax || 0
-                    );
-                    const basePrintingCost = lineItemCost + fulfillmentCost;
-
-                    const baseShippingCost = parseFloat(
-                      costData.cost_breakdown?.shipping?.total_cost_incl_tax ||
-                        0
-                    );
-                    const totalBaseCost = basePrintingCost + baseShippingCost;
-                    const finalTotalCost = parseFloat(
-                      costData.total_cost_usd || 0
-                    );
-
-                    // Calculate proportional final costs
-                    const printingProportion =
-                      totalBaseCost > 0 ? basePrintingCost / totalBaseCost : 0;
-                    const finalPrintingCost =
-                      finalTotalCost * printingProportion;
-
-                    return Math.ceil(finalPrintingCost / 0.01);
-                  })()
-                )}
+                {formatPrice(costData.print_cost_usd)}
               </Typography>
             </div>
             <div className="flex justify-between">
@@ -228,44 +198,14 @@ const OrderReviewConfirmation = ({
                 {getShippingMethodName(orderData.shippingLevel)}):
               </Typography>
               <Typography variant="small">
-                {formatPrice(
-                  (() => {
-                    // Calculate shipping cost
-                    const lineItemCost = parseFloat(
-                      costData.cost_breakdown?.line_items?.[0]
-                        ?.total_cost_incl_tax || 0
-                    );
-                    const fulfillmentCost = parseFloat(
-                      costData.cost_breakdown?.fulfillment
-                        ?.total_cost_incl_tax || 0
-                    );
-                    const basePrintingCost = lineItemCost + fulfillmentCost;
-
-                    const baseShippingCost = parseFloat(
-                      costData.cost_breakdown?.shipping?.total_cost_incl_tax ||
-                        0
-                    );
-                    const totalBaseCost = basePrintingCost + baseShippingCost;
-                    const finalTotalCost = parseFloat(
-                      costData.total_cost_usd || 0
-                    );
-
-                    // Calculate proportional final costs
-                    const shippingProportion =
-                      totalBaseCost > 0 ? baseShippingCost / totalBaseCost : 0;
-                    const finalShippingCost =
-                      finalTotalCost * shippingProportion;
-
-                    return Math.ceil(finalShippingCost / 0.01);
-                  })()
-                )}
+                {formatPrice(costData.shipping_cost_usd)}
               </Typography>
             </div>
             <hr />
             <div className="flex justify-between">
               <Typography variant="h6">{t("printOrder.total")}:</Typography>
               <Typography variant="h6" className="text-blue-600">
-                {formatPrice(costData.total_cost_credits)}
+                {formatPrice(costData.total_cost_usd)}
               </Typography>
             </div>
           </div>
