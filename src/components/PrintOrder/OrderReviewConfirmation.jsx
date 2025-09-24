@@ -60,40 +60,6 @@ const OrderReviewConfirmation = ({
     return estimatedDays[level] || "";
   };
 
-  // Check if user has sufficient credits
-  const hasSufficientCredits = currentBalance >= costData.total_cost_credits;
-
-  return (
-    <div className="space-y-6">
-      <div>
-        <Typography variant="h5" className="mb-4">
-          {t("printOrder.review.title")}
-        </Typography>
-        <Typography variant="small" className="text-gray-600 mb-6">
-          {t("printOrder.review.description")}
-        </Typography>
-      </div>
-
-      {/* Credit Balance Warning */}
-      {!hasSufficientCredits && (
-        <Alert
-          icon={<FaExclamationTriangle />}
-          className="border-l-4 border-orange-500 bg-orange-50 text-orange-800"
-        >
-          <Typography variant="small">
-            {t("printOrder.errors.insufficientCredits", {
-              required: costData.total_cost_credits,
-              available: currentBalance,
-            })}{" "}
-            <button
-              onClick={onShowCreditPurchase}
-              className="text-blue-600 hover:text-blue-800 underline font-medium"
-            >
-              {t("credits.buyMore")}
-            </button>
-          </Typography>
-        </Alert>
-      )}
 
       {/* Book Information */}
       <Card>
