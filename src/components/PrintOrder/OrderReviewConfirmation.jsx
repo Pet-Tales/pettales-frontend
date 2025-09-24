@@ -25,8 +25,6 @@ const OrderReviewConfirmation = ({
   onSubmit,
   onBack,
   loading,
-  currentBalance,
-  onShowCreditPurchase,
 }) => {
   const { t } = useValidatedTranslation();
   const { user } = useSelector((state) => state.auth);
