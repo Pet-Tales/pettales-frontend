@@ -234,7 +234,7 @@ const ShippingMethodSelector = ({
                             : 0;
                         const finalPrintingCost =
                           finalTotalCost * printingProportion;
-                        return Math.ceil(finalPrintingCost / 0.01);
+                        return finalPrintingCost;
                       })()
                     )}
                   </Typography>
@@ -274,7 +274,7 @@ const ShippingMethodSelector = ({
                               : 0;
                           const finalShippingCost =
                             finalTotalCost * shippingProportion;
-                          return Math.ceil(finalShippingCost / 0.01);
+                          return finalShippingCost;
                         })()
                       )
                     )}
@@ -289,7 +289,7 @@ const ShippingMethodSelector = ({
                     {recalculatingCost ? (
                       <Spinner className="h-4 w-4" />
                     ) : (
-                      formatPrice(currentCostData.total_cost_credits)
+                      formatPrice(currentCostData.total_cost_usd)
                     )}
                   </Typography>
                 </div>
