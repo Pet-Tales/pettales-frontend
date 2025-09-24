@@ -602,9 +602,7 @@ const BookDetail = () => {
                   disabled={isDownloading}
                 >
                   <FaDownload className="h-4 w-4" />
-                  {isDownloading
-  ? t("books.downloading")
-  : `Download (${formatMoney(downloadPriceFor(currentBook.pageCount, currency), currency)})`}
+                  {isDownloading ? t("books.downloading") : t("books.download")}
                 </Button>
               )}
               {canUseAsTemplate && (
