@@ -184,23 +184,23 @@ const OrderReviewConfirmation = ({
           </div>
           <div className="space-y-3">
             <div className="flex justify-between">
-              <Typography variant="small">
-                {t("printOrder.printingCost")} ({orderData.quantity} ×{" "}
-                {book.pageCount} {t("printOrder.pages")}):
-              </Typography>
-              <Typography variant="small">
-                {formatPrice(costData.print_cost_usd)}
-              </Typography>
-            </div>
-            <div className="flex justify-between">
-              <Typography variant="small">
-                {t("printOrder.shippingCost")} (
-                {getShippingMethodName(orderData.shippingLevel)}):
-              </Typography>
-              <Typography variant="small">
-                {formatPrice(costData.shipping_cost_usd)}
-              </Typography>
-            </div>
+  <Typography variant="small">
+    {t("printOrder.printingCost")} ({orderData.quantity} ×{" "}
+    {book.pageCount} {t("printOrder.pages")}):
+  </Typography>
+  <Typography variant="small">
+    {formatPrice(costData.display_print_cost_usd)}
+  </Typography>
+</div>
+<div className="flex justify-between">
+  <Typography variant="small">
+    {t("printOrder.shippingCost")} (
+    {getShippingMethodName(orderData.shippingLevel)}):
+  </Typography>
+  <Typography variant="small">
+    {formatPrice(costData.display_shipping_cost_usd)}
+  </Typography>
+</div>
             <hr />
             <div className="flex justify-between">
               <Typography variant="h6">{t("printOrder.total")}:</Typography>
