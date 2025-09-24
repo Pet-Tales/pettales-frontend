@@ -149,10 +149,9 @@ const ShippingMethodSelector = ({
     }
   };
 
-  // Format price
-  const formatPrice = (credits) => {
-    const usd = (credits * 0.01).toFixed(2);
-    return `${credits} ${t("common.credits")} ($${usd})`;
+  // Format price  
+  const formatPrice = (usd) => {
+    return `$${(usd || 0).toFixed(2)}`;
   };
 
   if (loadingOptions) {
