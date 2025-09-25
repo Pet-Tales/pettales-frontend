@@ -30,8 +30,8 @@ const OrderReviewConfirmation = ({
   const { user } = useSelector((state) => state.auth);
 
   // Format price
-  const formatPrice = (usd) => {
-    return `$${(usd || 0).toFixed(2)}`;
+  const formatPrice = (gbp) => {
+    return `£${(gbp || 0).toFixed(2)}`;
   };
 
   // Get shipping method display name
