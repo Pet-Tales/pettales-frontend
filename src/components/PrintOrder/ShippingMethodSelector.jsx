@@ -151,7 +151,7 @@ const ShippingMethodSelector = ({
 
   // Format price  
   const formatPrice = (gbp) => {
-    return `$${(gbp || 0).toFixed(2)}`;
+    return `£${(gbp || 0).toFixed(2)}`;
   };
 
   if (loadingOptions) {
