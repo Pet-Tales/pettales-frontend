@@ -150,8 +150,8 @@ const ShippingMethodSelector = ({
   };
 
   // Format price  
-  const formatPrice = (usd) => {
-    return `$${(usd || 0).toFixed(2)}`;
+  const formatPrice = (gbp) => {
+    return `$${(gbp || 0).toFixed(2)}`;
   };
 
   if (loadingOptions) {
@@ -208,7 +208,7 @@ const ShippingMethodSelector = ({
                     {t("printOrder.printingCost")}:
                   </Typography>
                   <Typography variant="small">
-                    {formatPrice(currentCostData.display_print_cost_usd)}
+                    {formatPrice(currentCostData.display_print_cost_gbp)}
                   </Typography>
                 </div>
                 <div className="flex justify-between">
@@ -238,7 +238,7 @@ const ShippingMethodSelector = ({
                           const totalBaseCost =
                             basePrintingCost + baseShippingCost;
                           const finalTotalCost = parseFloat(
-                            currentCostData.total_cost_usd || 0
+                            currentCostData.total_cost_gbp || 0
                           );
                           const shippingProportion =
                             totalBaseCost > 0
@@ -261,7 +261,7 @@ const ShippingMethodSelector = ({
                     {recalculatingCost ? (
                       <Spinner className="h-4 w-4" />
                     ) : (
-                      formatPrice(currentCostData.total_cost_usd)
+                      formatPrice(currentCostData.total_cost_gbp)
                     )}
                   </Typography>
                 </div>
