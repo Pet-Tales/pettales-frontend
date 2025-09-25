@@ -189,7 +189,7 @@ const OrderReviewConfirmation = ({
     {book.pageCount} {t("printOrder.pages")}):
   </Typography>
   <Typography variant="small">
-    {formatPrice(costData.display_print_cost_usd)}
+    {formatPrice(costData.display_print_cost_gbp)}
   </Typography>
 </div>
 <div className="flex justify-between">
@@ -198,14 +198,14 @@ const OrderReviewConfirmation = ({
     {getShippingMethodName(orderData.shippingLevel)}):
   </Typography>
   <Typography variant="small">
-    {formatPrice(costData.display_shipping_cost_usd)}
+    {formatPrice(costData.display_shipping_cost_gbp)}
   </Typography>
 </div>
             <hr />
             <div className="flex justify-between">
               <Typography variant="h6">{t("printOrder.total")}:</Typography>
               <Typography variant="h6" className="text-blue-600">
-                {formatPrice(costData.total_cost_usd)}
+                {formatPrice(costData.total_cost_gbp)}
               </Typography>
             </div>
           </div>
