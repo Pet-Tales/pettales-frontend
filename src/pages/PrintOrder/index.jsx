@@ -118,12 +118,15 @@ const PrintOrderPage = () => {
         const bookData = response.data.data.book;
         console.log("Book data received:", bookData);
 
-        // Check if user owns the book
-        if (user && bookData.userId.id !== user.id) {
-          toast.error(t("printOrder.errors.unauthorized"));
-          navigate("/my-books");
-          return;
-        }
+        // Allow if owner OR public
+const isOwner  = !!(bookData?.isOwner || (bookData?.userId?.id && user?.id && bookData.userId.id === user.id));
+const isPublic = !!(bookData?.isPublic ?? bookData?.is_public);
+
+if (user && !isOwner && !isPublic) {
+  toast.error(t("printOrder.errors.unauthorized"));
+  navigate(`/books/${bookId}`);
+  return;
+}
 
         // Check if book is completed
         if (bookData.generationStatus !== "completed") {
