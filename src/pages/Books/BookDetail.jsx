@@ -533,7 +533,9 @@ const BookDetail = () => {
   const canUseAsTemplate =
     currentBook && currentBook.generationStatus === "completed";
   const canPrintOrder =
-    currentBook && currentBook.generationStatus === "completed" && isOwner;
+  currentBook &&
+  currentBook.generationStatus === "completed" &&
+  (isOwner || currentBook.isPublic);
 
   return (
     <div className="min-h-screen bg-gray-50">
