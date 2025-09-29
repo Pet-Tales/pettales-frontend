@@ -531,8 +531,9 @@ const BookDetail = () => {
     currentBook && currentBook.generationStatus === "failed" && isOwner;
   const canDelete = isOwner;
   const canUseAsTemplate =
-    currentBook && currentBook.generationStatus === "completed";
-  const canPrintOrder =
+  currentBook && currentBook.generationStatus === "completed";
+
+const canPrintOrder =
   currentBook &&
   currentBook.generationStatus === "completed" &&
   (isOwner || currentBook.isPublic);
