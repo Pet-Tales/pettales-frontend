@@ -128,12 +128,19 @@ if (user && !isOwner && !isPublic) {
   return;
 }
 
-        // Check if book is completed
-        if (bookData.generationStatus !== "completed") {
-          toast.error(t("printOrder.errors.bookNotCompleted"));
-          navigate(`/books/${bookId}`);
-          return;
-        }
+        // Allow if owner OR public
+const isOwner =
+  !!(bookData?.isOwner ||
+     (bookData?.userId?.id && user?.id && bookData.userId.id === user.id));
+
+const isPublic = !!(bookData?.isPublic ?? bookData?.is_public);
+
+// Block only if NOT owner AND NOT public
+if (user && !isOwner && !isPublic) {
+  toast.error(t("printOrder.errors.unauthorized"));
+  navigate(`/books/${bookId}`);
+  return;
+}
 
         setBook(bookData);
       } catch (error) {
