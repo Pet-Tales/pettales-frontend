@@ -29,11 +29,15 @@ const OrderReviewConfirmation = ({
   const { t } = useValidatedTranslation();
   const { user } = useSelector((state) => state.auth);
 
-  // Format price
-  const formatPrice = (gbp) => {
-    return `£${(gbp || 0).toFixed(2)}`;
-  };
+  // Format price (display-only). Show USD for US shipping addresses, otherwise GBP.
+const GBP_TO_USD = Number(import.meta.env.VITE_GBP_TO_USD_RATE || 1.27);
 
+const formatPrice = (gbp) => {
+  const isUS = (orderData?.shippingAddress?.country_code === "US");
+  const amount = isUS ? (gbp || 0) * GBP_TO_USD : (gbp || 0);
+  const symbol = isUS ? "$" : "£";
+  return `${symbol}${amount.toFixed(2)}`;
+};
   // Get shipping method display name
   const getShippingMethodName = (level) => {
     const methods = {
