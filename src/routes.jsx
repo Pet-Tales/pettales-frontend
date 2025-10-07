@@ -84,13 +84,9 @@ const Routes = [
         element: <BookDetail />,
       },
       {
-        path: "/books/:id/print-order",
-        element: (
-          <ProtectedRoute>
-            <PrintOrder />
-          </ProtectedRoute>
-        ),
-      },
+  path: "/books/:id/print-order",
+  element: <PrintOrder />,
+},
       {
         path: "/my-orders",
         element: (
