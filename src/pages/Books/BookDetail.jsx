@@ -134,10 +134,8 @@ const BookDetail = () => {
       );
 
       setPendingPaymentDownload(false);
-      setShowPaymentSuccessModal(true);
-
-      // Show success message
-      toast.success(t("books.paymentSuccessful"));
+      handlePaymentSuccessDownload();
+;
     }
   }, [
     pendingPaymentDownload,
