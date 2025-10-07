@@ -223,35 +223,7 @@ const formatPrice = (gbp) => {
                     {recalculatingCost ? (
                       <Spinner className="h-4 w-4" />
                     ) : (
-                      formatPrice(
-                        (() => {
-                          const lineItemCost = parseFloat(
-                            currentCostData.cost_breakdown?.line_items?.[0]
-                              ?.total_cost_incl_tax || 0
-                          );
-                          const fulfillmentCost = parseFloat(
-                            currentCostData.cost_breakdown?.fulfillment
-                              ?.total_cost_incl_tax || 0
-                          );
-                          const basePrintingCost =
-                            lineItemCost + fulfillmentCost;
-                          const baseShippingCost = parseFloat(
-                            currentCostData.cost_breakdown?.shipping
-                              ?.total_cost_incl_tax || 0
-                          );
-                          const totalBaseCost =
-                            basePrintingCost + baseShippingCost;
-                          const finalTotalCost = parseFloat(
-                            currentCostData.total_cost_gbp || 0
-                          );
-                          const shippingProportion =
-                            totalBaseCost > 0
-                              ? baseShippingCost / totalBaseCost
-                              : 0;
-                          const finalShippingCost =
-                            finalTotalCost * shippingProportion;
-                          return finalShippingCost;
-                        })()
+                      formatPrice(currentCostData.display_shipping_cost_gbp)
                       )
                     )}
                   </Typography>
