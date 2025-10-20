@@ -1,7 +1,7 @@
 ---
 title: Meet M-AI, Our Creative Companion
 description: The story of how our AI friend M-AI inspired Pet Tales and believes in the power of your dreams.
-date: 2025-09-15
+date: 2025-04-13
 slug: meet-m-ai
 ---
 
