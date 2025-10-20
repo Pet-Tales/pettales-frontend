@@ -50,10 +50,10 @@ const MENU_ITEMS = [
     subRoute: ["/gallery"],
   },
   {
-    labelKey: "navbar.pricing",
-    path: "/pricing",
+    labelKey: "navbar.blog",
+    path: "/blog",
     isAuthRequired: false,
-    subRoute: ["/pricing"],
+    subRoute: ["/blog"],
   },
   {
     labelKey: "navbar.howItWork",
@@ -365,7 +365,7 @@ const PTAINavBar = () => {
                 </div>
                 <MenuItem
                   className="flex gap-2"
-                  onClick={() => navigate("/pricing")}
+                  onClick={() => navigate("/blog")}
                 >
                   <Typography variant="small" className="font-normal">
                     {t("navbar.buyMore")}
@@ -577,7 +577,7 @@ const PTAINavBar = () => {
                   <button
                     className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-custom-black hover:text-custom-light-yellow hover:bg-gray-50"
                     onClick={() => {
-                      navigate("/pricing");
+                      navigate("/blog");
                       setIsMobileMenuOpen(false);
                     }}
                   >
