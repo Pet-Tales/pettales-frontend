@@ -79,6 +79,47 @@ export default function BlogPost() {
                   color: '#374151',
                 }}
               />
+
+              <style>{`
+                .blog-content h1 {
+                  font-size: 2rem;
+                  font-weight: bold;
+                  margin-top: 2rem;
+                  margin-bottom: 1rem;
+                  color: #111827;
+                }
+                .blog-content h2 {
+                  font-size: 1.5rem;
+                  font-weight: bold;
+                  margin-top: 1.5rem;
+                  margin-bottom: 0.75rem;
+                  color: #1f2937;
+                }
+                .blog-content h3 {
+                  font-size: 1.25rem;
+                  font-weight: 600;
+                  margin-top: 1.25rem;
+                  margin-bottom: 0.5rem;
+                  color: #374151;
+                }
+                .blog-content p {
+                  margin-bottom: 1rem;
+                }
+                .blog-content ul, .blog-content ol {
+                  margin-left: 1.5rem;
+                  margin-bottom: 1rem;
+                }
+                .blog-content li {
+                  margin-bottom: 0.5rem;
+                }
+                .blog-content strong {
+                  font-weight: 600;
+                }
+                .blog-content a {
+                  color: #2563eb;
+                  text-decoration: underline;
+                }
+              `}</style>
             </CardBody>
           </Card>
         </div>
