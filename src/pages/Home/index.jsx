@@ -115,7 +115,7 @@ const Home = () => {
   };
 
   const handleViewPricing = () => {
-    navigate("/pricing");
+    navigate("/blog");
   };
 
   const formatDate = (dateString) => {
@@ -1203,7 +1203,7 @@ const Home = () => {
                     onClick={handleViewPricing}
                     className="text-gray-300 hover:text-white transition-colors duration-300 cursor-pointer"
                   >
-                    {t("footer.sitemap.pricing")}
+                    {t("footer.sitemap.blog")}
                   </button>
                 </li>
                 <li>
