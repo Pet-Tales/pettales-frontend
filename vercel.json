@@ -1,4 +1,11 @@
 {
+  "redirects": [
+    {
+      "source": "/pricing",
+      "destination": "/blog",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     {
       "source": "/(.*)",
