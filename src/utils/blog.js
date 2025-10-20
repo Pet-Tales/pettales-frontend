@@ -1,21 +1,29 @@
-import matter from 'gray-matter';
-
-// Polyfill Buffer for browser
-if (typeof window !== 'undefined' && !window.Buffer) {
-  window.Buffer = {
-    isBuffer: () => false,
-    from: (str) => str,
-  };
-}
-
 const blogPosts = import.meta.glob('@/content/blog/*.md', {
   as: 'raw',
   eager: true,
 });
 
+function parseFrontmatter(content) {
+  const match = content.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
+  if (!match) return { data: {}, content };
+  
+  const frontmatter = match[1];
+  const body = match[2];
+  
+  const data = {};
+  frontmatter.split('\n').forEach(line => {
+    const [key, ...valueParts] = line.split(':');
+    if (key && valueParts.length) {
+      data[key.trim()] = valueParts.join(':').trim();
+    }
+  });
+  
+  return { data, content: body };
+}
+
 export function getAllPosts() {
   const posts = Object.entries(blogPosts).map(([filepath, content]) => {
-    const { data, content: body } = matter(content);
+    const { data, content: body } = parseFrontmatter(content);
     const filename = filepath.split('/').pop();
     const slug = data.slug || filename.replace('.md', '');
     
