@@ -4,6 +4,7 @@ import matter from 'gray-matter';
 if (typeof window !== 'undefined' && !window.Buffer) {
   window.Buffer = {
     isBuffer: () => false,
+    from: (str) => str,
   };
 }
 
