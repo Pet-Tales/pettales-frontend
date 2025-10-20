@@ -21,7 +21,7 @@ import OrderDetail from "@/pages/Orders/OrderDetail";
 import Gallery from "@/pages/Gallery";
 import Profile from "@/pages/Profile";
 import Blog from "@/pages/Blog";
-import BlogPost from "@/pages/Blog/Post.jsx";
+import BlogPost from "@/pages/Blog/post.jsx";
 import Pricing from "@/pages/Pricing";
 import { PrivacyPolicy, TermsOfService } from "@/pages/Legal";
 import {
