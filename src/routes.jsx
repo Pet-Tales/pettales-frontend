@@ -1,3 +1,4 @@
+import { Navigate } from "react-router-dom";
 import MainLayout from "@/layouts";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import Error404 from "@/pages/Error/404";
@@ -19,6 +20,8 @@ import Orders from "@/pages/Orders";
 import OrderDetail from "@/pages/Orders/OrderDetail";
 import Gallery from "@/pages/Gallery";
 import Profile from "@/pages/Profile";
+import Blog from "@/pages/Blog";
+import BlogPost from "@/pages/Blog/Post";
 import Pricing from "@/pages/Pricing";
 import { PrivacyPolicy, TermsOfService } from "@/pages/Legal";
 import {
@@ -149,7 +152,15 @@ const Routes = [
       },
       {
         path: "/pricing",
-        element: <Pricing />,
+        element: <Navigate to="/blog" replace />,
+      },
+      {
+        path: "/blog",
+        element: <Blog />,
+      },
+      {
+        path: "/blog/:slug",
+        element: <BlogPost />,
       },
       {
         path: "/privacy-policy",
