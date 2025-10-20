@@ -44,6 +44,47 @@ export default function BlogPost() {
         <meta name="description" content={post.description || post.title} />
         <link rel="canonical" href={postUrl} />
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
+        <style>{`
+          .blog-content h1 {
+            font-size: 2rem !important;
+            font-weight: bold !important;
+            margin-top: 2rem !important;
+            margin-bottom: 1rem !important;
+            color: #111827 !important;
+          }
+          .blog-content h2 {
+            font-size: 1.5rem !important;
+            font-weight: bold !important;
+            margin-top: 1.5rem !important;
+            margin-bottom: 0.75rem !important;
+            color: #1f2937 !important;
+          }
+          .blog-content h3 {
+            font-size: 1.25rem !important;
+            font-weight: 600 !important;
+            margin-top: 1.25rem !important;
+            margin-bottom: 0.5rem !important;
+            color: #374151 !important;
+          }
+          .blog-content p {
+            margin-bottom: 1rem !important;
+          }
+          .blog-content ul, .blog-content ol {
+            margin-left: 1.5rem !important;
+            margin-bottom: 1rem !important;
+            list-style: disc !important;
+          }
+          .blog-content li {
+            margin-bottom: 0.5rem !important;
+          }
+          .blog-content strong {
+            font-weight: 600 !important;
+          }
+          .blog-content a {
+            color: #2563eb !important;
+            text-decoration: underline !important;
+          }
+        `}</style>
       </Helmet>
 
       <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
@@ -73,53 +114,7 @@ export default function BlogPost() {
               <div
                 className="blog-content"
                 dangerouslySetInnerHTML={{ __html: htmlContent }}
-                style={{
-                  fontSize: '1.125rem',
-                  lineHeight: '1.75',
-                  color: '#374151',
-                }}
               />
-
-              <style>{`
-                .blog-content h1 {
-                  font-size: 2rem;
-                  font-weight: bold;
-                  margin-top: 2rem;
-                  margin-bottom: 1rem;
-                  color: #111827;
-                }
-                .blog-content h2 {
-                  font-size: 1.5rem;
-                  font-weight: bold;
-                  margin-top: 1.5rem;
-                  margin-bottom: 0.75rem;
-                  color: #1f2937;
-                }
-                .blog-content h3 {
-                  font-size: 1.25rem;
-                  font-weight: 600;
-                  margin-top: 1.25rem;
-                  margin-bottom: 0.5rem;
-                  color: #374151;
-                }
-                .blog-content p {
-                  margin-bottom: 1rem;
-                }
-                .blog-content ul, .blog-content ol {
-                  margin-left: 1.5rem;
-                  margin-bottom: 1rem;
-                }
-                .blog-content li {
-                  margin-bottom: 0.5rem;
-                }
-                .blog-content strong {
-                  font-weight: 600;
-                }
-                .blog-content a {
-                  color: #2563eb;
-                  text-decoration: underline;
-                }
-              `}</style>
             </CardBody>
           </Card>
         </div>
