@@ -35,6 +35,7 @@
     "myOrders": "My Orders",
     "gallery": "Gallery",
     "pricing": "Pricing",
+    "blog": "Blog",
     "howItWork": "How it works",
     "login": "LogIn",
     "signup": "SignUp",
@@ -462,6 +463,7 @@
       "home": "Home",
       "gallery": "Gallery",
       "pricing": "Pricing",
+      "blog": "Blog",
       "howItWorks": "How It Works"
     },
     "legal": {
