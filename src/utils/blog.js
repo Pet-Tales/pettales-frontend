@@ -1,5 +1,12 @@
 import matter from 'gray-matter';
 
+// Polyfill Buffer for browser
+if (typeof window !== 'undefined' && !window.Buffer) {
+  window.Buffer = {
+    isBuffer: () => false,
+  };
+}
+
 const blogPosts = import.meta.glob('@/content/blog/*.md', {
   as: 'raw',
   eager: true,
