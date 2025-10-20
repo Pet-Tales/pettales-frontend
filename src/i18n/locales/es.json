@@ -35,6 +35,7 @@
     "myOrders": "Mis Pedidos",
     "gallery": "Galería",
     "pricing": "Precios",
+    "blog": "Blog",
     "howItWork": "Cómo Funciona",
     "login": "Iniciar Sesión",
     "signup": "Registrarse",
@@ -463,6 +464,7 @@
       "home": "Inicio",
       "gallery": "Galería",
       "pricing": "Precios",
+      "blog": "Blog",
       "howItWorks": "Cómo Funciona"
     },
     "legal": {
